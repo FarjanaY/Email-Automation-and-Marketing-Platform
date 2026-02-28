@@ -20,7 +20,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url.includes("/check-login")
+      !originalRequest.url.includes("/api/check-login")
     ) {
       originalRequest._retry = true;
       try {

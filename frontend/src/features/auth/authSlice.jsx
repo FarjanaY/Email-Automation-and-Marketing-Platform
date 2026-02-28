@@ -23,11 +23,7 @@ export const verifyUserRegistration = createAsyncThunk(
       const res = await registerUserAPI(userData);
       console.log("registerUser=============================");
       console.log(res);
-      console.log("res.data");
-      console.log(res.data);
-      console.log("res.data.payload");
-      console.log(res.data.payload);
-      return res.data;
+      return res;
     } catch (err) {
       console.log("ERRregisterUser=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
@@ -46,11 +42,7 @@ export const activateUserAccount = createAsyncThunk(
       const res = await activateUserAccountAPI({ token });
       console.log("activateUserAccount=============================");
       console.log(res);
-      console.log("res.data");
-      console.log(res.data);
-      console.log("res.data.payload");
-      console.log(res.data.payload);
-      return res.data;
+      return res;
     } catch (err) {
       console.log("Activation error ERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
@@ -69,11 +61,7 @@ export const logIn = createAsyncThunk(
       const res = await logInAPI(userDate);
       console.log("Login=============================");
       console.log(res);
-      console.log("res.data");
-      console.log(res.data);
-      console.log("res.data.payload");
-      console.log(res.data.payload);
-      return res.data;
+      return res;
     } catch (err) {
       console.log(" logInERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
@@ -92,16 +80,12 @@ export const isUserLoggedIn = createAsyncThunk(
       const res = await isUserLoggedInAPI();
       console.log("=============================");
       console.log(res);
-      console.log("res.data");
-      console.log(res.data);
-      console.log("res.data.payload");
-      console.log(res.data.payload);
-      return res.data;
+      return res;
     } catch (err) {
       console.log("isUserLoggedInERR=========");
-
       // Backend error format: err.response?.data?.errors?.common?.msg
       const errorMsg = err.response?.data?.errors || "Verification error.";
+      console.log(errorMsg);
       return thunkAPI.rejectWithValue(errorMsg);
     }
   },
@@ -114,9 +98,7 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     const res = await logOutAPI();
     console.log("LogOut=============================");
     console.log(res);
-    console.log("res.data");
-    console.log(res.data);
-    return res.data;
+    return res;
   } catch (err) {
     console.log("LogoutERR=========");
     // Backend error format: err.response?.data?.errors?.common?.msg
@@ -133,11 +115,7 @@ export const forgetPassword = createAsyncThunk(
       const res = await forgetPasswordAPI({ email });
       console.log("Forget Password=============================");
       console.log(res);
-      console.log("res.data");
-      console.log(res.data);
-      console.log("res.data.payload");
-      console.log(res.data.payload);
-      return res.data;
+      return res;
     } catch (err) {
       console.log("LogoutERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
@@ -155,11 +133,7 @@ export const resetPassword = createAsyncThunk(
       const res = await resetPasswordAPI({ password });
       console.log("Reset Password=============================");
       console.log(res);
-      console.log("res.data");
-      console.log(res.data);
-      console.log("res.data.payload");
-      console.log(res.data.payload);
-      return res.data;
+      return res;
     } catch (err) {
       console.log("LogoutERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
@@ -173,7 +147,7 @@ export const resetPassword = createAsyncThunk(
 const initialState = {
   user: null,
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   isError: false,
   error: null,
   forgetPassword: false,

@@ -34,6 +34,7 @@ export default function SmtpSettings() {
       });
       if (res.data.success) setMessage("SMTP updated successfully!");
     } catch (err) {
+      console.log(err);
       setMessage("Failed to update SMTP credentials.");
     }
   };

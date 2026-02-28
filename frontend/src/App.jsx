@@ -1,26 +1,73 @@
 /* eslint-disable no-unused-vars */
+//External Imports
 import { useEffect } from "react";
 import "./App.css";
-
 import { useSelector, useDispatch } from "react-redux";
-import {
-  isUserLoggedIn,
-  logIn,
-  logOut,
-  verifyUserRegistration,
-} from "./features/auth/authSlice";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+//Internal Imports
+import { isUserLoggedIn, logIn } from "./features/auth/authSlice";
+import LoadingPage from "./components/loader/LoadingPage";
+import HomePage from "./components/home/HomePage";
+import LoginPage from "./components/user/LoginPage";
+import ErrorPage from "./components/common/ErrorPage";
+import AccountActivationPage from "./components/user/AccountActivationPage";
+import RegistrationPage from "./components/user/RegistrationPage";
+import ForgotPasswordPage from "./components/user/ForgotPasswordPage";
+import ResetPasswordPage from "./components/user/ResetPasswordPage";
+import ProtectedRoute from "./components/protectedRoute/protectedRoute";
 function App() {
-  const { user } = useSelector((state) => state.authR);
+  //authReducersState === user, isAuthenticated, isLoading, isError, error,  forgetPassword, resetPassword,
+
+  const { isAuthenticated, isLoading } = useSelector((state) => state.authR);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(logIn({ email: "", password: "Alex@12345" }));
+    dispatch(isUserLoggedIn());
   }, [dispatch]);
+
+  //Loading page
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <>
-      <h1 className="text-3xl font-bold bg-red-400">Hello world!</h1>
-      <h1 className="text-3xl font-bold"></h1>
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Login Registration Routes */}
+        <Route exact path="/login" element={<LoginPage />} />
+        <Route
+          exact
+          path="/sign-up/verify"
+          element={<AccountActivationPage />}
+        />
+        <Route exact path="/registration" element={<RegistrationPage />} />
+        <Route exact path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route exact path="/reset-password" element={<ResetPasswordPage />} />
+
+        {/* User Routes */}
+        {/* <Route
+            exact
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          /> */}
+        {/* Error Page */}
+        <Route exact path="*" element={<ErrorPage />} />
+      </Routes>
     </>
   );
 }
