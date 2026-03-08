@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 //External Imports
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -128,16 +127,22 @@ export const forgetPassword = createAsyncThunk(
 //Forget password
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
-  async ({ password }, thunkAPI) => {
+  async ({ token, newPassword }, thunkAPI) => {
     try {
-      const res = await resetPasswordAPI({ password });
+      const res = await resetPasswordAPI({ token, newPassword });
       console.log("Reset Password=============================");
       console.log(res);
       return res;
     } catch (err) {
       console.log("LogoutERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
-      const errorMsg = err.response?.data?.errors || "Login failed.";
+      const errors = err.response?.data?.errors;
+
+      const refreshMsg = errors?.common?.msg;
+      if (refreshMsg === "Refresh token is expired. Please login again.") {
+        return thunkAPI.rejectWithValue(null);
+      }
+      const errorMsg = errors || "Login failed.";
       return thunkAPI.rejectWithValue(errorMsg);
     }
   },
@@ -150,8 +155,8 @@ const initialState = {
   isLoading: true,
   isError: false,
   error: null,
-  forgetPassword: false,
-  resetPassword: false,
+  forgetPass: false,
+  resetPass: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -165,8 +170,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(verifyUserRegistration.fulfilled, (state, action) => {
         state.user = null;
@@ -174,8 +179,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(verifyUserRegistration.rejected, (state, action) => {
         state.user = null;
@@ -185,8 +190,8 @@ const authSlice = createSlice({
         // Use action.payload (from rejectWithValue) for error message
         state.error =
           action.payload || action.error?.message || "Verification failed";
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(activateUserAccount.pending, (state, action) => {
         state.user = null;
@@ -194,8 +199,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(activateUserAccount.fulfilled, (state, action) => {
         // Backend returns: { success, msg, user } - user is directly in action.payload.user
@@ -205,8 +210,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(activateUserAccount.rejected, (state, action) => {
         // Don't set user to error message - keep it null
@@ -217,8 +222,8 @@ const authSlice = createSlice({
         // Use action.payload (from rejectWithValue) for error message
         state.error =
           action.payload || action.error?.message || "Activation failed";
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(logIn.pending, (state, action) => {
         state.user = null;
@@ -226,8 +231,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(logIn.fulfilled, (state, action) => {
         // Backend returns: { success, msg, payload: user }
@@ -237,8 +242,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(logIn.rejected, (state, action) => {
         state.user = null;
@@ -247,8 +252,8 @@ const authSlice = createSlice({
         state.isError = true;
         // Use action.payload (from rejectWithValue) for error message
         state.error = action.payload || action.error?.message || "Login failed";
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(isUserLoggedIn.pending, (state, action) => {
         state.user = null;
@@ -256,8 +261,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(isUserLoggedIn.fulfilled, (state, action) => {
         // Backend returns: { success, msg, payload: req.user }
@@ -267,8 +272,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(isUserLoggedIn.rejected, (state, action) => {
         state.user = null;
@@ -276,17 +281,21 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         // Use action.payload (from rejectWithValue) for error message
-        state.error =
-          action.payload || action.error?.message || "Not authenticated";
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        if (action.payload === null) {
+          state.error = null;
+        } else {
+          state.error =
+            action.payload || action.error?.message || "Not authenticated";
+        }
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(logOut.pending, (state, action) => {
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(logOut.fulfilled, (state, action) => {
         state.user = null;
@@ -294,15 +303,15 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(logOut.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(forgetPassword.pending, (state, action) => {
         state.user = null;
@@ -310,8 +319,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(forgetPassword.fulfilled, (state, action) => {
         // Forgot password doesn't return a user - just sends email
@@ -319,8 +328,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = true; // Flag to show "check your email" message
-        state.resetPassword = false; // Reset password not done yet
+        state.forgetPass = true; // Flag to show "check your email" message
+        state.resetPass = false; // Reset password not done yet
       })
       .addCase(forgetPassword.rejected, (state, action) => {
         state.user = null;
@@ -328,8 +337,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(resetPassword.pending, (state, action) => {
         state.user = null;
@@ -337,8 +346,8 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         // Reset password returns user in payload, but user still needs to login
@@ -347,8 +356,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.error = null;
-        state.forgetPassword = false; // Clear forgot password flag
-        state.resetPassword = true; // Flag to show "password reset successful" message
+        state.forgetPass = false; // Clear forgot password flag
+        state.resetPass = true; // Flag to show "password reset successful" message
         // Keep user = null and isAuthenticated = false - user needs to login
       })
       .addCase(resetPassword.rejected, (state, action) => {
@@ -357,8 +366,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.error = action.payload;
-        state.forgetPassword = false;
-        state.resetPassword = false;
+        state.forgetPass = false;
+        state.resetPass = false;
       });
   },
 });

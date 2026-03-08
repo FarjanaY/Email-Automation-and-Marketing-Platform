@@ -180,7 +180,7 @@ const addUser = async (req, res, next) => {
       html: `
       <h2>Hello ${name}</h2>
       <p>Please click here to 
-        <a href="${CLIENT_URL}/api/users/activate?${token}" target="_blank">
+        <a href="${CLIENT_URL}/users/activate?token=${token}" target="_blank">
         activate
         </a> your account.
       </p>

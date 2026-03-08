@@ -207,7 +207,10 @@ const forgotPassword = async (req, res, next) => {
       );
     }
 
-    const tokenData = { email, userId: validUser?._id };
+    const tokenData = {
+      email,
+      userId: validUser?._id,
+    };
     //CREATE JWT Token
     const forgotPassJWT = await createJsonWebToken(
       tokenData,
@@ -222,7 +225,7 @@ const forgotPassword = async (req, res, next) => {
       html: `
       <h2>Hello ${validUser?.name}</h2>
       <p>Please click here to 
-        <a href="${CLIENT_URL}/api/users/activate/${forgotPassJWT}" target="_blank">
+        <a href="${CLIENT_URL}/users/reset-password?tokenData=${forgotPassJWT}" target="_blank">
         reset
         </a> your account password.
       </p>
@@ -262,8 +265,9 @@ Route : /api/reset-pass
 ==========================*/
 const resetPassword = async (req, res, next) => {
   try {
-    const { password } = req.body;
-    const isTokenExist = req.cookies[FORGOT_PASS_COOKIE_NAME];
+    const { email, newPassword, confirmPassword } = req.body;
+    const isTokenExist =
+      req.cookies[FORGOT_PASS_COOKIE_NAME] || req.body?.token;
     if (!isTokenExist) {
       return next(createError(400, "Token not found. Please try again."));
     }
@@ -274,6 +278,15 @@ const resetPassword = async (req, res, next) => {
         return next(createError(400, "Unable to verify user. "));
       }
 
+      const tokenEmail = decoded?.email;
+
+      //find user by id
+      if (email !== tokenEmail) {
+        return next(
+          createError(403, "You can only update your account password."),
+        );
+      }
+
       const isUserExist = await User.findById({ _id: decoded?.userId }).select(
         "-password",
       );
@@ -281,7 +294,7 @@ const resetPassword = async (req, res, next) => {
         return next(createError(404, "No such user found."));
       }
 
-      const hashedResetPass = await bcrypt.hash(password, 10);
+      const hashedResetPass = await bcrypt.hash(newPassword, 10);
       const updatedPassword = await User.findByIdAndUpdate(
         decoded.userId,
         {

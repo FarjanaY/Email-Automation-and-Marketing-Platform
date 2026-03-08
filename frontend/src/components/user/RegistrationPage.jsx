@@ -1,12 +1,22 @@
 //External Imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { verifyUserRegistration } from "../../features/auth/authSlice";
 
 //Internal Imports
 
 const RegistrationPage = () => {
+  //Redux data from Auth Reducer
+  const { user, isAuthenticated, isLoading, isError, error } = useSelector(
+    (state) => {
+      state.authR;
+    },
+  );
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  const [user, setUser] = useState({
+  const [userData, setUserData] = useState({
     name: "",
     username: "",
     email: "",
@@ -22,17 +32,28 @@ const RegistrationPage = () => {
 
   //Form input onChange Handler
   const onHandleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target?.value,
-    });
+    if (e.target.name === "avatar") {
+      setUserData({
+        ...userData,
+        avatar: e.target.files[0],
+      });
+    } else {
+      setUserData({
+        ...userData,
+        [e.target.name]: e.target?.value,
+      });
+    }
   };
+
+  useEffect(() => {
+    dispatch(verifyUserRegistration(userData));
+  }, [userData, dispatch]);
 
   //Form submission handler
   const formSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("user");
-    console.log(user);
+    console.log("userData");
+    console.log(userData);
   };
 
   return (
@@ -50,7 +71,7 @@ const RegistrationPage = () => {
           <input
             type="text"
             name="name"
-            value={user?.name}
+            value={userData?.name}
             onChange={onHandleChange}
             placeholder="Enter Your Name"
             className="px-2 shadow mx-2 rounded-md w-[60%] "
@@ -63,7 +84,7 @@ const RegistrationPage = () => {
           <input
             type="text"
             name="username"
-            value={user?.username}
+            value={userData?.username}
             onChange={onHandleChange}
             placeholder="Enter Your Username"
             className="px-2 shadow mx-2 w-[60%] rounded-md"
@@ -76,7 +97,7 @@ const RegistrationPage = () => {
           <input
             type="email"
             name="email"
-            value={user?.email}
+            value={userData?.email}
             onChange={onHandleChange}
             placeholder="Enter Your Email"
             className="px-2 shadow mx-2 rounded-md w-[60%] "
@@ -89,7 +110,7 @@ const RegistrationPage = () => {
           <input
             type="text"
             name="mobile"
-            value={user?.mobile}
+            value={userData?.mobile}
             onChange={onHandleChange}
             placeholder="Enter Your Mobile Number"
             className="px-2 shadow mx-2 rounded-md w-[60%] "
@@ -102,7 +123,7 @@ const RegistrationPage = () => {
           <input
             type="password"
             name="password"
-            value={user?.password}
+            value={userData?.password}
             onChange={onHandleChange}
             placeholder="Enter Your Password"
             className="px-2 shadow mx-2 rounded-md w-[60%] "
@@ -116,7 +137,7 @@ const RegistrationPage = () => {
             <input
               type="file"
               name="avatar"
-              value={user?.avatar}
+              value={userData?.avatar}
               onChange={onHandleChange}
               placeholder="Enter Your Image"
               className="hidden"

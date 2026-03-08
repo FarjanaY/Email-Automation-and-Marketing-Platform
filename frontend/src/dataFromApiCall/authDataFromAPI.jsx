@@ -50,8 +50,8 @@ export const forgetPasswordAPI = async ({ email }) => {
 };
 
 //Reset password
-export const resetPasswordAPI = async ({ password }) => {
-  const res = await api.put("/api/reset-pass", { password }); 
+export const resetPasswordAPI = async ({ token, newPassword }) => {
+  const res = await api.put("/api/reset-pass", { token, newPassword });
   console.log("resetPasswordAPI=======");
   console.log(res.data);
   return res.data;

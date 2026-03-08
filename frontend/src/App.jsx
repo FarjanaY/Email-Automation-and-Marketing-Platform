@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 //External Imports
 import { useEffect } from "react";
 import "./App.css";
@@ -46,14 +45,19 @@ function App() {
 
         {/* Login Registration Routes */}
         <Route exact path="/login" element={<LoginPage />} />
+
         <Route
           exact
-          path="/sign-up/verify"
+          path="/users/activate"
           element={<AccountActivationPage />}
         />
         <Route exact path="/registration" element={<RegistrationPage />} />
         <Route exact path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route exact path="/reset-password" element={<ResetPasswordPage />} />
+        <Route
+          exact
+          path="/users/reset-password"
+          element={<ResetPasswordPage />}
+        />
 
         {/* User Routes */}
         {/* <Route

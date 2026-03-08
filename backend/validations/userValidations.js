@@ -136,7 +136,13 @@ const forgotPasswordValidations = [
 ];
 
 const resetPasswordValidations = [
-  check("password")
+  check("email")
+    .notEmpty()
+    .withMessage("Please enter your email address.")
+    .isEmail()
+    .withMessage("Invalid email address.")
+    .trim(),
+  check("newPassword")
     .notEmpty()
     .withMessage("Please enter your password.")
     .isLength({ min: 6 })
@@ -145,6 +151,15 @@ const resetPasswordValidations = [
     .withMessage(
       "Password must be at least 6 characters long & should contain at least 1 lowercase, 1 uppercase, 1 number & 1 symbol.",
     ),
+  check("confirmPassword")
+    .notEmpty()
+    .withMessage("Please enter your  old password.")
+    .custom((value, { req }) => {
+      if (value !== req.newPassword) {
+        throw new Error("New password and confirm password didnot match.");
+      }
+      return true;
+    }),
 ];
 
 module.exports = {
