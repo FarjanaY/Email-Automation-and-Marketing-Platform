@@ -1,7 +1,7 @@
 //External Imports
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logIn } from "../../features/auth/authSlice";
 import LoadingPage from "../loader/LoadingPage";
 
@@ -27,11 +27,8 @@ const LoginPage = () => {
   });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      navigate("/", { replace: true });
-    }
-  }, [isAuthenticated, user, navigate]);
+  const location = useLocation();
+  const previousPath = location.state?.from?.pathname || "/";
 
   const goToRegistration = () => {
     navigate("/registration");
@@ -47,13 +44,22 @@ const LoginPage = () => {
 
   const data = { email: userData?.email, password: userData?.password };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(logIn(data));
+    try {
+      const res = await dispatch(logIn(data)).unwrap();
+      console.log("========res========");
+      console.log(res);
+      navigate(previousPath, { replace: true });
+    } catch (err) {
+      console.log(err);
+    }
+
     setUserData({ email: "", password: "" });
   };
-  const validationErr = error?.validationErr?.error;
-
+  const validationErr = error?.validationErr?.error || {};
+  const errorLength = error ? Object.keys(error).length : 0;
+  // console.log(res?.msg);
   return (
     <div>
       {isLoading ? (
@@ -72,10 +78,9 @@ const LoginPage = () => {
                 placeholder="Enter your email"
               />
             </div>
-            {isError &&
-              error &&
-              Object.keys(error).length !== 0 &&
-              validationErr?.email && <p>{validationErr?.email?.msg}</p>}
+            {isError && error && errorLength !== 0 && validationErr?.email && (
+              <p>{validationErr?.email?.msg}</p>
+            )}
           </div>
 
           <div>
@@ -91,22 +96,22 @@ const LoginPage = () => {
             </div>
             {isError &&
               error &&
-              Object.keys(error).length !== 0 &&
+              errorLength !== 0 &&
               validationErr?.password && <p>{validationErr?.password?.msg}</p>}
           </div>
           <div>
             <button type="submit">Login</button>
-            <button type="submit" onClick={goToRegistration}>
+            <button type="button" onClick={goToRegistration}>
               Sign Up
             </button>
-            <button type="submit" onClick={goToResetPassPage}>
+            <button type="button" onClick={goToResetPassPage}>
               Forgot Password
             </button>
           </div>
-          {isError &&
-            error &&
-            Object.keys(error).length !== 0 &&
-            error?.common && <p>{error?.common?.msg}</p>}
+          {isError && error && errorLength !== 0 && error?.common && (
+            <p>{error?.common?.msg}</p>
+          )}
+          {/* {res && <p>{res}</p>} */}
         </form>
       )}
     </div>

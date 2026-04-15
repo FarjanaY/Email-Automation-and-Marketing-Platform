@@ -1,12 +1,12 @@
 //External Imports
 import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import LoadingPage from "../loader/LoadingPage";
 
 //Internal Imports
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
   const { isAuthenticated, isLoading } = useSelector((state) => state.authR);
 
   //Loading page
@@ -14,11 +14,11 @@ const ProtectedRoute = ({ children }) => {
     return <LoadingPage />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
+  return isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" state={{ previousPath: location.pathname }} replace />
+  );
 };
 
 export default ProtectedRoute;

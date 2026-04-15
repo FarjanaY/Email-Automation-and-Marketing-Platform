@@ -9,10 +9,9 @@ import { verifyUserRegistration } from "../../features/auth/authSlice";
 const RegistrationPage = () => {
   //Redux data from Auth Reducer
   const { user, isAuthenticated, isLoading, isError, error } = useSelector(
-    (state) => {
-      state.authR;
-    },
+    (state) => state.authR,
   );
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -45,16 +44,19 @@ const RegistrationPage = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(verifyUserRegistration(userData));
-  }, [userData, dispatch]);
-
   //Form submission handler
   const formSubmitHandler = (e) => {
     e.preventDefault();
     console.log("userData");
     console.log(userData);
+    dispatch(verifyUserRegistration(userData));
   };
+
+  const errorLength = error ? Object.keys(error).length : 0;
+  const validationError = error?.validationErr?.error || {};
+  const commonError = error?.common?.error || {};
+  const userNameSuggestion = error?.usernameSuggestions || [];
+
 
   return (
     <div className="px-2.5">
@@ -64,18 +66,20 @@ const RegistrationPage = () => {
         onSubmit={formSubmitHandler}
         className="flex flex-col justify-between"
       >
-        <div className="flex place-content-between py-2 px-2 ">
-          <label htmlFor="name" className=" font-bold w-[30%]">
-            Name:
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={userData?.name}
-            onChange={onHandleChange}
-            placeholder="Enter Your Name"
-            className="px-2 shadow mx-2 rounded-md w-[60%] "
-          />
+        <div>
+          <div className="flex place-content-between py-2 px-2 ">
+            <label htmlFor="name" className=" font-bold w-[30%]">
+              Name:
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={userData?.name}
+              onChange={onHandleChange}
+              placeholder="Enter Your Name"
+              className="px-2 shadow mx-2 rounded-md w-[60%] "
+            />
+          </div>
         </div>
         <div className="flex place-content-between py-2 px-2">
           <label htmlFor="username" className=" font-bold w-[30%]">
@@ -137,7 +141,6 @@ const RegistrationPage = () => {
             <input
               type="file"
               name="avatar"
-              value={userData?.avatar}
               onChange={onHandleChange}
               placeholder="Enter Your Image"
               className="hidden"
@@ -149,13 +152,15 @@ const RegistrationPage = () => {
             Registration
           </button>
           <button
-            type="submit"
+            type="button"
             onClick={goToLoginPage}
             className="mr-2 px-2 font-bold"
           >
             Login
           </button>
         </div>
+           { !isLoading && !isError && !error && errorLength === 0 && (<p></p>)
+    }
       </form>
     </div>
   );

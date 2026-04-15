@@ -4,7 +4,6 @@ const {
   logoutUser,
   forgotPassword,
   resetPassword,
-  refreshTokeGenerate,
 } = require("../controller/loginController");
 const {
   checkLogout,
@@ -18,6 +17,7 @@ const {
   resetPasswordValidations,
 } = require("../validations/userValidations");
 const { updatePassword } = require("../controller/usersController");
+const refreshTokeGenerate = require("../middlewares/authGaurd/refreshTokenGenerate");
 
 const loginRouter = express.Router();
 //route = /api/

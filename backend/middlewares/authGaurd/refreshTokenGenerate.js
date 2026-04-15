@@ -1,11 +1,23 @@
+//External Imports
+const createError = require("http-errors");
+const jwt = require("jsonwebtoken");
+
+//Internal Imports
+const {
+  LOGIN_REFRESH_TOKEN_COOKIE_NAME,
+  LOG_IN_VERIFY_TOKEN_NAME,
+  LOG_IN_SECRET_KEY,
+  LOGIN_REFRESH_TOKEN_SECRET_KEY,
+} = require("../../config/dotenvExports");
+const User = require("../../models/userSchema");
+const { createJsonWebToken } = require("../../helper/jsonTokenCretation");
+
 const refreshTokeGenerate = async (req, res, next) => {
   try {
     const isRefreshToken = req.cookies[LOGIN_REFRESH_TOKEN_COOKIE_NAME];
     console.log(isRefreshToken);
     if (!isRefreshToken) {
-      return next(
-        createError(401, "Refresh token is expired. Please login again."),
-      );
+      return next(createError(401, "Please login again."));
     }
 
     const isAccessToken = req.cookies[LOG_IN_VERIFY_TOKEN_NAME];

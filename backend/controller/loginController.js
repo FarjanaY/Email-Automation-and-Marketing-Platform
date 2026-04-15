@@ -335,7 +335,7 @@ const resetPassword = async (req, res, next) => {
 method: GET , 
 Route : /api/reset-pass
 ==========================*/
-const refreshTokeGenerate = async (req, res, next) => {
+const refreshTokeGenerateController = async (req, res, next) => {
   try {
     const isRefreshToken = req.cookies[LOGIN_REFRESH_TOKEN_COOKIE_NAME];
     console.log(isRefreshToken);
@@ -419,7 +419,7 @@ module.exports = {
   logoutUser,
   forgotPassword,
   resetPassword,
-  refreshTokeGenerate,
+  refreshTokeGenerateController,
 };
 
 // ✅ Axios Interceptor (Auto Refresh)
