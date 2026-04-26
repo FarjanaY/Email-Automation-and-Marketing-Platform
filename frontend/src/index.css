@@ -3,3 +3,37 @@
     transform: rotate(360deg);
   }
 }
+
+/* Fix Chrome autofill style */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #000 !important;
+  font-size: 16px !important;
+
+  -webkit-box-shadow:
+    0,
+    -0.2px,
+    5px,
+    white inset !important;
+  box-shadow:
+    0,
+    -0.2px,
+    5px,
+    white inset !important;
+
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.toastify_toast_body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  font-size: medium;
+  color: slategray;
+  font-weight: bolder;
+}

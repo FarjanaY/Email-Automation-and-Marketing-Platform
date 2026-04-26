@@ -34,7 +34,7 @@ const loginUser = async (req, res, next) => {
       return next(
         createError(
           404,
-          "User doesnot exist with this email. Please register first.",
+          "Invalid Email/Password.",
         ),
       );
     }
@@ -165,6 +165,7 @@ Route : /api/logout
 //     next(err);
 //   }
 // };
+
 const logoutUser = (req, res, next) => {
   try {
     console.log("req.userID====", req.user);

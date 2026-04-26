@@ -8,6 +8,7 @@ const {
 const {
   checkLogout,
   checkLogin,
+  checkLoginController,
 } = require("../middlewares/authGaurd/checkLogin");
 const runValidations = require("../validations/runValidations");
 const {
@@ -30,13 +31,7 @@ loginRouter.post(
 );
 loginRouter.post("/logout", checkLogin, logoutUser);
 
-loginRouter.get("/check-login", refreshTokeGenerate, checkLogin, (req, res) => {
-  res.status(200).json({
-    msg: "checkLogin",
-    success: true,
-    payload: req.user, //decoded user
-  });
-});
+loginRouter.get("/check-login", refreshTokeGenerate, checkLoginController);
 
 loginRouter.post(
   "/forgot-pass",

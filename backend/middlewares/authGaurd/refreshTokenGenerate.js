@@ -17,7 +17,7 @@ const refreshTokeGenerate = async (req, res, next) => {
     const isRefreshToken = req.cookies[LOGIN_REFRESH_TOKEN_COOKIE_NAME];
     console.log(isRefreshToken);
     if (!isRefreshToken) {
-      return next(createError(401, "Please login again."));
+      return next(createError(401, "Please login."));
     }
 
     const isAccessToken = req.cookies[LOG_IN_VERIFY_TOKEN_NAME];

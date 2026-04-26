@@ -4,11 +4,12 @@ import LoadingPage from "../loader/LoadingPage";
 import { Navigate, Outlet } from "react-router-dom";
 
 const RoleBasedRouts = ({ allowedRoles }) => {
-  const { user, isAuthenticated, isLoading } = useSelector(
+  const { user, isAuthenticated, isLoading, sessionExpired } = useSelector(
     (state) => state.authR,
   );
 
   if (isLoading) return <LoadingPage />;
+  if (sessionExpired) return <Outlet />;
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

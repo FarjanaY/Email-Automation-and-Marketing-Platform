@@ -3,6 +3,7 @@ import axios from "axios";
 
 //Internal Imports
 import { logOut } from "../features/auth/authSlice.jsx";
+import { setSessionExpired } from "../features/auth/authSlice.jsx";
 
 let store;
 export const injectStore = (_store) => {
@@ -45,8 +46,17 @@ api.interceptors.response.use(
         await api.get(`/api/check-login`);
         return api(originalRequest);
       } catch (refreshErr) {
-        store.dispatch(logOut());
-        window.location.href = "/login";
+        if (refreshErr.response?.status === 401) {
+          sessionStorage.setItem("sessionExpired", "1");
+          sessionStorage.setItem(
+            "sessionExpiredLastPath",
+            window.location.pathname,
+          );
+
+          //store.dispatch(logOut());
+          store.dispatch(setSessionExpired(window.location.pathname));
+        }
+        //window.location.href = "/login";
         return Promise.reject(refreshErr);
       }
     }
