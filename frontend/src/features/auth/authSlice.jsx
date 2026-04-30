@@ -203,6 +203,7 @@ const initialState = {
   resetPass: false,
   sessionExpired: false,
   sessionExpiredLastPath: null,
+  hasCheckAuth: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -302,6 +303,7 @@ const authSlice = createSlice({
         state.error = null;
         state.forgetPass = false;
         state.resetPass = false;
+        state.hasCheckAuth = true;
         state.sessionExpired = false;
         state.sessionExpiredLastPath = null;
         sessionStorage.removeItem("sessionExpired");
@@ -325,6 +327,7 @@ const authSlice = createSlice({
         state.error = null;
         state.forgetPass = false;
         state.resetPass = false;
+        state.hasCheckAuth = false;
       })
       .addCase(isUserLoggedIn.fulfilled, (state, action) => {
         // Backend returns: { success, msg, payload: req.user }
@@ -336,6 +339,7 @@ const authSlice = createSlice({
         state.error = null;
         state.forgetPass = false;
         state.resetPass = false;
+        state.hasCheckAuth = true;
         state.sessionExpired = false;
         state.sessionExpiredLastPath = null;
         sessionStorage.removeItem("sessionExpired");
@@ -348,6 +352,7 @@ const authSlice = createSlice({
         state.isError = true;
         state.forgetPass = false;
         state.resetPass = false;
+        state.hasCheckAuth = true;
 
         if (action.payload?.sessionExpired) {
           state.sessionExpired = true;
@@ -385,6 +390,7 @@ const authSlice = createSlice({
         state.error = null;
         state.forgetPass = false;
         state.resetPass = false;
+        state.hasCheckAuth = true;
       })
       .addCase(logOut.rejected, (state, action) => {
         state.isLoading = false;

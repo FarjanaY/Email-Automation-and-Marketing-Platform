@@ -21,7 +21,7 @@ const Input = ({
           name={name}
           value={value}
           onChange={onChange}
-          placeholder="Enter Your Email"
+          placeholder={placeholder}
           className="px-2 h-7  shadow-[0_-0.5px_5px_rgba(0,0,0,0.1)] mx-2 rounded-md w-[60%] focus:outline-none autofill:bg-white autofill:text-black"
         />
       </div>

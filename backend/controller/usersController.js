@@ -187,7 +187,7 @@ const addUser = async (req, res, next) => {
       `,
     };
     try {
-      //await sendEmailWithNodemailer(emailData);
+      await sendEmailWithNodemailer(emailData);
     } catch (err) {
       return next(createError(500, "Failed to send varification email."));
     }

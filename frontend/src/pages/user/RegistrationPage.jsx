@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { verifyUserRegistration } from "../../features/auth/authSlice";
 import Input from "../../components/common/Input";
+import FileInput from "../../components/common/FileInput";
 
 //Internal Imports
 
@@ -63,8 +64,7 @@ const RegistrationPage = () => {
     try {
       await dispatch(verifyUserRegistration(formData)).unwrap();
       //Optional Navigate
-      navigate("/login");
-      
+      // navigate("/login");
     } catch (err) {
       console.log(err);
     }
@@ -101,7 +101,6 @@ const RegistrationPage = () => {
           placeholder="Enter Your Name"
           error={getFieldError("name")}
         />
-
         <Input
           fieldlabel="Username"
           type="text"
@@ -116,7 +115,6 @@ const RegistrationPage = () => {
             )
           }
         />
-
         <Input
           fieldlabel="email"
           type="email"
@@ -126,7 +124,6 @@ const RegistrationPage = () => {
           placeholder="Enter Your Email"
           error={getFieldError("email")}
         />
-
         <Input
           fieldlabel="Mobile"
           type="text"
@@ -136,7 +133,6 @@ const RegistrationPage = () => {
           placeholder="Enter Your Mobile Number"
           error={getFieldError("mobile")}
         />
-
         <Input
           fieldlabel="Password"
           type="password"
@@ -146,15 +142,13 @@ const RegistrationPage = () => {
           placeholder="Enter Your Password"
           error={getFieldError("password")}
         />
-
-        <Input
+        {/* <FileInput
           fieldlabel="Image"
           name="avatar"
           onChange={onHandleChange}
           imageFileName={imageFileName}
           error={getFieldError("avatar")}
-        />
-
+        /> */}
         <div className="flex place-content-between py-4 px-2">
           <button
             type="submit"

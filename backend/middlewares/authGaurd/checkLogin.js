@@ -33,6 +33,13 @@ const checkLogin = (req, res, next) => {
 
 const checkLoginController = (req, res, next) => {
   try {
+    if(req.user){
+      return res.status(200).json({
+        success: true,
+        msg: "User authenticated",
+        payload: req.user,
+      });
+    }
     const token = req.cookies[LOG_IN_VERIFY_TOKEN_NAME];
 
     if (!token) {

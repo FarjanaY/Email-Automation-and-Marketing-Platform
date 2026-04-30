@@ -18,7 +18,7 @@ import RegistrationPage from "./pages/user/RegistrationPage";
 import AccountActivationPage from "./pages/user/AccountActivationPage";
 import ForgotPasswordPage from "./pages/user/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/user/ResetPasswordPage";
-import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import ProtectedRoute from "./components/protectedRoute/protectedRoute";
 import ProfilePage from "./pages/user/ProfilePage";
 import HomePage from "./pages/home/HomePage";
 import AdminDashBoard from "./pages/admin/AdminDashBoard";
@@ -30,7 +30,7 @@ import ProtectedRouteWithOverlay from "./components/protectedRoute/ProtectedRout
 function App() {
   //authReducersState === user, isAuthenticated, isLoading, isError, error,  forgetPassword, resetPassword,
 
-  const { isAuthenticated, isLoading, user } = useSelector(
+  const { isAuthenticated, isLoading, user, hasCheckAuth } = useSelector(
     (state) => state.authR,
   );
   const dispatch = useDispatch();
@@ -38,12 +38,6 @@ function App() {
   useEffect(() => {
     const expired = sessionStorage.getItem("sessionExpired") === "1";
     const lastPath = sessionStorage.getItem("sessionExpiredLastPath") || "/";
-
-    // restore ONLY on protected routes
-    // const protectedPaths = ["/", "/profile"]; // add more if needed
-    // const isOnProtectedRoute = protectedPaths.includes(
-    //   window.location.pathname,
-    // );
 
     if (expired) dispatch(setSessionExpired(lastPath));
 
@@ -54,7 +48,7 @@ function App() {
     <>
       <ToastContainer
         position="top-right"
-        autoClose={300000}
+        autoClose={3000}
         theme="light"
         newestOnTop
         closeOnClick
@@ -63,7 +57,8 @@ function App() {
         bodyClassName="toastify_toast_body"
         progressClassName="!h-1 !bg-gradient-to-r !from-indigo-500 !to-sky-500"
       />
-      {isLoading && !isAuthenticated ? (
+      {/* {isLoading && !isAuthenticated ? ( */}
+      {!hasCheckAuth ? (
         <LoadingPage />
       ) : (
         <Routes>

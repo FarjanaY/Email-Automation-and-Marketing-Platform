@@ -26,6 +26,7 @@ const refreshTokeGenerate = async (req, res, next) => {
       try {
         const accessTokenDecoded = jwt.verify(isAccessToken, LOG_IN_SECRET_KEY);
         if (accessTokenDecoded) {
+          req.user = accessTokenDecoded;
           return next();
         }
       } catch (err) {
@@ -40,9 +41,15 @@ const refreshTokeGenerate = async (req, res, next) => {
         LOGIN_REFRESH_TOKEN_SECRET_KEY,
       );
       if (!decoded) {
-        return next(createError(404, "Unable to verify user."));
+        return next(createError(404, "Please login."));
       }
 
+      const userId = decoded?.userId;
+      //if(!userId || !mongoose.isValidObjectId(userId)){
+        // Clear bad cookies so it doesn't loop forever
+      //res.clearCookie(LOG_IN_VERIFY_TOKEN_NAME);
+      //   return next(createError(404, "Please login."));
+      // }
       const isUserExist = await User.findById({ _id: decoded?.userId }).select(
         "-password",
       );
@@ -73,6 +80,7 @@ const refreshTokeGenerate = async (req, res, next) => {
         secure: false,
       });
 
+      req.user = tokenData;
       // return res.status(200).json({
       //   success: true,
       //   msg: `Generated new accress token.`,

@@ -10,7 +10,7 @@ export const showSuccessToast = (id, msg) => {
     render: msg,
     type: "success",
     isLoading: false,
-    autoClose: 300000,
+    autoClose: 3000,
     closeOnClick: true,
     draggable: true,
   });
@@ -22,7 +22,7 @@ export const showErrorToast = (id, msg) => {
     render: msg,
     type: "error",
     isLoading: false,
-    autoClose: 300000,
+    autoClose: 3000,
     closeOnClick: true,
     draggable: true,
   });

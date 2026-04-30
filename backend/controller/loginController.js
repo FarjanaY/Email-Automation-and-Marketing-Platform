@@ -29,14 +29,13 @@ const loginUser = async (req, res, next) => {
 
     const { email, password } = req.body || {};
 
-    const isUserExist = await User.findOne({ email });
+    if(!email || !password){
+      return next(createError(400, "Email and password are required."));
+    }
+
+    const isUserExist = await User.findOne({ email })
     if (!isUserExist) {
-      return next(
-        createError(
-          404,
-          "Invalid Email/Password.",
-        ),
-      );
+      return next(createError(404, "Invalid Email/Password."));
     }
 
     const isPassMatch = await bcrypt.compare(password, isUserExist.password);
@@ -50,6 +49,7 @@ const loginUser = async (req, res, next) => {
         createError(403, "You are banned. Please contact authority."),
       );
     }
+
 
     const tokenData = {
       email,
