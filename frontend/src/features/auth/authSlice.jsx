@@ -102,23 +102,25 @@ export const isUserLoggedIn = createAsyncThunk(
       const errorMsg = err.response?.data?.errors || "Login failed.";
       console.log(errorMsg);
       const refreshMsg = errorMsg?.common?.msg;
+      const wasAuthenticated =
+        sessionStorage.getItem("wasAuthenticated") === "1"; //edit
 
       // const status = err.response?.status;
       // if (status === 401) {
       //   return thunkAPI.rejectWithValue({ sessionExpired: true });
       // }
 
-      if (
+      //EDit starts 
+      const isSessionExpiredMsg =
+        refreshMsg === "No such user found." ||
         refreshMsg === "Refresh token is expired. Please login again." ||
-        refreshMsg === "Please login." ||
-        refreshMsg === "Please, login frist." ||
         refreshMsg === "Invalid or expired token." ||
         refreshMsg === "Token has expired." ||
-        refreshMsg === "Token is not activated yet." ||
-        refreshMsg === "Token is not activated yet."
-      ) {
+        refreshMsg === "Invalid Token.";
+      if (wasAuthenticated && isSessionExpiredMsg) {
         return thunkAPI.rejectWithValue({ sessionExpired: true });
       }
+      //edit ends
       return thunkAPI.rejectWithValue(errorMsg || "Verification Error.");
     }
   },
@@ -219,6 +221,7 @@ const authSlice = createSlice({
       state.sessionExpiredLastPath = null;
       sessionStorage.removeItem("sessionExpired");
       sessionStorage.removeItem("sessionExpiredLastPath");
+      sessionStorage.removeItem("wasAuthenticated"); //edit
     },
   },
   extraReducers: (builder) => {
@@ -306,6 +309,7 @@ const authSlice = createSlice({
         state.hasCheckAuth = true;
         state.sessionExpired = false;
         state.sessionExpiredLastPath = null;
+        sessionStorage.setItem("wasAuthenticated", "1"); //edit
         sessionStorage.removeItem("sessionExpired");
         sessionStorage.removeItem("sessionExpiredLastPath");
       })
@@ -391,6 +395,7 @@ const authSlice = createSlice({
         state.forgetPass = false;
         state.resetPass = false;
         state.hasCheckAuth = true;
+        sessionStorage.removeItem("wasAuthenticated"); //edit
       })
       .addCase(logOut.rejected, (state, action) => {
         state.isLoading = false;

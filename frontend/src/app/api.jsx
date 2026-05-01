@@ -10,8 +10,9 @@ export const injectStore = (_store) => {
   store = _store;
 };
 
+const baseURL = import.meta.env.CLIENT_URL;
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: baseURL || "http://192.168.0.102:8080",
   withCredentials: true,
 });
 
@@ -47,14 +48,23 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshErr) {
         if (refreshErr.response?.status === 401) {
-          sessionStorage.setItem("sessionExpired", "1");
-          sessionStorage.setItem(
-            "sessionExpiredLastPath",
-            window.location.pathname,
-          );
+          const msg = refreshErr.response?.data?.errors?.common?.msg;
+          // Only mark sessionExpired for true expiry cases
+          const isRealExpiry =
+            msg === "Refresh token is expired. Please login again." ||
+            msg === "Invalid or expired token." ||
+            msg === "Token has expired." ||
+            msg === "Invalid Token.";
+          if (isRealExpiry) {
+            sessionStorage.setItem("sessionExpired", "1");
+            sessionStorage.setItem(
+              "sessionExpiredLastPath",
+              window.location.pathname,
+            );
 
-          //store.dispatch(logOut());
-          store.dispatch(setSessionExpired(window.location.pathname));
+            //store.dispatch(logOut());
+            store.dispatch(setSessionExpired(window.location.pathname));
+          }
         }
         //window.location.href = "/login";
         return Promise.reject(refreshErr);

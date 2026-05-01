@@ -35,14 +35,31 @@ function App() {
   );
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   const expired = sessionStorage.getItem("sessionExpired") === "1";
+  //   const lastPath = sessionStorage.getItem("sessionExpiredLastPath") || "/";
+  //   if (expired) dispatch(setSessionExpired(lastPath));
+
+  //   dispatch(isUserLoggedIn());
+  // }, [dispatch]);
+
+  //Edited starts
   useEffect(() => {
     const expired = sessionStorage.getItem("sessionExpired") === "1";
+    const wasAuthenticated = sessionStorage.getItem("wasAuthenticated") === "1";
     const lastPath = sessionStorage.getItem("sessionExpiredLastPath") || "/";
-
-    if (expired) dispatch(setSessionExpired(lastPath));
-
+    // Only show overlay if user had a real authenticated session before
+    if (expired && wasAuthenticated) {
+      dispatch(setSessionExpired(lastPath));
+    } else {
+      // Clean stale flags so first-time users don't see overlay
+      sessionStorage.removeItem("sessionExpired");
+      sessionStorage.removeItem("sessionExpiredLastPath");
+    }
     dispatch(isUserLoggedIn());
   }, [dispatch]);
+
+  //edit ends
 
   return (
     <>

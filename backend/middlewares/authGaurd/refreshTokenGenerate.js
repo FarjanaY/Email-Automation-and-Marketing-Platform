@@ -17,7 +17,9 @@ const refreshTokeGenerate = async (req, res, next) => {
     const isRefreshToken = req.cookies[LOGIN_REFRESH_TOKEN_COOKIE_NAME];
     console.log(isRefreshToken);
     if (!isRefreshToken) {
-      return next(createError(401, "Please login."));
+      return next(
+        createError(401, "Refresh token is expired. Please login again."),
+      );
     }
 
     const isAccessToken = req.cookies[LOG_IN_VERIFY_TOKEN_NAME];
@@ -41,12 +43,12 @@ const refreshTokeGenerate = async (req, res, next) => {
         LOGIN_REFRESH_TOKEN_SECRET_KEY,
       );
       if (!decoded) {
-        return next(createError(404, "Please login."));
+        return next(createError(401, "Invalid or expired token."));
       }
 
       const userId = decoded?.userId;
       //if(!userId || !mongoose.isValidObjectId(userId)){
-        // Clear bad cookies so it doesn't loop forever
+      // Clear bad cookies so it doesn't loop forever
       //res.clearCookie(LOG_IN_VERIFY_TOKEN_NAME);
       //   return next(createError(404, "Please login."));
       // }
@@ -54,7 +56,7 @@ const refreshTokeGenerate = async (req, res, next) => {
         "-password",
       );
       if (!isUserExist) {
-        return next(createError(404, "No such user found."));
+        return next(createError(401, "No such user found."));
       }
 
       const tokenData = {

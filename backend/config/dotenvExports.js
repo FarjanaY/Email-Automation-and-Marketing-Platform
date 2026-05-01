@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const PORT = process.env.PORT || 8080;
+const HOST_URL = process.env.HOST_URL || "http://192.168.208.1";
 const MONGODB_URL = process.env.MONGODB_URL;
 const SIGN_UP_SECRET_KEY =
   process.env.JWT_SECRET_KEY_SIGN_UP || "dnfgjyrwefgbdchy";
@@ -28,6 +29,7 @@ const LOGIN_REFRESH_TOKEN_SECRET_KEY =
 
 module.exports = {
   PORT,
+  HOST_URL,
   MONGODB_URL,
   SIGN_UP_SECRET_KEY,
   LOG_IN_SECRET_KEY,

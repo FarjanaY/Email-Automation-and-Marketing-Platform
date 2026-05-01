@@ -73,6 +73,15 @@ const LoginPage = () => {
       : "";
   };
 
+  const msg = error?.common?.msg;
+  const shouldShowError =
+    isError &&
+    error &&
+    errorLength !== 0 &&
+    error?.common &&
+    msg &&
+    msg !== "Please login." &&
+    msg !== "Refresh token is expired. Please login again.";
   // console.log(res?.msg);
   return (
     <div className="px-2.5 ">
@@ -126,11 +135,13 @@ const LoginPage = () => {
               Forgot Password
             </button>
           </div>
-          {isError && error && errorLength !== 0 && error?.common && (
+
+          {shouldShowError && (
             <p className="text-red-700 text-sm px-2 text-center py-4">
               {error?.common?.msg}
             </p>
           )}
+
           {/* {res && <p>{res}</p>} */}
         </form>
       )}

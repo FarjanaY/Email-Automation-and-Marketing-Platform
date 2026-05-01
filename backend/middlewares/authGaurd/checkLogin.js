@@ -14,14 +14,14 @@ const checkLogin = (req, res, next) => {
   //Cookie verify
   const isToken = req.cookies[LOG_IN_VERIFY_TOKEN_NAME];
   if (!isToken) {
-    return next(createError(401, "Please login."));
+    return next(createError(401, "Invalid or expired token."));
   }
 
   try {
     //User verify using jwt.
     const decoded = jwt.verify(isToken, LOG_IN_SECRET_KEY);
     if (!decoded) {
-      return next(createError(400, "Invalid or expired token."));
+      return next(createError(401, "Token has expired."));
     }
 
     req.user = decoded;
@@ -33,7 +33,7 @@ const checkLogin = (req, res, next) => {
 
 const checkLoginController = (req, res, next) => {
   try {
-    if(req.user){
+    if (req.user) {
       return res.status(200).json({
         success: true,
         msg: "User authenticated",
@@ -43,12 +43,12 @@ const checkLoginController = (req, res, next) => {
     const token = req.cookies[LOG_IN_VERIFY_TOKEN_NAME];
 
     if (!token) {
-      return next(createError(401, "Please login."));
+      return next(createError(401, "Invalid or expired token."));
     }
 
     const decoded = jwt.verify(token, LOG_IN_SECRET_KEY);
     if (!decoded) {
-      return next(createError(400, "Invalid or expired token."));
+      return next(createError(401, "Token has expired."));
     }
 
     //req.user = decoded;
