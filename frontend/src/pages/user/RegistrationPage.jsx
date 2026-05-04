@@ -142,13 +142,13 @@ const RegistrationPage = () => {
           placeholder="Enter Your Password"
           error={getFieldError("password")}
         />
-        {/* <FileInput
+        <FileInput
           fieldlabel="Image"
           name="avatar"
           onChange={onHandleChange}
           imageFileName={imageFileName}
           error={getFieldError("avatar")}
-        /> */}
+        />
         <div className="flex place-content-between py-4 px-2">
           <button
             type="submit"

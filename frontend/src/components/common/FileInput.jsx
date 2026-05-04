@@ -1,6 +1,6 @@
 import React from "react";
 
-const FileInput = (fieldlabel, name, onChange, imageFileName, error) => {
+const FileInput = ({ fieldlabel, name, onChange, imageFileName, error }) => {
   return (
     <div>
       <div className="flex place-content-between py-2 px-2 ">
@@ -14,8 +14,9 @@ const FileInput = (fieldlabel, name, onChange, imageFileName, error) => {
             onChange={onChange}
             className="hidden"
           />
-          <span className="text-sm px-2">
-            {imageFileName}||"Choose your file"
+          <span className="text-md px-2 text-slate-600 opacity-75 ">
+            {/* {imageFileName || "Choose your file"} */}
+            {imageFileName?.trim() ? imageFileName : "Enter Your Picture"}
           </span>
         </label>
       </div>

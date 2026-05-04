@@ -11,7 +11,7 @@ input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
   -webkit-text-fill-color: #000 !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
 
   -webkit-box-shadow:
     0,
@@ -24,7 +24,7 @@ select:-webkit-autofill {
     5px,
     white inset !important;
 
-  transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 3000s ease-in-out 0s;
 }
 
 .toastify_toast_body {
@@ -32,8 +32,11 @@ select:-webkit-autofill {
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   font-size: medium;
   color: slategray;
-  font-weight: bolder;
+  font-weight: bold;
+  box-shadow: 10px -50px 10px rgba(0, 0, 0, 0.1);
+  min-height: 20px !important;
 }

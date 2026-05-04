@@ -70,7 +70,7 @@ function App() {
         newestOnTop
         closeOnClick
         pauseOnHover
-        toastClassName="!border !border-none !bg-white !shadow-xl "
+        toastClassName="!border !border-none !bg-white  toastify_toast_body "
         bodyClassName="toastify_toast_body"
         progressClassName="!h-1 !bg-gradient-to-r !from-indigo-500 !to-sky-500"
       />

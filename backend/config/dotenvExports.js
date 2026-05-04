@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const PORT = process.env.PORT || 8080;
-const HOST_URL = process.env.HOST_URL || "http://192.168.208.1";
+const HOST_URL = process.env.HOST_URL || "http://192.168.0.100";
 const MONGODB_URL = process.env.MONGODB_URL;
 const SIGN_UP_SECRET_KEY =
   process.env.JWT_SECRET_KEY_SIGN_UP || "dnfgjyrwefgbdchy";
@@ -13,7 +13,7 @@ const LOG_IN_SECRET_KEY =
 const SMTP_USERNAME =
   process.env.SMTP_USERNAME || "farjanaa.yyeasmin@gmail.com";
 const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+const CLIENT_URL = process.env.CLIENT_URL || "http://192.168.0.100:5173";
 const SIGN_UP_VERIFY_TOKEN_NAME =
   process.env.SIGN_UP_VERIFY_TOKEN_NAME || "signup_verify_token";
 const LOG_IN_VERIFY_TOKEN_NAME =
