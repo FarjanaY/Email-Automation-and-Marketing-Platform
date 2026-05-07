@@ -144,7 +144,7 @@ const resetPasswordValidations = [
     .trim(),
   check("newPassword")
     .notEmpty()
-    .withMessage("Please enter your password.")
+    .withMessage("Please enter your new password.")
     .isLength({ min: 6 })
     .withMessage("Password must have min 6 charecters.")
     .isStrongPassword()
@@ -153,9 +153,9 @@ const resetPasswordValidations = [
     ),
   check("confirmPassword")
     .notEmpty()
-    .withMessage("Please enter your  old password.")
+    .withMessage("Please enter your  confirm password.")
     .custom((value, { req }) => {
-      if (value !== req.newPassword) {
+      if (value !== req.body.newPassword) {
         throw new Error("New password and confirm password didnot match.");
       }
       return true;

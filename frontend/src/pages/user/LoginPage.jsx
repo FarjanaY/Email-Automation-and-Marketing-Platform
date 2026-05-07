@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { logIn } from "../../features/auth/authSlice";
 import LoadingPage from "../../components/loader/LoadingPage";
 import Input from "../../components/common/Input";
+import Button from "../../components/common/Button";
 
 const LoginPage = () => {
   //Redux data from Auth Reducer
@@ -111,12 +112,9 @@ const LoginPage = () => {
           />
 
           <div className="flex place-content-between pt-10 py-4 px-16 ">
-            <button
-              type="submit"
-              className="mr-2 px-2 h-8 font-bold bg-blue-200 rounded-sm shadow-lg shadow-gray-400"
-            >
+            <Button type="submit" className=" bg-blue-200 ">
               Login
-            </button>
+            </Button>
             <button
               type="button"
               onClick={goToRegistration}

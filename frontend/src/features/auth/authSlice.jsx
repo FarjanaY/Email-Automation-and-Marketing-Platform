@@ -110,7 +110,7 @@ export const isUserLoggedIn = createAsyncThunk(
       //   return thunkAPI.rejectWithValue({ sessionExpired: true });
       // }
 
-      //EDit starts 
+      //EDit starts
       const isSessionExpiredMsg =
         refreshMsg === "No such user found." ||
         refreshMsg === "Refresh token is expired. Please login again." ||
@@ -149,7 +149,7 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 export const forgetPassword = createAsyncThunk(
   "auth/forgetPassword",
   async ({ email }, thunkAPI) => {
-    const toastId = showLoadingToast("Forget Password.");
+    const toastId = showLoadingToast("On Progress...");
     try {
       const res = await forgetPasswordAPI({ email });
       console.log("Forget Password=============================");
@@ -170,10 +170,15 @@ export const forgetPassword = createAsyncThunk(
 //Forget password
 export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
-  async ({ token, newPassword }, thunkAPI) => {
+  async ({ token, email, newPassword, confirmPassword }, thunkAPI) => {
     const toastId = showLoadingToast("Resetting Password.");
     try {
-      const res = await resetPasswordAPI({ token, newPassword });
+      const res = await resetPasswordAPI({
+        token,
+        email,
+        newPassword,
+        confirmPassword,
+      });
       console.log("Reset Password=============================");
       console.log(res);
       showSuccessToast(toastId, res.msg || "Password updated. 🎉");

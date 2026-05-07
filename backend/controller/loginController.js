@@ -29,11 +29,11 @@ const loginUser = async (req, res, next) => {
 
     const { email, password } = req.body || {};
 
-    if(!email || !password){
+    if (!email || !password) {
       return next(createError(400, "Email and password are required."));
     }
 
-    const isUserExist = await User.findOne({ email })
+    const isUserExist = await User.findOne({ email });
     if (!isUserExist) {
       return next(createError(404, "Invalid Email/Password."));
     }
@@ -49,7 +49,6 @@ const loginUser = async (req, res, next) => {
         createError(403, "You are banned. Please contact authority."),
       );
     }
-
 
     const tokenData = {
       email,
@@ -234,7 +233,7 @@ const forgotPassword = async (req, res, next) => {
     };
 
     try {
-      //await sendEmailWithNodemailer(emailData);
+      await sendEmailWithNodemailer(emailData);
     } catch (err) {
       return next(createError(500, "Failed to send password resetting email."));
     }
