@@ -26,6 +26,7 @@ import ErrorPage from "./pages/error/ErrorPage";
 import LoadingPage from "./components/loader/LoadingPage";
 import RoleBasedRouts from "./components/protectedRoute/RoleBasedRouts";
 import ProtectedRouteWithOverlay from "./components/protectedRoute/ProtectedRouteWithOverlay";
+import Navbar from "./components/common/navbar/Navbar";
 
 function App() {
   //authReducersState === user, isAuthenticated, isLoading, isError, error,  forgetPassword, resetPassword,
@@ -78,48 +79,55 @@ function App() {
       {!hasCheckAuth ? (
         <LoadingPage />
       ) : (
-        <Routes>
-          {/* Public Routes only for guests */}
-          <Route element={<PublicRoute />}>
-            <Route
-              exact
-              path="/login"
-              element={
-                isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />
-              }
-            />
-            <Route
-              exact
-              path="/users/activate"
-              element={<AccountActivationPage />}
-            />
-            <Route exact path="/registration" element={<RegistrationPage />} />
-            <Route
-              exact
-              path="/forgot-password"
-              element={<ForgotPasswordPage />}
-            />
-            <Route
-              exact
-              path="/users/reset-password"
-              element={<ResetPasswordPage />}
-            />
-          </Route>
+        <>
+          {isAuthenticated && <Navbar />}
+          <Routes>
+            {/* Public Routes only for guests */}
+            <Route element={<PublicRoute />}>
+              <Route
+                exact
+                path="/login"
+                element={
+                  isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />
+                }
+              />
+              <Route
+                exact
+                path="/users/activate"
+                element={<AccountActivationPage />}
+              />
+              <Route
+                exact
+                path="/registration"
+                element={<RegistrationPage />}
+              />
+              <Route
+                exact
+                path="/forgot-password"
+                element={<ForgotPasswordPage />}
+              />
+              <Route
+                exact
+                path="/users/reset-password"
+                element={<ResetPasswordPage />}
+              />
+            </Route>
 
-          {/* Proteted Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route exact path="/" element={<HomePage />} />
-            <Route exact path="/profile" element={<ProfilePage />} />
-          </Route>
+            {/* Proteted Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route exact path="/" element={<HomePage />} />
+              <Route exact path="/profile" element={<ProfilePage />} />
+            </Route>
 
-          {/* Role Based Routes */}
-          <Route element={<RoleBasedRouts allowedRoles={["admin"]} />}>
-            <Route path="/admin-dashboad" element={<AdminDashBoard />} />
-          </Route>
+            {/* Role Based Routes */}
+            <Route element={<RoleBasedRouts allowedRoles={["admin"]} />}>
+              <Route path="/admin-dashboad" element={<AdminDashBoard />} />
+            </Route>
 
-          {/* Error Page */}
-          <Route exact path="*" element={<ErrorPage />} />
-        </Routes>
+            {/* Error Page */}
+            <Route exact path="*" element={<ErrorPage />} />
+          </Routes>
+        </>
       )}
     </>
   );

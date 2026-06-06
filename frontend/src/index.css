@@ -1,3 +1,54 @@
+/*
+---------Google font---------- 
+ font-family: "Roboto", sans-serif; 
+ font-family: "Inter", sans-serif;
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+:root {
+  --secondary-color: #182535;
+  --link-color: #5a8dee;
+  --menu-heading: 14px;
+}
+
+/* Font family */
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Body Style */
+body {
+  @apply bg-white/5 text-black font-inter;
+}
+
+.sub-menu {
+  @apply bg-red-400;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-center-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-top {
+  @apply flex flex-col items-center justify-items-start;
+}
+
+.bg-menu-theme {
+  background-color: #182535 !important;
+  color: #bec5cc;
+}
 @keyframes loadingSpinner {
   100% {
     transform: rotate(360deg);
@@ -25,6 +76,21 @@ select:-webkit-autofill {
     white inset !important;
 
   transition: background-color 3000s ease-in-out 0s;
+}
+
+/* Default scrollbar  */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+/* IE and Edge */
+.hide-scrollbar {
+  -ms-overflow-style: none;
 }
 
 .toastify_toast_body {
