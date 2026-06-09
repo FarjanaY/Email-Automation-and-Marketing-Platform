@@ -7,10 +7,11 @@ import { NavLink } from "react-router-dom";
 //Internal Imports
 import logo from "../../../assets/emailLogo-nobg.png";
 
-const MobileMenu = ({ navMenus }) => {
+const MobileMenu = ({ navMainMenus }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(null);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   const isMenuOpen = () => {
     setIsOpen(!isOpen);
@@ -51,12 +52,14 @@ const MobileMenu = ({ navMenus }) => {
                 alt="Logo"
                 className="mr-1 -mt-1.5 size-10 rounded-full ring-0 ring-(--link-color) "
               />
-              <h3
+              <NavLink
+                to={"/"}
+                onClick={isMenuOpen}
                 style={{ fontSize: "var(--menu-heading)" }}
                 className="text-white text-[22px]! w-fit font-bold"
               >
                 Email Platform
-              </h3>
+              </NavLink>
             </div>
 
             <button
@@ -67,51 +70,114 @@ const MobileMenu = ({ navMenus }) => {
             </button>
           </div>
           <ul className="">
-            {navMenus?.map(({ name, subMenu, icon: Icon }, i) => {
-              const hasSubMenu = subMenu?.length > 0;
-              const clicked = isClicked === i;
-
+            {navMainMenus?.map(({ name, mainMenu }) => {
+              const navMenus = mainMenu?.length > 0;
               return (
-                <li key={name} className="">
-                  <span
-                    onClick={() => setIsClicked(clicked ? null : i)}
-                    className={` flex align-center justify-start rounded-sm
-                    font-semibold  px-3 py-2.5 mt-2 mx-3  
-                    hover:bg-white/8 hover:text-white cursor-pointer relative  
-                    ${clicked && "bg-white/5 rounded-b-none"}`}
-                  >
-                    <Icon size={18} strokeWidth={2.5} className="mr-2.5  " />
-                    {name}
-                    {hasSubMenu && (
-                      <ChevronRight
-                        className={`ml-auto size-5 text-white/60 ${clicked && "rotate-90"}`}
-                      />
-                    )}
-                  </span>
-                  {hasSubMenu && (
-                    <ul
-                      className={` mx-4 rounded-b-md  ${clicked && "bg-white/5"}`}
-                    >
-                      {subMenu?.map(({ name, icon: Icon, path }) => {
-                        const isActive = activeSubMenu === name;
-                        return (
-                          <li
-                            onClick={() => setActiveSubMenu(name)}
-                            className={` ml-0.5 p-3 pl-10  flex items-center 
-                            hover:bg-white/3 hover:text-white/90 rounded-md 
-                            gap-x-2 cursor-pointer ${isActive ? "bg-(--link-color)" : ""}`}
-                          >
-                            <NavLink
-                              to={path}
-                              key={name}
-                              className="flex items-center "
-                            >
-                              <Icon size={18} className="mr-2.5" />
-                              {name}
-                            </NavLink>
-                          </li>
-                        );
-                      })}
+                <li key={name} className="my-auto ">
+                  {name && (
+                    <span className="text-xs text-white/30 uppercase px-3 mx-3 my-6 ">
+                      {name}
+                    </span>
+                  )}
+                  {navMenus && (
+                    <ul className="mt-5 mb-8">
+                      {mainMenu?.map(
+                        ({ name, subMenu, path, icon: Icon }, i) => {
+                          const hasSubMenu = subMenu?.length > 0;
+                          const clicked = isClicked === name;
+                          const isMenuActive = activeMenu === name;
+
+                          return (
+                            <li key={name} className="">
+                              <NavLink
+                                to={path}
+                                onClick={() => {
+                                  if (hasSubMenu) {
+                                    setIsClicked(clicked ? null : name);
+                                  } else {
+                                    setActiveMenu(name);
+                                    setActiveSubMenu(null);
+
+                                    // closing the menu while clicking the menu without submenu
+                                    setIsOpen(!isOpen);
+                                    setIsClicked(null);
+                                  }
+                                }}
+                                className={` flex align-center justify-start rounded-sm
+                                          font-medium  px-3 py-2.5 mt-0.5 mx-3  
+                                         hover:text-white cursor-pointer 
+                                          relative ${
+                                            isMenuActive
+                                              ? "bg-(--link-color) text-white font-semibold"
+                                              : "hover:bg-white/3 hover:text-white/90"
+                                          } 
+                                            ${
+                                              clicked
+                                                ? "bg-white/5 rounded-b-none"
+                                                : ""
+                                            }`}
+                              >
+                                <Icon
+                                  size={18}
+                                  strokeWidth={2.5}
+                                  className="mr-2.5  "
+                                />
+                                {name}
+                                {hasSubMenu && (
+                                  <ChevronRight
+                                    className={`ml-auto size-4 text-white/60 ${clicked && "rotate-90"}`}
+                                  />
+                                )}
+                              </NavLink>
+                              {hasSubMenu && (
+                                <motion.ul
+                                  initial="exit"
+                                  animate={clicked ? "enter" : "exit"}
+                                  variants={subMenuDrawer}
+                                  className={` mx-3 rounded-b-sm  ${clicked && "bg-white/5"}`}
+                                >
+                                  {subMenu?.map(
+                                    ({ name, icon: Icon, path }) => {
+                                      const isActive = activeSubMenu === name;
+                                      return (
+                                        <li
+                                          onClick={() => {
+                                            setIsClicked(name);
+                                           
+                                            setActiveSubMenu(name);
+                                            setActiveMenu(null);
+                                            // closing the menu while clicking the menu without submenu
+                                            setIsOpen(false);
+                                          }}
+                                          className={` p-3 pl-5  flex items-center 
+                                                rounded-sm gap-x-2 cursor-pointer 
+                                                ${
+                                                  isActive
+                                                    ? "bg-(--link-color) text-white font-semibold"
+                                                    : "hover:bg-white/3 hover:text-white/90"
+                                                }`}
+                                        >
+                                          <NavLink
+                                            to={path}
+                                            key={name}
+                                            className="flex items-center "
+                                          >
+                                            <Icon
+                                              size={18}
+                                              className="mr-2.5"
+                                            />
+                                            {name}
+                                          </NavLink>
+                                        </li>
+                                      );
+                                    },
+                                  )}
+                                </motion.ul>
+                              )}
+                            </li>
+                          );
+                        },
+                      )}
                     </ul>
                   )}
                 </li>

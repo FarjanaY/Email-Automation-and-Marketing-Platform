@@ -13,7 +13,7 @@ const Navbar = () => {
         <DesktopMenu navMenus={NavMenus} />
       </div> */}
       <div className="lg:hidden">
-        <MobileMenu navMenus={NavMenus} />
+        <MobileMenu navMainMenus={NavMenus} />
       </div>
     </div>
   );

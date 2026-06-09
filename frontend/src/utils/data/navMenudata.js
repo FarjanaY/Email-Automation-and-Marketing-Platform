@@ -28,189 +28,239 @@ import {
 
 export const NavMenus = [
   {
-    name: "Dashboard",
-    icon: LayoutDashboard,
-    path: "/dashboard",
-  },
-  {
-    name: "Email Marketing",
-    icon: Mail,
-    submenu: [
+    mainMenu: [
       {
-        name: "Campaigns",
-        desc: "Center",
-        path: "/campaigns",
-        icon: CircleHelp,
+        name: "Dashboard",
+        icon: LayoutDashboard,
+        path: "/dashboard",
       },
       {
-        name: "Templates",
-        desc: "Center",
-        path: "/templates",
-        icon: LayoutTemplate,
+        name: "Layouts",
+        icon: LayoutDashboard,
+        path: "/layout",
       },
       {
-        name: "Automation",
-        desc: "AI",
-        path: "/automation",
-        icon: BrainCircuit,
+        name: "Email Marketing",
+        icon: Mail,
+        subMenu: [
+          {
+            name: "Campaigns",
+            desc: "Center",
+            path: "/campaigns",
+            icon: CircleHelp,
+          },
+          {
+            name: "Templates",
+            desc: "Center",
+            path: "/templates",
+            icon: LayoutTemplate,
+          },
+          {
+            name: "Automation",
+            desc: "AI",
+            path: "/automation",
+            icon: BrainCircuit,
+          },
+        ],
       },
     ],
   },
-  {
-    name: "Features",
-    icon: PanelsTopLeft,
 
-    subMenuHeading: ["Design", "Scale"],
-    subMenu: [
+  {
+    name: "Apps & Pages",
+    mainMenu: [
       {
-        name: "Design",
-        path: "/dashboard",
-        desc: "Responsive design",
+        name: "Email Marketing",
+        icon: Mail,
+        subMenu: [
+          {
+            name: "Campaigns",
+            desc: "Center",
+            path: "/campaigns",
+            icon: CircleHelp,
+          },
+          {
+            name: "Templates",
+            desc: "Center",
+            path: "/templates",
+            icon: LayoutTemplate,
+          },
+          {
+            name: "Automation",
+            desc: "AI",
+            path: "/automation",
+            icon: BrainCircuit,
+          },
+        ],
+      },
+      {
+        name: "Features",
         icon: PanelsTopLeft,
+
+        subMenuHeading: ["Design", "Scale"],
+        subMenu: [
+          {
+            name: "Design",
+            path: "/dashboard",
+            desc: "Responsive design",
+            icon: PanelsTopLeft,
+          },
+          {
+            name: "Management",
+            desc: "Site control",
+            path: "/dashboard",
+            icon: Bolt,
+          },
+          {
+            name: "Navigation",
+            desc: "Link pages",
+            path: "/dashboard",
+            icon: PanelTop,
+          },
+          {
+            name: "CMS",
+            desc: "Management content",
+            path: "/dashboard",
+            icon: Database,
+          },
+        ],
+        gridCols: 2,
       },
+    ],
+  },
+  {
+    name: "Components",
+    mainMenu: [
       {
-        name: "Management",
-        desc: "Site control",
-        path: "/dashboard",
+        name: "Resources",
         icon: Bolt,
+        subMenuHeading: ["Get started", "Programs", "Recent"],
+        subMenu: [
+          {
+            name: "Markplace",
+            desc: "Browse templates",
+            path: "/dashboard",
+            icon: ShoppingBag,
+          },
+          {
+            name: "Meetups",
+            desc: "Upcoming events",
+            path: "/dashboard",
+            icon: MapPin,
+          },
+          {
+            name: "Updates",
+            desc: "Changelog",
+            path: "/dashboard",
+            icon: BellDot,
+          },
+          {
+            name: "Academy",
+            desc: "Watch lessions",
+            path: "/dashboard",
+            icon: Play,
+          },
+          {
+            name: "Blog",
+            desc: "Posts",
+            path: "/dashboard",
+            icon: BookOpenText,
+          },
+          {
+            name: "Figma",
+            desc: "Plugin",
+            path: "/dashboard",
+            icon: Play,
+          },
+          {
+            name: "Experts",
+            desc: "Jobs",
+            path: "/dashboard",
+            icon: BriefcaseBusiness,
+          },
+          {
+            name: "Gallery",
+            desc: "Images",
+            path: "/dashboard",
+            icon: Images,
+          },
+        ],
+        gridCols: 3,
       },
       {
-        name: "Navigation",
-        desc: "Link pages",
-        path: "/dashboard",
-        icon: PanelTop,
-      },
-      {
-        name: "CMS",
-        desc: "Management content",
-        path: "/dashboard",
-        icon: Database,
-      },
-    ],
-    gridCols: 2,
-  },
-  {
-    name: "Resources",
-    icon: Bolt,
-    subMenuHeading: ["Get started", "Programs", "Recent"],
-    subMenu: [
-      {
-        name: "Markplace",
-        desc: "Browse templates",
-        path: "/dashboard",
-        icon: ShoppingBag,
-      },
-      {
-        name: "Meetups",
-        desc: "Upcoming events",
-        path: "/dashboard",
-        icon: MapPin,
-      },
-      {
-        name: "Updates",
-        desc: "Changelog",
-        path: "/dashboard",
-        icon: BellDot,
-      },
-      {
-        name: "Academy",
-        desc: "Watch lessions",
-        path: "/dashboard",
-        icon: Play,
-      },
-      {
-        name: "Blog",
-        desc: "Posts",
-        path: "/dashboard",
-        icon: BookOpenText,
-      },
-      {
-        name: "Figma",
-        desc: "Plugin",
-        path: "/dashboard",
-        icon: Play,
-      },
-      {
-        name: "Experts",
-        desc: "Jobs",
-        path: "/dashboard",
-        icon: BriefcaseBusiness,
-      },
-      {
-        name: "Gallery",
-        desc: "Images",
-        path: "/dashboard",
-        icon: Images,
-      },
-    ],
-    gridCols: 3,
-  },
-  {
-    name: "Support",
-    icon: MessageCircle,
-    subMenu: [
-      {
-        name: "Help",
-        desc: "Center",
-        path: "/dashboard",
-        icon: CircleHelp,
-      },
-      {
-        name: "Community",
-        desc: "Project help",
-        path: "/dashboard",
+        name: "Support",
         icon: MessageCircle,
+        subMenu: [
+          {
+            name: "Help",
+            desc: "Center",
+            path: "/dashboard",
+            icon: CircleHelp,
+          },
+          {
+            name: "Community",
+            desc: "Project help",
+            path: "/dashboard",
+            icon: MessageCircle,
+          },
+          {
+            name: "Emergency",
+            desc: "Urgent issues",
+            path: "/dashboard",
+            icon: TriangleAlert,
+          },
+        ],
+        gridCols: 1,
       },
-      {
-        name: "Emergency",
-        desc: "Urgent issues",
-        path: "/dashboard",
-        icon: TriangleAlert,
-      },
-    ],
-    gridCols: 1,
-  },
-  {
-    name: "Enterprise",
-    icon: TriangleAlert,
-    subMenuHeading: ["Overview", "Features"],
-    subMenu: [
       {
         name: "Enterprise",
-        desc: "Overview",
-        path: "/dashboard",
-        icon: ShieldPlus,
-      },
-      {
-        name: "Collaboration",
-        desc: "Design together",
-        path: "/dashboard",
-        icon: Users,
-      },
-      {
-        name: "Customers",
-        desc: "Stories",
-        path: "/dashboard",
-        icon: Dessert,
-      },
-      {
-        name: "Security",
-        desc: "Your site secured",
-        path: "/dashboard",
-        icon: Lock,
+        icon: TriangleAlert,
+        subMenuHeading: ["Overview", "Features"],
+        subMenu: [
+          {
+            name: "Enterprise",
+            desc: "Overview",
+            path: "/dashboard",
+            icon: ShieldPlus,
+          },
+          {
+            name: "Collaboration",
+            desc: "Design together",
+            path: "/dashboard",
+            icon: Users,
+          },
+          {
+            name: "Customers",
+            desc: "Stories",
+            path: "/dashboard",
+            icon: Dessert,
+          },
+          {
+            name: "Security",
+            desc: "Your site secured",
+            path: "/dashboard",
+            icon: Lock,
+          },
+        ],
+        gridCols: 2,
       },
     ],
-    gridCols: 2,
   },
+
   {
-    name: "Pricing",
-    icon: Lock,
-    path: "/dashboard",
-  },
-  {
-    name: "Contact",
-    icon: Phone,
-    path: "/dashboard",
+    name: "Forms & Tables",
+    mainMenu: [
+      {
+        name: "Pricing",
+        icon: Lock,
+        path: "/dashboard",
+      },
+      {
+        name: "Contact",
+        icon: Phone,
+        path: "/dashboard",
+      },
+    ],
   },
 ];
 
