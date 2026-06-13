@@ -2,20 +2,36 @@
 import React, { useState } from "react";
 import { ChevronRight, Icon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 
 //Internal Imports
 import logo from "../../../assets/emailLogo-nobg.png";
+import TopNavbar from "./TopNavbar";
 
 const MobileMenu = ({ navMainMenus }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(null);
   const [activeSubMenu, setActiveSubMenu] = useState(null);
+  //======for single expand menu other will be auto close
+  //const [expandedMenu, setExpandedMenu] = useState(null);
+  const [expandedMenus, setExpandedMenus] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
+
+  const navigate = useNavigate();
 
   const isMenuOpen = () => {
     setIsOpen(!isOpen);
     setIsClicked(null);
+  };
+
+  //=====For multiple expanded submenu at a time
+  const toggleMenu = (menuName) => {
+    setExpandedMenus((prev) =>
+      prev.includes(menuName)
+        ? prev.filter((item) => item !== menuName)
+        : [...prev, menuName],
+    );
   };
 
   const subMenuDrawer = {
@@ -24,17 +40,18 @@ const MobileMenu = ({ navMainMenus }) => {
   };
 
   return (
-    <header className="h-full fixed inset-0 shadow-md w-72 overflow-y-auto">
-      <nav className="p-3.5 h-full w-full mx-w-7xl mx-auto flex-top">
-        <div className="flex-center-between w-full z-999 relative ">
-          <button
-            onClick={isMenuOpen}
-            className=" z-999 relative  text-(--link-color) "
-          >
-            <Menu />
-            {/* {isOpen ? <X className="size-5" /> : <Menu />} */}
-          </button>
-        </div>
+    <header className=" ">
+      <div className="fixed left-0 right-0 top-0 w-full flex-center-between z-999 bg-white ">
+        <button
+          onClick={isMenuOpen}
+          className="relative  cursor-pointer  p-5  text-(--text-color) "
+        >
+          <Menu className="size-5" strokeWidth={3} />
+          {/* {isOpen ? <X className="size-5" /> : <Menu />} */}
+        </button>
+        <TopNavbar />
+      </div>
+      <nav className="h-full w-full mx-w-7xl mx-auto flex-top ">
         <motion.div
           className="bg-menu-theme fixed w-68
            left-0 right-0 top-0 overflow-y-auto hide-scrollbar 
@@ -42,8 +59,12 @@ const MobileMenu = ({ navMainMenus }) => {
           initial={{ x: "-100%" }}
           animate={{ x: isOpen ? "0%" : "-100%" }}
         >
-          <div className="my-6 flex-center-between w-full px-2 gap-y-2">
+          <div className="my-6 flex-center-between cursor-pointer w-full px-2 gap-y-2">
             <div
+              onClick={() => {
+                navigate("/");
+                setIsOpen(!isOpen);
+              }}
               className="flex items-center justify-items-start w-full 
             px-2"
             >
@@ -53,8 +74,7 @@ const MobileMenu = ({ navMainMenus }) => {
                 className="mr-1 -mt-1.5 size-10 rounded-full ring-0 ring-(--link-color) "
               />
               <NavLink
-                to={"/"}
-                onClick={isMenuOpen}
+                // to={"/"}
                 style={{ fontSize: "var(--menu-heading)" }}
                 className="text-white text-[22px]! w-fit font-bold"
               >
@@ -64,7 +84,7 @@ const MobileMenu = ({ navMainMenus }) => {
 
             <button
               onClick={isMenuOpen}
-              className=" z-999 relative text-(--link-color) font-extrabold mr-2"
+              className=" z-999 relative text-(--link-color) cursor-pointer  font-extrabold p-2 "
             >
               <X className="size-4.5" strokeWidth={3} />
             </button>
@@ -84,7 +104,10 @@ const MobileMenu = ({ navMainMenus }) => {
                       {mainMenu?.map(
                         ({ name, subMenu, path, icon: Icon }, i) => {
                           const hasSubMenu = subMenu?.length > 0;
-                          const clicked = isClicked === name;
+                          // const clicked = isClicked === name;
+                          //======for single expand menu other will be auto close
+                          //const clicked = expandedMenu === name;
+                          const clicked = expandedMenus.includes(name);
                           const isMenuActive = activeMenu === name;
 
                           return (
@@ -93,13 +116,17 @@ const MobileMenu = ({ navMainMenus }) => {
                                 to={path}
                                 onClick={() => {
                                   if (hasSubMenu) {
-                                    setIsClicked(clicked ? null : name);
+                                    // setIsClicked(clicked ? null : name);
+                                    //======for single expand menu other will be auto close
+                                    //setExpandedMenu(clicked ? null : name);
+                                    toggleMenu(name);
                                   } else {
                                     setActiveMenu(name);
                                     setActiveSubMenu(null);
-
-                                    // closing the menu while clicking the menu without submenu
-                                    setIsOpen(!isOpen);
+                                    //======for single expand menu other will be auto close
+                                    //setExpandedMenu(null);
+                                    //only for mobile closing the menu while clicking the menu without submenu
+                                    setIsOpen(false);
                                     setIsClicked(null);
                                   }
                                 }}
@@ -142,11 +169,11 @@ const MobileMenu = ({ navMainMenus }) => {
                                       return (
                                         <li
                                           onClick={() => {
-                                            setIsClicked(name);
-                                           
+                                            //setIsClicked(name);
+
                                             setActiveSubMenu(name);
                                             setActiveMenu(null);
-                                            // closing the menu while clicking the menu without submenu
+                                            //only for mobile closing the menu while clicking the menu without submenu
                                             setIsOpen(false);
                                           }}
                                           className={` p-3 pl-5  flex items-center 

@@ -1,0 +1,47 @@
+User Side
+Authentication
+Dashboard
+Form Builder
+Form Submission
+Subscriber Management
+Email Automation
+Basic CRM
+Payment gateway
+
+Admin Side
+User Management
+Analytics
+
+DevOps
+ GitHub
+ Docker
+ Deployment
+
+Project Structure
+email-automation-platform/
+ frontend/
+ ├── src/
+ │   ├── pages/
+ │   ├── components/
+ │   ├── layouts/
+ │   ├── hooks/
+ │   ├── services/
+ │   ├── routes/
+ │   └── context/
+
+ backend/
+ ├── src/
+ │   ├── controllers/
+ │   ├── services/
+ │   ├── routes/
+ │   ├── middlewares/
+ │   ├── models/
+ │   ├── utils/
+ │   └── config/
+
+ docker/
+ ├── frontend.Dockerfile
+ ├── backend.Dockerfile
+ └── docker-compose.yml
+ 
+Database

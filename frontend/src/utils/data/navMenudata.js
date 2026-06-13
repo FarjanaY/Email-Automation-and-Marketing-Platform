@@ -70,7 +70,7 @@ export const NavMenus = [
     name: "Apps & Pages",
     mainMenu: [
       {
-        name: "Email Marketing",
+        name: "Email Platform",
         icon: Mail,
         subMenu: [
           {

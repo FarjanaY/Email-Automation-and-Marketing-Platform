@@ -10,6 +10,10 @@
   --secondary-color: #182535;
   --link-color: #5a8dee;
   --menu-heading: 14px;
+  --text-color: #677788 ;
+  --body-bg: #f3f4f4;
+  --card-heading-color: #516377;
+  --card-body-bg: #f2f2f6;
 }
 
 /* Font family */
@@ -26,7 +30,7 @@
 
 /* Body Style */
 body {
-  @apply bg-white/5 text-black font-inter;
+  @apply bg-(--body-bg) text-black font-inter;
 }
 
 .sub-menu {
