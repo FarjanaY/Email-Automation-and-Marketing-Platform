@@ -2,11 +2,11 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const userSchema = mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      require: [true, "Please enter your full name."],
+      required: [true, "Please enter your full name."],
       trim: true,
       minlength: [3, "Name Length must be greater then 3 letters."],
       maxlength: [31, "Name length must be less then 31 letters."],
@@ -64,7 +64,7 @@ const userSchema = mongoose.Schema(
     isAdmin: { type: Boolean, default: false },
     isBanned: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 //Hashed Password

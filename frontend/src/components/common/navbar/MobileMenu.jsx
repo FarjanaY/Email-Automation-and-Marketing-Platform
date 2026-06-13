@@ -4,7 +4,6 @@ import { ChevronRight, Icon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
 
-
 //Internal Imports
 import logo from "../../../assets/emailLogo-nobg.png";
 import TopNavbar from "./TopNavbar";

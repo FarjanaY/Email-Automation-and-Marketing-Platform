@@ -14,23 +14,29 @@ import {
 import dp from "../../../assets/defaultDP.jpg";
 import NotificationCard from "./navbarComponents/NotificationCard";
 import ShortCutsCard from "./navbarComponents/shortCutsCard";
+import SidebarProfileCard from "./navbarComponents/SidebarProfileCard";
 
 const TopNavbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isNotification, setIsNotification] = useState(false);
-  const [isShortCuts, setIsShortCuts] = useState(false);
+  const [isProfile, setIsProfile] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
+
+  //Active menu
+  const activeMenuHandler = (menuName) => {
+    setActiveMenu((prev) => (prev === menuName ? null : menuName));
+  };
 
   const DarkModeSet = () => {
     setIsDarkMode((prev) => !prev);
   };
 
-  const NotificationHandler = () => {
-    setIsNotification((prev) => !prev);
-  };
-
-  const ShortCutsHandler = () => {
-    setIsShortCuts((prev) => !prev);
-  };
+  //Styling
+  const getIconClass = (menuName) =>
+    `cursor-pointer ${
+      activeMenu === menuName
+        ? "text-black/70 font-semibold"
+        : "hover:text-black/70"
+    }`;
 
   const iconSize = {
     size: 22,
@@ -44,35 +50,60 @@ const TopNavbar = () => {
       </div>
       <div className="flex-center px-5 gap-x-2">
         <div>
-          <span>
-            <Globe {...iconSize} />
+          <span
+            onClick={() => {
+              activeMenuHandler("globe");
+            }}
+          >
+            {<Globe {...iconSize} className={getIconClass("globe")} />}
           </span>
         </div>
         <div>
-          <span onClick={DarkModeSet}>
-            {isDarkMode ? <Moon {...iconSize} /> : <Sun {...iconSize} />}
+          <span
+            onClick={() => {
+              setIsDarkMode((prev) => !prev);
+              activeMenuHandler("darkmode");
+            }}
+          >
+            {isDarkMode ? (
+              <Moon {...iconSize} className={getIconClass("darkmode")} />
+            ) : (
+              <Sun {...iconSize} className={getIconClass("darkmode")} />
+            )}
           </span>
         </div>
         <div>
-          <span onClick={ShortCutsHandler}>
-            <LayoutGrid {...iconSize} />
+          <span onClick={() => activeMenuHandler("shortcuts")}>
+            <LayoutGrid {...iconSize} className={getIconClass("shortcuts")} />
           </span>
-          {isShortCuts && <ShortCutsCard />}
+          {activeMenu === "shortcuts" && <ShortCutsCard />}
         </div>
         <div>
-          <span onClick={NotificationHandler}>
-            {isNotification ? <Bell /> : <BellDot />}
+          <span
+            onClick={() => {
+              activeMenuHandler("notifications");
+            }}
+          >
+            {activeMenu === "notifications" ? (
+              <Bell className={getIconClass("notifications")} />
+            ) : (
+              <BellDot className={getIconClass("notifications")} />
+            )}
           </span>
-          {isNotification && <NotificationCard />}
+          {activeMenu === "notifications" && <NotificationCard />}
         </div>
         <div>
           <span>
             <img
+              onClick={() => {
+                setIsProfile((prev) => !prev);
+              }}
               src={dp}
               alt="user"
-              className="h-9 w-9 rounded-full ring-2 ring-blue-500"
+              className="h-7 w-7 rounded-full ring-2 ring-blue-500"
             />
           </span>
+          {isProfile && <SidebarProfileCard />}
         </div>
       </div>
     </div>
