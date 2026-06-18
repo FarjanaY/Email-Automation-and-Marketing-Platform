@@ -16,16 +16,16 @@ import dp from "../../../../assets/defaultDP.jpg";
 const SidebarProfileCard = () => {
   const [activeMenu, setActiveMenu] = useState(null);
   return (
-    <div className="bg-amber-600 text-[15px] ">
+    <div className="text-[15px] py-1">
       <div
         className="absolute  right-3 top-15 left-0 w-auto 
-        lg:w-100 lg:left-auto  bg-white rounded-lg 
-        shadow-lg border border-gray-200 z-50"
+        lg:w-100 lg:left-auto  bg-white rounded-md 
+        dropdown-menu-box-shadow border  border-gray-200 z-50"
       >
         <div
           className="flex items-center justify-items-start 
-          gap-x-3 py-2 px-4 my-1 p-2 pl-5 cursor-pointer 
-          hover:bg-(--text-color)/10"
+          gap-x-3 py-1.5 px-4 my-1 p-2 pl-5 cursor-pointer 
+          hover:bg-(--text-color)/7 "
         >
           <img
             src={dp}
@@ -37,14 +37,14 @@ const SidebarProfileCard = () => {
             <p className="text-sm text-(--text-color) font-light">Admin</p>
           </div>
         </div>
-        <span className="w-full h-px block bg-(--text-color)/30"></span>
+        <span className="w-full my-1 h-px block bg-(--text-color)/30"></span>
         <span
           className="my-1 p-2 pl-5  flex items-center 
                     gap-x-2 cursor-pointer 
                     hover:bg-(--text-color)/10"
         >
           <NavLink to={"/profile"} className="flex items-center ">
-            <User size={18} className="mr-2.5" />
+            <User size={18} strokeWidth={2.2} className="mr-2.5" />
             My Profile
           </NavLink>
         </span>
@@ -55,7 +55,7 @@ const SidebarProfileCard = () => {
                     hover:bg-(--text-color)/10"
         >
           <NavLink to={"/profile"} className="flex items-center ">
-            <Settings size={18} className="mr-2.5" />
+            <Settings size={18} strokeWidth={2.2} className="mr-2.5" />
             Settings
           </NavLink>
         </span>
@@ -63,43 +63,48 @@ const SidebarProfileCard = () => {
         <span
           className="my-1 p-2 pl-5  flex items-center 
                     gap-x-2 cursor-pointer 
-                    hover:bg-(--text-color)/10"
+                   hover:bg-(--text-color)/7 "
         >
           <NavLink to={"/profile"} className="flex items-center ">
-            <CreditCard size={18} className="mr-2.5" />
+            <CreditCard size={18} strokeWidth={2.2} className="mr-2.5" />
             Billing
           </NavLink>
         </span>
-        <span className="w-full h-px block bg-(--text-color)/30"></span>
+
+        <span className="w-full my-1  h-px block bg-(--text-color)/30"></span>
         <span
           className="my-1 p-2 pl-5  flex items-center 
                     gap-x-2 cursor-pointer 
-                    hover:bg-(--text-color)/10"
+                    hover:bg-(--text-color)/7"
         >
           <NavLink to={"/profile"} className="flex items-center ">
-            <CircleQuestionMark size={18} className="mr-2.5" />
+            <CircleQuestionMark
+              size={17}
+              strokeWidth={2.2}
+              className="mr-2.5"
+            />
             FAQ
           </NavLink>
         </span>
 
         <span
-          className="my-1 p-2 pl-5  flex items-center 
+          className="my-1 p-2 pl-5 flex items-center 
                     gap-x-2 cursor-pointer 
-                    hover:bg-(--text-color)/10"
+                    hover:bg-(--text-color)/7"
         >
           <NavLink to={"/profile"} className="flex items-center ">
-            <DollarSign size={18} className="mr-2.5" />
+            <DollarSign size={17} strokeWidth={2.2} className="mr-2.5" />
             Pricing
           </NavLink>
         </span>
-        <span className="w-full h-px block bg-(--text-color)/30"></span>
+        <span className="w-full  h-px block bg-(--text-color)/30"></span>
         <span
           className="my-1 p-2 pl-5  flex items-center 
                     gap-x-2 cursor-pointer 
-                    hover:bg-(--text-color)/10"
+                    hover:bg-(--text-color)/7"
         >
           <NavLink to={"/logout"} className="flex items-center ">
-            <Power size={18} className="mr-2.5" />
+            <Power size={16} strokeWidth={2.2} className="mr-2.5" />
             Log out
           </NavLink>
         </span>

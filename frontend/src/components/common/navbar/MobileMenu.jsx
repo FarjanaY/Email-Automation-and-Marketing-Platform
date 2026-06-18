@@ -39,16 +39,21 @@ const MobileMenu = ({ navMainMenus }) => {
   };
 
   return (
-    <header className=" ">
-      <div className="fixed left-0 right-0 top-0 w-full flex-center-between z-999 bg-white ">
-        <button
-          onClick={isMenuOpen}
-          className="relative  cursor-pointer  p-5  text-(--text-color) "
-        >
-          <Menu className="size-5" strokeWidth={3} />
-          {/* {isOpen ? <X className="size-5" /> : <Menu />} */}
-        </button>
-        <TopNavbar />
+    <header className="">
+      <div
+        className="fixed left-0 right-0 top-0 w-full 
+       z-999 bg-white/20 backdrop-blur-sm  "
+      >
+        <div className="p-5 flex-center-between ">
+          <button
+            onClick={isMenuOpen}
+            className="relative cursor-pointer text-(--text-color) "
+          >
+            <Menu className="size-5" strokeWidth={3} />
+            {/* {isOpen ? <X className="size-5" /> : <Menu />} */}
+          </button>
+          <TopNavbar />
+        </div>
       </div>
       <nav className="h-full w-full mx-w-7xl mx-auto flex-top ">
         <motion.div

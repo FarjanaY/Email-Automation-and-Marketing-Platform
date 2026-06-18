@@ -15,6 +15,7 @@ import dp from "../../../assets/defaultDP.jpg";
 import NotificationCard from "./navbarComponents/NotificationCard";
 import ShortCutsCard from "./navbarComponents/shortCutsCard";
 import SidebarProfileCard from "./navbarComponents/SidebarProfileCard";
+import DropdownMenuGlobeCard from "./navbarComponents/DropdownMenuGlobeCard";
 
 const TopNavbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -44,25 +45,31 @@ const TopNavbar = () => {
   };
 
   return (
-    <div className=" flex-center-between relative text-(--text-color) w-full mx-w-7xl mx-auto ">
-      <div>
+    <div
+      className="flex-center-between relative
+     text-(--text-color) w-full mx-auto "
+    >
+      <div className="px-4">
         <Search {...iconSize} />
       </div>
-      <div className="flex-center px-5 gap-x-2">
-        <div>
+      <div className="flex-center  px-5 gap-x-2">
+        <div className="flex-center ">
           <span
             onClick={() => {
               activeMenuHandler("globe");
+              isProfile(null);
             }}
           >
             {<Globe {...iconSize} className={getIconClass("globe")} />}
           </span>
+          {activeMenu === "globe" && <DropdownMenuGlobeCard />}
         </div>
-        <div>
+        <div className="flex-center ">
           <span
             onClick={() => {
               setIsDarkMode((prev) => !prev);
               activeMenuHandler("darkmode");
+              isProfile(null);
             }}
           >
             {isDarkMode ? (
@@ -72,16 +79,17 @@ const TopNavbar = () => {
             )}
           </span>
         </div>
-        <div>
+        <div className="flex-center ">
           <span onClick={() => activeMenuHandler("shortcuts")}>
             <LayoutGrid {...iconSize} className={getIconClass("shortcuts")} />
           </span>
           {activeMenu === "shortcuts" && <ShortCutsCard />}
         </div>
-        <div>
+        <div className="flex-center ">
           <span
             onClick={() => {
               activeMenuHandler("notifications");
+              isProfile(null);
             }}
           >
             {activeMenu === "notifications" ? (
@@ -92,18 +100,19 @@ const TopNavbar = () => {
           </span>
           {activeMenu === "notifications" && <NotificationCard />}
         </div>
-        <div>
-          <span>
+        <div className="flex-center">
+          <span className=" ">
             <img
               onClick={() => {
                 setIsProfile((prev) => !prev);
+                activeMenuHandler("userprofile");
               }}
               src={dp}
               alt="user"
               className="h-7 w-7 rounded-full ring-2 ring-blue-500"
             />
           </span>
-          {isProfile && <SidebarProfileCard />}
+          {activeMenu === "userprofile" && isProfile && <SidebarProfileCard />}
         </div>
       </div>
     </div>

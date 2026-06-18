@@ -5,9 +5,9 @@ const NotificationCard = () => {
     <div className="bg-amber-600 ">
       {" "}
       <div
-        className="absolute  right-3 top-15 left-0 w-auto lg:w-100 lg:left-auto
-      bg-white rounded-lg shadow-lg 
-      border border-gray-200 p-4 z-50"
+        className="absolute  right-3 top-12 left-0 w-auto 
+        lg:w-100 lg:left-auto  bg-white rounded-lg 
+        dropdown-menu-box-shadow border border-gray-200 z-50"
       >
         <h3>Notifications</h3>
         <div>
