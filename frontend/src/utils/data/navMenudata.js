@@ -24,6 +24,7 @@ import {
   BrainCircuit,
   LayoutTemplate,
   Phone,
+  User,
 } from "lucide-react";
 
 export const NavMenus = [
@@ -104,6 +105,39 @@ export const NavMenus = [
             path: "/dashboard",
             desc: "Responsive design",
             icon: PanelsTopLeft,
+          },
+          {
+            name: "Management",
+            desc: "Site control",
+            path: "/dashboard",
+            icon: Bolt,
+          },
+          {
+            name: "Navigation",
+            desc: "Link pages",
+            path: "/dashboard",
+            icon: PanelTop,
+          },
+          {
+            name: "CMS",
+            desc: "Management content",
+            path: "/dashboard",
+            icon: Database,
+          },
+        ],
+        gridCols: 2,
+      },
+      {
+        name: "Users",
+        icon: User,
+
+        subMenuHeading: ["Design", "Scale"],
+        subMenu: [
+          {
+            name: "Profile",
+            path: "/profile",
+            desc: "User Profile Page design",
+            icon: User,
           },
           {
             name: "Management",

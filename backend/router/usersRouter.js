@@ -27,7 +27,7 @@ const refreshTokeGenerate = require("../middlewares/authGaurd/refreshTokenGenera
 
 const usersRouter = express.Router();
 
-//route = /api/users/
+//route = /api/users
 
 usersRouter.get(
   "/all-users",

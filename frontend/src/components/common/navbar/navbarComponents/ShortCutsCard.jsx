@@ -7,7 +7,7 @@ const ShortCutsCard = () => {
       <div
         className="absolute  right-0 top-15 left-0 w-auto 
         lg:w-100 lg:left-auto  rounded-md 
-        dropdown-menu-box-shadow z-50"
+        dropdown-menu-box-shadow z-50 bg-white"
       >
         <div className="p-5 flex-center-between font-bold text-lg">
           <h3>Shortuts</h3>

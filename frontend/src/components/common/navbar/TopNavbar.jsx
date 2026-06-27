@@ -57,7 +57,7 @@ const TopNavbar = () => {
           <span
             onClick={() => {
               activeMenuHandler("globe");
-              isProfile(null);
+              setIsProfile(false);
             }}
           >
             {<Globe {...iconSize} className={getIconClass("globe")} />}
@@ -69,7 +69,7 @@ const TopNavbar = () => {
             onClick={() => {
               setIsDarkMode((prev) => !prev);
               activeMenuHandler("darkmode");
-              isProfile(null);
+              setIsProfile(false);
             }}
           >
             {isDarkMode ? (
@@ -89,7 +89,7 @@ const TopNavbar = () => {
           <span
             onClick={() => {
               activeMenuHandler("notifications");
-              isProfile(null);
+              setIsProfile(false);
             }}
           >
             {activeMenu === "notifications" ? (
@@ -100,19 +100,28 @@ const TopNavbar = () => {
           </span>
           {activeMenu === "notifications" && <NotificationCard />}
         </div>
-        <div className="flex-center">
-          <span className=" ">
+        <div className="flex-center ">
+          <span
+            className="cursor-pointer "
+            onClick={() => {
+              setIsProfile((prev) => !prev);
+              activeMenuHandler("userprofile");
+            }}
+          >
             <img
-              onClick={() => {
-                setIsProfile((prev) => !prev);
-                activeMenuHandler("userprofile");
-              }}
               src={dp}
               alt="user"
               className="h-7 w-7 rounded-full ring-2 ring-blue-500"
             />
           </span>
-          {activeMenu === "userprofile" && isProfile && <SidebarProfileCard />}
+          {activeMenu === "userprofile" && isProfile && (
+            <SidebarProfileCard
+              closeProfile={() => {
+                setIsProfile(false);
+                setActiveMenu(null);
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

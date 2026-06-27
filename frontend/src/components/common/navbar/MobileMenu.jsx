@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { ChevronRight, Icon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 //Internal Imports
 import logo from "../../../assets/emailLogo-nobg.png";
 import TopNavbar from "./TopNavbar";
+import { toggleSidebar } from "../../../features/ui/uiSlice";
 
 const MobileMenu = ({ navMainMenus }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +18,11 @@ const MobileMenu = ({ navMainMenus }) => {
   //const [expandedMenu, setExpandedMenu] = useState(null);
   const [expandedMenus, setExpandedMenus] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
+  const { sidebarCollapsed } = useSelector((state) => state.uiR);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const lgScreen = window.innerWidth >= 1024;
 
   const isMenuOpen = () => {
     setIsOpen(!isOpen);
@@ -40,13 +45,20 @@ const MobileMenu = ({ navMainMenus }) => {
 
   return (
     <header className="">
+      {/* --------------Top Navbar-------------- */}
       <div
-        className="fixed left-0 right-0 top-0 w-full 
-       z-999 bg-white/20 backdrop-blur-sm  "
+        className="fixed  left-0 right-0 top-0 w-full 
+       z-999 bg-white/20 backdrop-blur-sm h-16 "
       >
         <div className="p-5 flex-center-between ">
           <button
-            onClick={isMenuOpen}
+            onClick={() => {
+              if (window.innerWidth >= 1024) {
+                dispatch(toggleSidebar()); // Desktop
+              } else {
+                isMenuOpen(); // Mobile
+              }
+            }}
             className="relative cursor-pointer text-(--text-color) "
           >
             <Menu className="size-5" strokeWidth={3} />
@@ -55,13 +67,18 @@ const MobileMenu = ({ navMainMenus }) => {
           <TopNavbar />
         </div>
       </div>
-      <nav className="h-full w-full mx-w-7xl mx-auto flex-top ">
+      <nav className="h-full w-full max-w-7xl mx-auto flex-top ">
         <motion.div
-          className="bg-menu-theme fixed w-68
+          className={`bg-menu-theme fixed 
            left-0 right-0 top-0 overflow-y-auto hide-scrollbar 
-           h-full pb-20 text-sm gap-y-3 z-999 transition-all duration-120 ease-linear "
+           h-full pb-20 text-sm gap-y-3 z-999 
+           transition-all duration-200 ease-linear 
+            ${sidebarCollapsed ? "lg:w-0" : "lg:w-68"} 
+           w-68`}
           initial={{ x: "-100%" }}
-          animate={{ x: isOpen ? "0%" : "-100%" }}
+          animate={{
+            x: window.innerWidth >= 1024 ? 0 : isOpen ? "0%" : "-100%",
+          }}
         >
           <div className="my-6 flex-center-between cursor-pointer w-full px-2 gap-y-2">
             <div
@@ -87,7 +104,13 @@ const MobileMenu = ({ navMainMenus }) => {
             </div>
 
             <button
-              onClick={isMenuOpen}
+              onClick={() => {
+                if (window.innerWidth >= 1024) {
+                  dispatch(toggleSidebar()); // Desktop
+                } else {
+                  isMenuOpen(); // Mobile
+                }
+              }}
               className=" z-999 relative text-(--link-color) cursor-pointer  font-extrabold p-2 "
             >
               <X className="size-4.5" strokeWidth={3} />
@@ -133,6 +156,7 @@ const MobileMenu = ({ navMainMenus }) => {
                                     setIsOpen(false);
                                     setIsClicked(null);
                                   }
+                                  navigate({ path });
                                 }}
                                 className={` flex align-center justify-start rounded-sm
                                           font-medium  px-3 py-2.5 mt-0.5 mx-3  

@@ -5,6 +5,11 @@ const { nanoid } = require("nanoid");
 
 const fieldSchema = mongoose.Schema(
   {
+    id: {
+      type: String,
+      required: true,
+    },
+
     type: {
       type: String,
       enum: [
@@ -19,21 +24,31 @@ const fieldSchema = mongoose.Schema(
         "date",
         "password",
       ],
-      required: [true, "Please select the type."],
+      required: true,
     },
+
     label: {
       type: String,
-      required: [true, "Please enter label."],
+      required: true,
     },
+
     placeholder: {
       type: String,
       default: "",
     },
-    options: [
-      {
-        type: String,
-      },
-    ],
+
+    required: {
+      type: Boolean,
+      default: false,
+    },
+
+    defaultValue: {
+      type: String,
+      default: "",
+    },
+
+    options: [String],
+
     order: {
       type: Number,
       default: 0,
@@ -41,7 +56,6 @@ const fieldSchema = mongoose.Schema(
   },
   { _id: false },
 );
-
 const formSchema = mongoose.Schema(
   {
     formTitle: {
