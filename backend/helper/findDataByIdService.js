@@ -7,7 +7,7 @@ const findDataById = async (
   id = null,
   search = "",
   emailFromReqBody = "",
-  options = { password: 0 }
+  options = { password: 0 },
 ) => {
   try {
     // const adminFilter = { isAdmin: { $ne: true } };
@@ -35,13 +35,16 @@ const findDataById = async (
       if (id && !mongoose.Types.ObjectId.isValid(id)) {
         throw Error(createError(400, "Invalid User ID."));
       } else {
-        isDataExist = await modelName.findById(
-          {
-             id,
-            // ...adminFilter
-          },
-          options
-        );
+        //for admin filter
+        // isDataExist = await modelName.findById(
+        //   {
+        //      id,
+        //     ...adminFilter
+        //   },
+        //   options
+        // );
+        //without admin filter
+        isDataExist = await modelName.findById(id).select(options);
       }
     } else if (search) {
       isDataExist = await modelName.findOne(searchFilter).select(options);

@@ -1,14 +1,16 @@
 //External Imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight, Icon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 //Internal Imports
 import logo from "../../../assets/emailLogo-nobg.png";
 import TopNavbar from "./TopNavbar";
 import { toggleSidebar } from "../../../features/ui/uiSlice";
+import { logOut } from "../../../features/auth/authSlice";
 
 const MobileMenu = ({ navMainMenus }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,14 +22,28 @@ const MobileMenu = ({ navMainMenus }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const { sidebarCollapsed } = useSelector((state) => state.uiR);
 
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const lgScreen = window.innerWidth >= 1024;
 
   const isMenuOpen = () => {
     setIsOpen(!isOpen);
     setIsClicked(null);
   };
+
+  useEffect(() => {
+    const resize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+      setIsOpen(false);
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
 
   //=====For multiple expanded submenu at a time
   const toggleMenu = (menuName) => {
@@ -53,7 +69,7 @@ const MobileMenu = ({ navMainMenus }) => {
         <div className="p-5 flex-center-between ">
           <button
             onClick={() => {
-              if (window.innerWidth >= 1024) {
+              if (isDesktop) {
                 dispatch(toggleSidebar()); // Desktop
               } else {
                 isMenuOpen(); // Mobile
@@ -77,59 +93,69 @@ const MobileMenu = ({ navMainMenus }) => {
            w-68`}
           initial={{ x: "-100%" }}
           animate={{
-            x: window.innerWidth >= 1024 ? 0 : isOpen ? "0%" : "-100%",
+            x: isDesktop ? 0 : isOpen ? "0%" : "-100%",
           }}
         >
-          <div className="my-6 flex-center-between cursor-pointer w-full px-2 gap-y-2">
+          <div className="sticky top-0 bg-(--secondary-color) z-50 py-0.5 ">
             <div
-              onClick={() => {
-                navigate("/");
-                setIsOpen(!isOpen);
-              }}
-              className="flex items-center justify-items-start w-full 
+              className="my-6 flex-center-between 
+            cursor-pointer w-full px-2 gap-y-2"
+            >
+              <div
+                onClick={() => {
+                  navigate("/");
+                  setIsOpen(!isOpen);
+                }}
+                className=" flex items-center justify-items-start w-full 
             px-2"
-            >
-              <img
-                src={logo}
-                alt="Logo"
-                className="mr-1 -mt-1.5 size-10 rounded-full ring-0 ring-(--link-color) "
-              />
-              <NavLink
-                // to={"/"}
-                style={{ fontSize: "var(--menu-heading)" }}
-                className="text-white text-[22px]! w-fit font-bold"
               >
-                Email Platform
-              </NavLink>
-            </div>
+                <img
+                  src={logo}
+                  alt="Logo"
+                  className="mr-1 -mt-1.5 size-10 rounded-full 
+                  ring-0 ring-(--link-color) "
+                />
+                <NavLink
+                  // to={"/"}
+                  style={{ fontSize: "var(--menu-heading)" }}
+                  className="text-white text-[22px]! w-fit font-bold"
+                >
+                  Email Platform
+                </NavLink>
+              </div>
 
-            <button
-              onClick={() => {
-                if (window.innerWidth >= 1024) {
-                  dispatch(toggleSidebar()); // Desktop
-                } else {
-                  isMenuOpen(); // Mobile
-                }
-              }}
-              className=" z-999 relative text-(--link-color) cursor-pointer  font-extrabold p-2 "
-            >
-              <X className="size-4.5" strokeWidth={3} />
-            </button>
+              <button
+                onClick={() => {
+                  if (isDesktop) {
+                    dispatch(toggleSidebar()); // Desktop
+                  } else {
+                    isMenuOpen(); // Mobile
+                  }
+                }}
+                className=" z-999 relative text-(--link-color) 
+                cursor-pointer  font-extrabold p-2 "
+              >
+                <X className="size-4.5" strokeWidth={3} />
+              </button>
+            </div>
           </div>
           <ul className="">
             {navMainMenus?.map(({ name, mainMenu }) => {
               const navMenus = mainMenu?.length > 0;
               return (
-                <li key={name} className="my-auto ">
+                <li key={uuidv4()} className=" ">
                   {name && (
-                    <span className="text-xs text-white/30 uppercase px-3 mx-3 my-6 ">
+                    <span
+                      className="text-xs flex text-white/30 
+                    uppercase px-3 mx-3  pb-6"
+                    >
                       {name}
                     </span>
                   )}
                   {navMenus && (
-                    <ul className="mt-5 mb-8">
+                    <ul className="mb-8">
                       {mainMenu?.map(
-                        ({ name, subMenu, path, icon: Icon }, i) => {
+                        ({ name, subMenu, path, icon: Icon, action }, i) => {
                           const hasSubMenu = subMenu?.length > 0;
                           // const clicked = isClicked === name;
                           //======for single expand menu other will be auto close
@@ -138,10 +164,14 @@ const MobileMenu = ({ navMainMenus }) => {
                           const isMenuActive = activeMenu === name;
 
                           return (
-                            <li key={name} className="">
+                            <li key={uuidv4()} className="">
                               <NavLink
                                 to={path}
                                 onClick={() => {
+                                  if (action === "logout") {
+                                    dispatch(logOut());
+                                    return;
+                                  }
                                   if (hasSubMenu) {
                                     // setIsClicked(clicked ? null : name);
                                     //======for single expand menu other will be auto close
@@ -156,7 +186,7 @@ const MobileMenu = ({ navMainMenus }) => {
                                     setIsOpen(false);
                                     setIsClicked(null);
                                   }
-                                  navigate({ path });
+                                  navigate(path);
                                 }}
                                 className={` flex align-center justify-start rounded-sm
                                           font-medium  px-3 py-2.5 mt-0.5 mx-3  
@@ -196,6 +226,7 @@ const MobileMenu = ({ navMainMenus }) => {
                                       const isActive = activeSubMenu === name;
                                       return (
                                         <li
+                                          key={uuidv4()}
                                           onClick={() => {
                                             //setIsClicked(name);
 
@@ -214,7 +245,6 @@ const MobileMenu = ({ navMainMenus }) => {
                                         >
                                           <NavLink
                                             to={path}
-                                            key={name}
                                             className="flex items-center "
                                           >
                                             <Icon

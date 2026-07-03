@@ -10,7 +10,7 @@ export const injectStore = (_store) => {
   store = _store;
 };
 
-const baseURL = import.meta.env.CLIENT_URL;
+const baseURL = import.meta.env.VITE_CLIENT_URL;
 const api = axios.create({
   baseURL: baseURL || "http://192.168.0.101:8080",
   withCredentials: true,

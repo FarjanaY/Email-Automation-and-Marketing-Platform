@@ -88,6 +88,8 @@ const getOneUser = async (req, res, next) => {
     const search = req.query?.search;
     const emailFromReqBody = req.body?.email;
     const options = { password: 0 };
+    console.log("id =", id);
+    console.log("isValid =", mongoose.Types.ObjectId.isValid(id));
 
     const user = await findDataById(
       User,

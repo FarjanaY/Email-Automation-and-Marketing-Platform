@@ -1,5 +1,5 @@
 //External Imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Search,
   Globe,
@@ -16,11 +16,26 @@ import NotificationCard from "./navbarComponents/NotificationCard";
 import ShortCutsCard from "./navbarComponents/shortCutsCard";
 import SidebarProfileCard from "./navbarComponents/SidebarProfileCard";
 import DropdownMenuGlobeCard from "./navbarComponents/DropdownMenuGlobeCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getOneUserById } from "../../../features/users/userSlice";
 
 const TopNavbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isProfile, setIsProfile] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
+
+  const authUser = useSelector((state) => state.authR.user);
+  const { user, isLoading, error, isError } = useSelector(
+    (state) => state.userR,
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authUser?.userId) {
+      dispatch(getOneUserById(authUser?.userId));
+    }
+  }, [dispatch, authUser]);
 
   //Active menu
   const activeMenuHandler = (menuName) => {
@@ -44,6 +59,8 @@ const TopNavbar = () => {
     strokeWidth: 2.2,
   };
 
+  const baseURL = import.meta.env.VITE_CLIENT_URL;
+  const imagePath = `${baseURL}/uploads/avatar/${user?.avatar}`;
   return (
     <div
       className="flex-center-between relative
@@ -109,7 +126,7 @@ const TopNavbar = () => {
             }}
           >
             <img
-              src={dp}
+              src={user?.avatar ? `${imagePath}` : dp}
               alt="user"
               className="h-7 w-7 rounded-full ring-2 ring-blue-500"
             />

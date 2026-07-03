@@ -1,5 +1,5 @@
 //External Imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   User,
   Settings,
@@ -9,15 +9,35 @@ import {
   Power,
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 //Internal imports
 import dp from "../../../../assets/defaultDP.jpg";
+import { getOneUserById } from "../../../../features/users/userSlice.jsx";
+import { logOut } from "../../../../features/auth/authSlice";
 
 const SidebarProfileCard = ({ closeProfile }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isClicked, setIsClicked] = useState(null);
 
+  const authUser = useSelector((state) => state.authR.user);
+  const { user, isLoading, error, isError } = useSelector(
+    (state) => state.userR,
+  );
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authUser?.userId) {
+      dispatch(getOneUserById(authUser?.userId));
+    }
+  }, [dispatch, authUser]);
+
+  const baseURL = import.meta.env.VITE_CLIENT_URL;
+  const imagePath = `${baseURL}/uploads/avatar/${user?.avatar}`;
+
+  console.log("image Path" + user?.avatar);
 
   return (
     <div className="text-[15px] py-1">
@@ -36,13 +56,15 @@ const SidebarProfileCard = ({ closeProfile }) => {
           hover:bg-(--text-color)/7  "
         >
           <img
-            src={dp}
+            src={user?.avatar ? `${imagePath}` : dp}
             alt="user"
             className="h-7 w-7 rounded-full ring-2 ring-blue-500"
           />
           <div>
-            <sapn className="text-md font-semibold">John Doe</sapn>
-            <p className="text-sm text-(--text-color) font-light">Admin</p>
+            <span className="text-md font-semibold">{user?.name}</span>
+            <p className="capitalize text-sm text-(--text-color) font-light">
+              {user?.role}
+            </p>
           </div>
         </div>
         <span className="w-full my-1 h-px block bg-(--text-color)/30"></span>
@@ -117,8 +139,11 @@ const SidebarProfileCard = ({ closeProfile }) => {
         </NavLink>
         <span className="w-full  h-px block bg-(--text-color)/30"></span>
         <NavLink
-          to="/logou"
-          onClick={closeProfile}
+          onClick={() => {
+            dispatch(logOut());
+            closeProfile();
+            navigate("/login");
+          }}
           className="my-1 p-2 pl-5  flex items-center 
                     gap-x-2 cursor-pointer 
                     hover:bg-(--text-color)/7"

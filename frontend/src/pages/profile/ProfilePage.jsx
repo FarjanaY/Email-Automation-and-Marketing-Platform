@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   PenTool,
   MapPin,
@@ -13,15 +13,30 @@ import {
   Flag,
 } from "lucide-react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 //Internal Imports
 import coverPhoto from "../../../public/profilePage/coverPhoto.jpg";
 import userProfile from "../../../public/profilePage/userProfile.jpg";
-import { useSelector } from "react-redux";
+import { getOneUserById } from "../../features/users/userSlice";
+import { formatCreatedAtDate } from "../../utils/helper/dateFormatter";
 
 const ProfilePage = () => {
-  const { user } = useSelector((state) => state.authR);
-  console.log("user", user);
+  const authUser = useSelector((state) => state.authR.user);
+  const { user, isLoading, error, isError } = useSelector(
+    (state) => state.userR,
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authUser?.userId) {
+      dispatch(getOneUserById(authUser?.userId));
+    }
+  }, [dispatch, authUser]);
+
+  const baseURL = import.meta.env.VITE_CLIENT_URL;
+  const imagePath = `${baseURL}/uploads/avatar/${user?.avatar}`;
 
   const iconSize = {
     size: 15,
@@ -45,11 +60,11 @@ const ProfilePage = () => {
               className="aspect-2/1 object-cover rounded-t-md"
             />
           </div>
-          <div className="absolute items-center bottom-[-25%] flex-center">
+          <div className="absolute  items-center bottom-[-25%] flex-center">
             <img
-              src={userProfile}
+              src={user?.avatar ? `${imagePath}` : userProfile}
               alt="Profile Picture"
-              className="h-[30%] w-[30%] aspect-square object-cover 
+              className="h-[30%] w-[30%] bg-white aspect-square object-cover 
               border-4 border-white rounded-md
              "
             />
@@ -60,25 +75,30 @@ const ProfilePage = () => {
           {user?.name || "Shakibul Hasan"}
         </span>
         <div className="flex-center  px-2 gap-x-2 flex-wrap pb-10">
-          <div className="flex gap-1 py-1 ">
-            <PenTool
-              size={17}
-              strokeWidth={2.5}
-              className="rotate-x-180 mt-0.5"
-            />
-            <sapn className="text-md font-semibold">
-              {user?.profession || "RPA Developer"}
-            </sapn>
-          </div>
+          {user?.profession && (
+            <div className="flex gap-1 py-1 ">
+              <PenTool
+                size={17}
+                strokeWidth={2.5}
+                className="rotate-x-180 mt-0.5"
+              />
+              <span className="text-md font-semibold">
+                {user?.profession || ""}
+              </span>
+            </div>
+          )}
+
           <div className="flex  gap-1 py-1 ">
             <MapPin size={17} strokeWidth={2.5} className="mt-0.5" />
-            <sapn className="text-md font-semibold">
+            <span className="text-md font-semibold">
               {user?.address || "Dhaka, Bangladesh"}
-            </sapn>
+            </span>
           </div>
           <div className="flex gap-1 py-1 ">
             <BookCheck size={17} strokeWidth={2.5} className="mt-0.5" />
-            <sapn className="text-md font-semibold">Joined April 2021</sapn>
+            <span className="text-md font-semibold">
+              Joined {formatCreatedAtDate(user?.createdAt)}
+            </span>
           </div>
         </div>
       </div>
@@ -108,27 +128,27 @@ const ProfilePage = () => {
             <div className="flex gap-x-1.5 ">
               <User {...iconSize} className="mt-0.5 lg:mt-1 lg:" />
               <p className="font-semibold">Full Name:</p>
-              <sapn> {user?.name || "Shakibul Hasan"}</sapn>
+              <span>{user?.name || ""}</span>
             </div>
             <div className="flex gap-x-1.5">
               <Check {...iconSize} className="mt-0.5 lg:mt-1 " />
               <p className="font-semibold">Status:</p>
-              <sapn>status</sapn>
+              <span>{user?.status || ""}</span>
             </div>
             <div className="flex gap-x-1.5">
               <Star {...iconSize} className="mt-0.5 lg:mt-1" />
               <p className="font-semibold">Role:</p>
-              <sapn> {user.role}</sapn>
+              <span className="capitalize"> {user?.role}</span>
             </div>
             <div className="flex gap-x-1.5">
               <Flag {...iconSize} className="mt-0.5 lg:mt-1" />
               <p className="font-semibold">Country:</p>
-              <sapn>{user?.country || "Dhaka, Bangladesh"}</sapn>
+              <span>{user?.country || "Dhaka, Bangladesh"}</span>
             </div>
             <div className="flex gap-x-1.5">
               <BookText {...iconSize} className="mt-0.5 lg:mt-1" />
               <p className="font-semibold">Languages:</p>
-              <sapn>{user.language || "Bangla"}</sapn>
+              <span>{user?.language || "English"}</span>
             </div>
           </div>
           {/* ===========Contacts Section========== */}
@@ -145,17 +165,17 @@ const ProfilePage = () => {
             <div className="flex gap-x-1.5">
               <Contact {...iconSize} className="mt-px lg:mt-0.75" />
               <p className="font-semibold">Contact:</p>
-              <sapn> {user.mobile}</sapn>
+              <span>{user?.mobile || ""}</span>
             </div>
             <div className="flex gap-x-1.5">
               <MessagesSquare {...iconSize} className="my-px lg:mt-0.75" />
               <p className="font-semibold">Skype:</p>
-              <sapn>john.doe</sapn>
+              <span>{user?.skype || ""}</span>
             </div>
             <div className="flex gap-x-1.5">
               <Mail {...iconSize} className="mt-px lg:mt-1" />
               <p className="font-semibold">Email:</p>
-              <sapn>{user.email}</sapn>
+              <span>{user?.email || ""}</span>
             </div>
           </div>
         </div>
