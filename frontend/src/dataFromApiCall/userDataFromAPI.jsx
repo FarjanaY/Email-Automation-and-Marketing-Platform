@@ -31,3 +31,18 @@ export const getAllUsersAPI = async (page = 1, limit = 5, search = "") => {
   console.log(res.data);
   return res.data;
 };
+
+//=========Update/Edit user data API =======
+export const updateUserAPI = async (id, data) => {};
+
+//=========Delete user data  API=======
+export const deleteUserAPI = async (id) => {};
+
+//=========Banned A User by Admin API=======
+export const banUserAPI = async (id) => {};
+
+//=========Banned A User by Admin API =======
+export const unbanUserAPI = async (id) => {};
+
+//=========Change role  API =======
+export const changeRoleAPI = async (id) => {};
