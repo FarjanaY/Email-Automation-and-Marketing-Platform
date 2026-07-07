@@ -29,7 +29,7 @@ const getAllUsers = async (req, res, next) => {
 
     const searchRegExp = new RegExp(".*" + search + ".*", "i");
     const filter = {
-      // isAdmin: { $ne: true },
+      isAdmin: { $ne: true },
       $or: [
         { name: { $regex: searchRegExp } },
         { email: { $regex: searchRegExp } },
