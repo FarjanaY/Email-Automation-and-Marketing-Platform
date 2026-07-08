@@ -300,12 +300,7 @@ const updateUser = async (req, res, next) => {
       return next(createError(404, "Email cannot be updated."));
     }
 
-    if (
-      req.body.password &&
-      (req.body.password !== "" ||
-        req.body.password !== null ||
-        req.body.password !== undefined)
-    ) {
+    if (req.body.password?.trim()) {
       const hashedPass = await bcrypt.hash(req.body.password, 10);
       updates.password = hashedPass;
     }

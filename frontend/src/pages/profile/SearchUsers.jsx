@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../../features/users/userSlice";
+import Search from "../../components/common/Search";
 
 const SearchUsers = () => {
-  const [search, setSearch] = useState("");
-  const { users, pagination, totalDataCount, isLoading } = useSelector(
-    (state) => state.userR,
-  );
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllUsers({ search }));
-  }, [search, dispatch]);
 
   return (
     <div>
-      <input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+      <Search
+        onSearch={(search) => {
+          dispatch(getAllUsers({ page: 1, limit: 2, search }));
+        }}
         placeholder="Search Users"
+        className="border p-2 rounded-md"
       />
     </div>
   );
 };
-
 export default SearchUsers;

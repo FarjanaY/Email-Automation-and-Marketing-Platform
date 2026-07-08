@@ -7,6 +7,7 @@ import {
   getOneUserByIdAPI,
   getOneUserByEmailAPI,
   getAllUsersAPI,
+  updateUserAPI,
 } from "../../dataFromApiCall/userDataFromAPI.jsx";
 import api from "../../app/api.jsx";
 import {
@@ -77,20 +78,91 @@ export const getAllUsers = createAsyncThunk(
 //=========Update/Edit user data  =======
 export const updateUser = createAsyncThunk(
   "user/updateUser",
-  async (id, data) => {},
+  async ({ id, data }, thunkAPI) => {
+    try {
+      const res = await updateUserAPI(id, data);
+      showSuccessToast(res.msg);
+    } catch (err) {
+      console.log("Update user ERR=========");
+      // Backend error format: err.response?.data?.errors?.common?.msg
+      const errorMsg = err.response?.data?.errors || "Couldn't update user.";
+      console.log(errorMsg);
+
+      showErrorToast(errorMsg);
+      return thunkAPI.rejectWithValue(errorMsg);
+    }
+  },
 );
 
 //=========Delete user data  =======
-export const deleteUser = createAsyncThunk("user/deleteUser", async (id) => {});
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (id, thunkAPI) => {
+    try {
+      const res = await updateUserAPI(id);
+    } catch (err) {
+      console.log("Update user ERR=========");
+      // Backend error format: err.response?.data?.errors?.common?.msg
+      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      console.log(errorMsg);
+      return thunkAPI.rejectWithValue(errorMsg);
+    }
+  },
+);
 
 //=========Banned A User by Admin =======
-export const banUser = createAsyncThunk("user/banUser", async (id) => {});
+export const banUser = createAsyncThunk(
+  "user/banUser",
+  async (id, thunkAPI) => {
+    try {
+      const res = await updateUserAPI(id);
+      showSuccessToast(res.msg);
+    } catch (err) {
+      console.log("Update user ERR=========");
+      // Backend error format: err.response?.data?.errors?.common?.msg
+      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      console.log(errorMsg);
+      showErrorToast(errorMsg);
+      return thunkAPI.rejectWithValue(errorMsg);
+    }
+  },
+);
 
 //=========Banned A User by Admin  =======
-export const unbanUser = createAsyncThunk("user/unbanUser", async (id) => {});
+export const unbanUser = createAsyncThunk(
+  "user/unbanUser",
+  async (id, thunkAPI) => {
+    try {
+      const res = await updateUserAPI(id);
+      showSuccessToast(res.msg);
+    } catch (err) {
+      console.log("Update user ERR=========");
+      // Backend error format: err.response?.data?.errors?.common?.msg
+      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      console.log(errorMsg);
+      showErrorToast(errorMsg);
+      return thunkAPI.rejectWithValue(errorMsg);
+    }
+  },
+);
 
 //=========Change role   =======
-export const changeRole = createAsyncThunk("user/changeRole", async (id) => {});
+export const changeRole = createAsyncThunk(
+  "user/changeRole",
+  async (id, thunkAPI) => {
+    try {
+      const res = await updateUserAPI(id);
+      showSuccessToast(res.msg);
+    } catch (err) {
+      console.log("Update user ERR=========");
+      // Backend error format: err.response?.data?.errors?.common?.msg
+      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      console.log(errorMsg);
+      showErrorToast(errorMsg);
+      return thunkAPI.rejectWithValue(errorMsg);
+    }
+  },
+);
 
 //Initial State for data
 const initialState = {
@@ -181,8 +253,16 @@ const userSlice = createSlice({
           action.payload || action.error?.message || "Verification failed";
       })
       // Update User
-      .addCase(updateUser.pending, (state, action) => {})
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.error = null;
+      })
       .addCase(updateUser.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isError = false;
+        state.error = null;
+        state.isLoading = false;
         const updated = action.payload.payload;
         state.user = updated;
 
@@ -190,7 +270,6 @@ const userSlice = createSlice({
         state.users = state.users.map((user) =>
           user._id === updated._id ? updated : user,
         );
-        state.isSuccess = true;
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.isSuccess = false;
@@ -207,6 +286,11 @@ const userSlice = createSlice({
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.isSuccess = false;
+        state.isLoading = false;
+        state.isError = true;
+        // Use action.payload (from rejectWithValue) for error message
+        state.error =
+          action.payload || action.error?.message || "Couldn't update user.";
       })
 
       // Ban User

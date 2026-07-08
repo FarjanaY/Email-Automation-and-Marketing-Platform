@@ -33,7 +33,15 @@ export const getAllUsersAPI = async (page = 1, limit = 5, search = "") => {
 };
 
 //=========Update/Edit user data API =======
-export const updateUserAPI = async (id, data) => {};
+export const updateUserAPI = async (id, data) => {
+  const res = await api.put(`/api/users/edit/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  
+  console.log("get All users API=======");
+  console.log(res.data);
+  return res.data;
+};
 
 //=========Delete user data  API=======
 export const deleteUserAPI = async (id) => {};

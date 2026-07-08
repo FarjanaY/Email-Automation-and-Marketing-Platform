@@ -31,6 +31,7 @@ import Navbar from "./components/common/navbar/Navbar";
 import Footer from "./components/common/footer/Footer";
 import ProfilePage from "./pages/profile/ProfilePage";
 import AllUsersPage from "./pages/profile/AllUsersPage";
+import UpdateProfilePage from "./pages/profile/UpdateProfilePage";
 
 function App() {
   //authReducersState === user, isAuthenticated, isLoading, isError, error,  forgetPassword, resetPassword,
@@ -132,6 +133,11 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route exact path="/" element={<HomePage />} />
                 <Route exact path="/profile" element={<ProfilePage />} />
+                <Route
+                  exact
+                  path="/profile/edit"
+                  element={<UpdateProfilePage />}
+                />
                 <Route exact path="/all-users" element={<AllUsersPage />} />
               </Route>
 

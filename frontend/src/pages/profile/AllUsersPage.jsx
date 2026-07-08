@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../../features/users/userSlice";
+import SearchUsers from "./SearchUsers";
 
 const AllUsersPage = () => {
   const [search, setSearch] = useState("");
@@ -18,6 +19,7 @@ const AllUsersPage = () => {
   console.log("ALL USERS" + users);
   return (
     <div>
+      <SearchUsers />
       <table className="border border-black border-collapse ">
         <thead>
           <tr>
