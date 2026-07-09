@@ -15,6 +15,7 @@ const {
 const { profileImageFolder } = require("../helper/deleteImage");
 const {
   addUserValidators,
+  updateUserValidators,
   updatePasswordValidations,
   forgotPasswordValidations,
 } = require("../validations/userValidations");
@@ -57,6 +58,7 @@ usersRouter.put(
   isAccOwner,
   profileImageFolder,
   singleFileUpload,
+  updateUserValidators,
   runValidations,
   updateUser,
 );

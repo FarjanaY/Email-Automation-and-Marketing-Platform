@@ -162,10 +162,34 @@ const resetPasswordValidations = [
     }),
 ];
 
+const updateUserValidators = [
+  check("mobile")
+    .optional({ checkFalsy: true })
+    .isMobilePhone("bn-BD", { strictMode: true })
+    .withMessage(
+      "Mobile number must be a valid Bangladeshi number. Add country code",
+    )
+    .isLength({ min: 14, max: 14 })
+    .withMessage("Not a valid number")
+    .custom(async (value, { req }) => {
+      const existing = await User.findOne({
+        mobile: value,
+        _id: { $ne: req.params.id }, // exclude the current user
+      });
+      if (existing) {
+        throw new Error(
+          "Mobile number already in use. Please use another one.",
+        );
+      }
+      return true;
+    }),
+];
+
 module.exports = {
   addUserValidators,
   loginValidators,
   updatePasswordValidations,
   forgotPasswordValidations,
   resetPasswordValidations,
+  updateUserValidators,
 };

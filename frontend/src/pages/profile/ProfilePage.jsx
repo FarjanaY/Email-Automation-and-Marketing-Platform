@@ -184,14 +184,25 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className="flex w-full lg:justify-end ">
+      <div
+        className="flex-center-between w-full  
+      gap-x-3 py-5 lg:justify-center "
+      >
         {" "}
         <button
           onClick={() => navigate("/profile/edit")}
           className="px-4 py-2 rounded-md bg-(--link-color) 
-        text-white mt-4 lg:w-fit "
+        text-white mt-4 dropdown-menu-box-shadow"
         >
           Edit Profile
+        </button>
+        <button
+          type="button"
+          className="px-4 py-2 rounded-md border bg-red-600
+          border-(--text-color)/20  font-bold text-white
+          dropdown-menu-box-shadow"
+        >
+          Delete Account
         </button>
       </div>
     </div>

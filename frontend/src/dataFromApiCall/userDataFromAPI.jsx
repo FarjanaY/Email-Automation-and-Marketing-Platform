@@ -37,14 +37,21 @@ export const updateUserAPI = async (id, data) => {
   const res = await api.put(`/api/users/edit/${id}`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-  
-  console.log("get All users API=======");
+
+  console.log("get Updated users API=======");
   console.log(res.data);
   return res.data;
 };
 
 //=========Delete user data  API=======
-export const deleteUserAPI = async (id) => {};
+export const deleteUserAPI = async (id) => {
+  const res = await api.delete(`/api/users/delete/${id}`);
+
+  console.log("get delete users API=======");
+  console.log(res.data);
+
+  return res.data;
+};
 
 //=========Banned A User by Admin API=======
 export const banUserAPI = async (id) => {};

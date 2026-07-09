@@ -8,6 +8,7 @@ import {
   getOneUserByEmailAPI,
   getAllUsersAPI,
   updateUserAPI,
+  deleteUserAPI,
 } from "../../dataFromApiCall/userDataFromAPI.jsx";
 import api from "../../app/api.jsx";
 import {
@@ -82,6 +83,7 @@ export const updateUser = createAsyncThunk(
     try {
       const res = await updateUserAPI(id, data);
       showSuccessToast(res.msg);
+      return res;
     } catch (err) {
       console.log("Update user ERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
@@ -99,12 +101,15 @@ export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async (id, thunkAPI) => {
     try {
-      const res = await updateUserAPI(id);
+      const res = await deleteUserAPI(id);
+      showSuccessToast(res.msg);
+      return res;
     } catch (err) {
       console.log("Update user ERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
       const errorMsg = err.response?.data?.errors || "No Such Data Found.";
       console.log(errorMsg);
+      showErrorToast(errorMsg);
       return thunkAPI.rejectWithValue(errorMsg);
     }
   },
@@ -250,7 +255,7 @@ const userSlice = createSlice({
         state.isError = true;
         // Use action.payload (from rejectWithValue) for error message
         state.error =
-          action.payload || action.error?.message || "Verification failed";
+          action.payload || action.error?.message || "No such data found.";
       })
       // Update User
       .addCase(updateUser.pending, (state) => {
@@ -273,16 +278,25 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.isSuccess = false;
+        state.isLoading = false;
+        state.isError = true;
+        // Use action.payload (from rejectWithValue) for error message
+        state.error =
+          action.payload ||
+          action.error?.message ||
+          "Error! Couldn't update user.";
       })
       // Delete User
       .addCase(deleteUser.pending, (state, action) => {
         state.isSuccess = false;
+        state.isLoading = true;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         //No extra API request.
         const id = action.meta.arg;
         state.users = state.users.filter((user) => user._id !== id);
         state.isSuccess = true;
+        state.isLoading = false;
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.isSuccess = false;
@@ -290,7 +304,9 @@ const userSlice = createSlice({
         state.isError = true;
         // Use action.payload (from rejectWithValue) for error message
         state.error =
-          action.payload || action.error?.message || "Couldn't update user.";
+          action.payload ||
+          action.error?.message ||
+          "Couldn't delete your account.";
       })
 
       // Ban User

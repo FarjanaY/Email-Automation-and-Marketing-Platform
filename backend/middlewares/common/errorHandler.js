@@ -44,11 +44,11 @@ const errorHandler = (err, req, res, next) => {
   //       .join(", ");
   //   }
 
-  //   // Duplicate key error
-  //   if (err.code === 11000) {
-  //     statusCode = 409;
-  //     message = `${Object.keys(err.keyValue)[0]} already exists.`;
-  //   }
+  // Duplicate key error
+  if (err.code === 11000) {
+    statusCode = 409;
+    message = `${Object.keys(err.keyValue)[0]} already exists.`;
+  }
 
   const response = {
     success: false,
