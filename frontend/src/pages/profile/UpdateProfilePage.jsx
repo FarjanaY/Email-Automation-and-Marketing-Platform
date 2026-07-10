@@ -323,23 +323,23 @@ const UpdateProfilePage = () => {
         </div>
         <div
           className="flex-center-between w-full  
-      gap-x-3 py-5 lg:justify-center "
+      gap-x-3 py-5 lg:justify-center text-sm lg:text-[16px]"
         >
           <button
             type="button"
             onClick={goToProfilePage}
-            className="px-4 py-2 rounded-md border 
-          border-(--text-color)/20 bg-white 
-          dropdown-menu-box-shadow"
+            className="px-4 py-2 rounded-md cursor-pointer
+            cancel-button-shadow text-white mt-4 
+             font-bold"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isLoading}
-            className="px-4 py-2 rounded-md bg-(--link-color)
-           text-white disabled:opacity-50 
-           dropdown-menu-box-shadow"
+            className="px-4 py-2 rounded-md cursor-pointer
+             text-white mt-4 
+            gn-button-shadow font-bold"
           >
             {isLoading ? "Saving..." : "Save Changes"}
           </button>

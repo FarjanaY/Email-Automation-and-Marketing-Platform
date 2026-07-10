@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PenTool,
   MapPin,
@@ -14,15 +14,19 @@ import {
 } from "lucide-react";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //Internal Imports
 import coverPhoto from "../../../public/profilePage/coverPhoto.jpg";
 import userProfile from "../../../public/profilePage/userProfile.jpg";
-import { getOneUserById } from "../../features/users/userSlice";
+import { getOneUserById, deleteUser } from "../../features/users/userSlice";
 import { formatCreatedAtDate } from "../../utils/helper/dateFormatter";
-import { useNavigate } from "react-router-dom";
+import { logOut } from "../../features/auth/authSlice";
+import AreYouSureModal from "../../components/common/AreYouSureModal";
 
 const ProfilePage = () => {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   const authUser = useSelector((state) => state.authR.user);
   const { user, isLoading, error, isError } = useSelector(
     (state) => state.userR,
@@ -37,6 +41,17 @@ const ProfilePage = () => {
     }
   }, [dispatch, authUser]);
 
+  const handleConfirmDelete = async () => {
+    try {
+      await dispatch(deleteUser(user._id)).unwrap();
+      await dispatch(logOut());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setShowDeleteConfirm(false);
+    }
+  };
   const baseURL = import.meta.env.VITE_CLIENT_URL;
   const imagePath = `${baseURL}/uploads/avatar/${user?.avatar}`;
 
@@ -186,25 +201,39 @@ const ProfilePage = () => {
       </div>
       <div
         className="flex-center-between w-full  
-      gap-x-3 py-5 lg:justify-center "
+      gap-x-3 py-5 lg:justify-center text-sm lg:text-[16px]"
       >
         {" "}
         <button
           onClick={() => navigate("/profile/edit")}
-          className="px-4 py-2 rounded-md bg-(--link-color) 
-        text-white mt-4 dropdown-menu-box-shadow"
+          className="px-4 py-2 rounded-md cursor-pointer
+             text-white mt-4  gn-button-shadow 
+             font-bold"
         >
           Edit Profile
         </button>
         <button
           type="button"
-          className="px-4 py-2 rounded-md border bg-red-600
-          border-(--text-color)/20  font-bold text-white
-          dropdown-menu-box-shadow"
+          onClick={() => setShowDeleteConfirm(true)}
+          className="px-4 py-2 rounded-md cursor-pointer
+          dropdown-menu-box-shadow font-bold 
+          text-white delete-button-shadow"
         >
           Delete Account
         </button>
       </div>
+
+      {/* PopupModal for acocunt delete*/}
+      <AreYouSureModal
+        isOpen={showDeleteConfirm}
+        title="Delete Account"
+        message="Are you sure? you want to delete your account?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="danger"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </div>
   );
 };

@@ -15,6 +15,7 @@
   --card-heading-color: #516377;
   --card-body-bg: #f2f2f6;
   --light-text: #bec5cc;
+  --delete-button-color: #d94d4e;
 }
 
 /* Font family */
@@ -63,6 +64,31 @@ body {
 .dropdown-menu-box-shadow {
   box-shadow: 0 0.25rem 1rem rgba(147, 158, 170, 0.45);
 }
+
+.delete-button-shadow {
+  background-color: var(--delete-button-color);
+  box-shadow: 0 1px 10px 1px #ff5b5c;
+}
+
+.delete-button-shadow:hover {
+  background-color: #ff5b5c;
+}
+
+.gn-button-shadow {
+  background-color: var(--link-color);
+  box-shadow: 0 1px 10px 1px var(--link-color);
+}
+.gn-button-shadow:hover {
+  background-color: #245fce;
+}
+.cancel-button-shadow {
+  background-color: #6e6f70;
+  box-shadow: 0 1px 10px 1px #6e6f70;
+}
+.cancel-button-shadow:hover {
+  background-color: #4d4d4e;
+}
+
 @keyframes loadingSpinner {
   100% {
     transform: rotate(360deg);
