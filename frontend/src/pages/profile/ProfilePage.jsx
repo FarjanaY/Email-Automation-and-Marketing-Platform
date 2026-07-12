@@ -121,106 +121,117 @@ const ProfilePage = () => {
           </div>
         </div>
         <div
-          className="flex-col py-3 rounded-md bg-white
-       dropdown-menu-box-shadow w-full  lg:pt-10"
+          className="flex flex-col h-full py-3 rounded-md bg-white
+   dropdown-menu-box-shadow w-full 2xl:pt-10 "
         >
-          <div
+          {/* <div
             className="flex-center my-3 bg-(--body-bg) 
         text-(--link-color) font-bold text-sm  
         border-y border-(--text-color)/5 lg:mb-5"
           >
             Let's Get In Touch
-          </div>
-          <div className="xl:w-full xl:h-[80%]  xl:flex xl:items-center xl:justify-center ">
-            {/* ===========Contacts Section========= */}
+          </div> */}
+          <div className="w-full  flex flex-col flex-1">
             <div
-              className="p-5 pl-[5%] flex  flex-col gap-y-4 text-sm 
-            lg:text-[16px] lg:gap-y-6 xl:border-r xl:w-full "
+              className="2xl:flex 2xl:items-center 
+              2xl:justify-center "
             >
-              <p
-                className="uppercase text-md lg:text-center
-              lg:font-bold lg:text-lg xl:text-left"
+              {/* ===========About Section========= */}
+              <div
+                className="p-5 shrink-0 whitespace-nowrap
+                pl-[5%] flex flex-col gap-y-4 text-sm 
+                lg:text-[16px] lg:gap-y-6 2xl:border-r
+                2xl:flex-1 "
               >
-                About
-              </p>
-              <div className="flex gap-x-1.5 ">
-                <User {...iconSize} className="mt-0.5 lg:mt-1 lg:" />
-                <p className="font-semibold">Full Name:</p>
-                <span>{user?.name || ""}</span>
+                <p
+                  className="uppercase text-md lg:text-center
+                  lg:font-bold lg:text-lg "
+                >
+                  About
+                </p>
+                <div className="flex gap-x-1.5 ">
+                  <User {...iconSize} className="mt-0.5 lg:mt-1 lg:" />
+                  <p className="font-semibold">Full Name:</p>
+                  <span>{user?.name || ""}</span>
+                </div>
+                <div className="flex gap-x-1.5">
+                  <Check {...iconSize} className="mt-0.5 lg:mt-1 " />
+                  <p className="font-semibold">Status:</p>
+                  <span>{user?.status || ""}</span>
+                </div>
+                <div className="flex gap-x-1.5">
+                  <Star {...iconSize} className="mt-0.5 lg:mt-1" />
+                  <p className="font-semibold">Role:</p>
+                  <span className="capitalize"> {user?.role}</span>
+                </div>
+                <div className="flex gap-x-1.5">
+                  <Flag {...iconSize} className="mt-0.5 lg:mt-1" />
+                  <p className="font-semibold">Country:</p>
+                  <span>{user?.country || "Dhaka, Bangladesh"}</span>
+                </div>
+                <div className="flex gap-x-1.5">
+                  <BookText {...iconSize} className="mt-0.5 lg:mt-1" />
+                  <p className="font-semibold">Languages:</p>
+                  <span>{user?.language || "English"}</span>
+                </div>
               </div>
-              <div className="flex gap-x-1.5">
-                <Check {...iconSize} className="mt-0.5 lg:mt-1 " />
-                <p className="font-semibold">Status:</p>
-                <span>{user?.status || ""}</span>
-              </div>
-              <div className="flex gap-x-1.5">
-                <Star {...iconSize} className="mt-0.5 lg:mt-1" />
-                <p className="font-semibold">Role:</p>
-                <span className="capitalize"> {user?.role}</span>
-              </div>
-              <div className="flex gap-x-1.5">
-                <Flag {...iconSize} className="mt-0.5 lg:mt-1" />
-                <p className="font-semibold">Country:</p>
-                <span>{user?.country || "Dhaka, Bangladesh"}</span>
-              </div>
-              <div className="flex gap-x-1.5">
-                <BookText {...iconSize} className="mt-0.5 lg:mt-1" />
-                <p className="font-semibold">Languages:</p>
-                <span>{user?.language || "English"}</span>
+              {/* ===========Contacts Section========== */}
+              <div
+                className="p-5 pl-[5%] flex flex-col 
+                shrink whitespace-nowrap gap-y-4  
+                text-sm lg:text-[16px] lg:gap-y-6 
+                xl:h-full xl:flex-1 2xl:pl-[2%] "
+              >
+                <p
+                  className="uppercase text-md lg:text-center 
+                  lg:font-bold lg:text-lg"
+                >
+                  Contacts
+                </p>
+                <div className="flex gap-x-1.5">
+                  <Contact {...iconSize} className="mt-px lg:mt-0.75" />
+                  <p className="font-semibold">Contact:</p>
+                  <span>{user?.mobile || ""}</span>
+                </div>
+                <div className="flex gap-x-1.5">
+                  <MessagesSquare {...iconSize} className="my-px lg:mt-0.75" />
+                  <p className="font-semibold">Skype:</p>
+                  <span>{user?.skype || ""}</span>
+                </div>
+                <div className="flex gap-x-1.5">
+                  <Mail {...iconSize} className="mt-px lg:mt-1" />
+                  <p className="font-semibold">Email:</p>
+                  <span>{user?.email || ""}</span>
+                </div>
               </div>
             </div>
-            {/* ===========Contacts Section========== */}
+
+            {/* ========Buttons============ */}
             <div
-              className=" p-5 pl-[5%] flex  flex-col gap-y-4 text-sm 
-        lg:text-[16px]  lg:gap-y-6 lg:pl-[5%] xl:w-full "
+              className="flex-center-between w-full 
+              gap-x-3 py-5 px-6 lg:justify-center
+              text-sm lg:text-[16px] mt-auto 2xl:px-8"
             >
-              <p
-                className="uppercase text-md lg:text-center 
-          lg:font-bold lg:text-lg xl:text-left "
+              <button
+                onClick={() => navigate("/profile/edit")}
+                className="px-4 py-2 rounded-md cursor-pointer
+             text-white mt-4  gn-button-shadow 
+             font-bold"
               >
-                Contacts
-              </p>
-              <div className="flex gap-x-1.5">
-                <Contact {...iconSize} className="mt-px lg:mt-0.75" />
-                <p className="font-semibold">Contact:</p>
-                <span>{user?.mobile || ""}</span>
-              </div>
-              <div className="flex gap-x-1.5">
-                <MessagesSquare {...iconSize} className="my-px lg:mt-0.75" />
-                <p className="font-semibold">Skype:</p>
-                <span>{user?.skype || ""}</span>
-              </div>
-              <div className="flex gap-x-1.5">
-                <Mail {...iconSize} className="mt-px lg:mt-1" />
-                <p className="font-semibold">Email:</p>
-                <span>{user?.email || ""}</span>
-              </div>
+                Edit Profile
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirm(true)}
+                className="px-4 py-2 rounded-md cursor-pointer
+          dropdown-menu-box-shadow font-bold 
+          text-white delete-button-shadow"
+              >
+                Delete Account
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="flex-center-between w-full  
-      gap-x-3 py-5 lg:justify-center text-sm lg:text-[16px]"
-      >
-        {" "}
-        <button
-          onClick={() => navigate("/profile/edit")}
-          className="px-4 py-2 rounded-md cursor-pointer
-             text-white mt-4  gn-button-shadow 
-             font-bold"
-        >
-          Edit Profile
-        </button>
-        <button
-          type="button"
-          onClick={() => setShowDeleteConfirm(true)}
-          className="px-4 py-2 rounded-md cursor-pointer
-          dropdown-menu-box-shadow font-bold 
-          text-white delete-button-shadow"
-        >
-          Delete Account
-        </button>
       </div>
 
       {/* PopupModal for acocunt delete*/}

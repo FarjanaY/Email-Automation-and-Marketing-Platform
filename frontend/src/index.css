@@ -89,6 +89,19 @@ body {
   background-color: #4d4d4e;
 }
 
+.input-box-focus {
+
+  transition:
+    padding-left 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+.input-box-focus:focus {
+  border-color: #245fce;
+  padding-left: 0.8rem;
+  box-shadow: 0 0.05rem 0.25rem rgba(147, 158, 170, 0.45);
+}
+
 @keyframes loadingSpinner {
   100% {
     transform: rotate(360deg);

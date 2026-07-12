@@ -3,18 +3,25 @@ import React from "react";
 const FileInput = ({ fieldlabel, name, onChange, imageFileName, error }) => {
   return (
     <div>
-      <div className="flex place-content-between py-2 px-2 ">
-        <label htmlFor={name} className="font-bold w-[30%] cursor-pointer">
+      <div className="flex flex-col py-2 px-2 ">
+        <label
+          htmlFor={name}
+          className="px-0.5 uppercase w-full text-[13px] py-1 cursor-pointer"
+        >
           {fieldlabel} :
         </label>
-        <label className="w-[60%] h-7 shadow-[0_-0.5px_5px_rgba(0,0,0,0.1)] mx-2 rounded-md overflow-hidden focus:outline-none ">
+        <label
+          className="w-full max-w-sm border rounded-sm h-9 px-3 
+                        bg-white border-gray-300 outline-none
+                         input-box-focus flex items-center"
+        >
           <input
             type="file"
             name={name}
             onChange={onChange}
-            className="hidden"
+            className="hidden "
           />
-          <span className="text-md px-2 text-slate-600 opacity-75 ">
+          <span className="text-md text-slate-600 opacity-75 ">
             {/* {imageFileName || "Choose your file"} */}
             {imageFileName?.trim() ? imageFileName : "Enter Your Picture"}
           </span>

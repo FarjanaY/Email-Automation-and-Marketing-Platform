@@ -9,6 +9,8 @@ import {
   getAllUsersAPI,
   updateUserAPI,
   deleteUserAPI,
+  banUserAPI,
+  unbanUserAPI,
 } from "../../dataFromApiCall/userDataFromAPI.jsx";
 import api from "../../app/api.jsx";
 import {
@@ -105,9 +107,10 @@ export const deleteUser = createAsyncThunk(
       showSuccessToast(res.msg);
       return res;
     } catch (err) {
-      console.log("Update user ERR=========");
+      console.log("Delete user ERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
-      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      const errorMsg =
+        err.response?.data?.errors || "Couldn't delete user account.";
       console.log(errorMsg);
       showErrorToast(errorMsg);
       return thunkAPI.rejectWithValue(errorMsg);
@@ -120,12 +123,13 @@ export const banUser = createAsyncThunk(
   "user/banUser",
   async (id, thunkAPI) => {
     try {
-      const res = await updateUserAPI(id);
+      const res = await banUserAPI(id);
       showSuccessToast(res.msg);
+      return res;
     } catch (err) {
-      console.log("Update user ERR=========");
+      console.log("Banned user ERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
-      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      const errorMsg = err.response?.data?.errors || "Couldn't ban user.";
       console.log(errorMsg);
       showErrorToast(errorMsg);
       return thunkAPI.rejectWithValue(errorMsg);
@@ -138,12 +142,13 @@ export const unbanUser = createAsyncThunk(
   "user/unbanUser",
   async (id, thunkAPI) => {
     try {
-      const res = await updateUserAPI(id);
+      const res = await unbanUserAPI(id);
       showSuccessToast(res.msg);
+      return res;
     } catch (err) {
-      console.log("Update user ERR=========");
+      console.log("Unbanned user ERR=========");
       // Backend error format: err.response?.data?.errors?.common?.msg
-      const errorMsg = err.response?.data?.errors || "No Such Data Found.";
+      const errorMsg = err.response?.data?.errors || "Couldn't unban user.";
       console.log(errorMsg);
       showErrorToast(errorMsg);
       return thunkAPI.rejectWithValue(errorMsg);
@@ -312,6 +317,7 @@ const userSlice = createSlice({
       // Ban User
       .addCase(banUser.pending, (state, action) => {
         state.isSuccess = false;
+        state.isLoading = true;
       })
       .addCase(banUser.fulfilled, (state, action) => {
         const banUpdated = action.payload.payload;
@@ -319,15 +325,26 @@ const userSlice = createSlice({
         state.users = state.users.map((user) =>
           user._id === banUpdated._id ? banUpdated : user,
         );
+
+        // keep "my profile" in sync if I ever ban myself via this path
+        if (state.user?.id === banUpdated._id) {
+          state.user = banUpdated;
+        }
         state.isSuccess = true;
+        state.isLoading = false;
       })
       .addCase(banUser.rejected, (state, action) => {
-        state.isSuccess = true;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.isError = true;
+        state.error =
+          action.payload || action.error?.message || "Couldn't ban user.";
       })
 
       // Unban User
       .addCase(unbanUser.pending, (state, action) => {
         state.isSuccess = false;
+        state.isLoading = true;
       })
       .addCase(unbanUser.fulfilled, (state, action) => {
         const unbanUpdated = action.payload.payload;
@@ -335,10 +352,18 @@ const userSlice = createSlice({
         state.users = state.users.map((user) =>
           user._id === unbanUpdated._id ? unbanUpdated : user,
         );
+        if (state.user?._id === unbanUpdated._id) {
+          state.user = unbanUpdated;
+        }
         state.isSuccess = true;
+        state.isLoading = false;
       })
       .addCase(unbanUser.rejected, (state, action) => {
         state.isSuccess = false;
+        state.isLoading = false;
+        state.isError = true;
+        state.error =
+          action.payload || action.error?.message || "Couldn't unban user.";
       });
   },
 });

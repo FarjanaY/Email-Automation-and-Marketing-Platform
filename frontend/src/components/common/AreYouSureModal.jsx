@@ -15,8 +15,7 @@ const AreYouSureModal = ({
 }) => {
   if (!isOpen) return null;
 
-  const iconColor =
-    variant === "danger" ? "text-red-600" : "text-(--link-color)";
+  const iconColor = variant === "danger" ? "text-red-600" : "text-white";
 
   const confirmButtonClass =
     variant === "danger"
@@ -40,6 +39,14 @@ const AreYouSureModal = ({
       rounded-2xl bg-white p-6 text-center
       dropdown-menu-box-shadow"
       >
+        <button
+          type="button"
+          onClick={onCancel}
+          aria-label="Close"
+          className="absolute top-3 right-3 text-(--text-color) hover:text-(--card-heading-color) cursor-pointer text-lg leading-none"
+        >
+          ×
+        </button>
         <div
           className="flex items-center 
         justify-center gap-2"
@@ -87,8 +94,8 @@ const AreYouSureModal = ({
             type="button"
             onClick={onCancel}
             className="px-4 py-2 rounded-md border 
-            border-(--text-color)/20 bg-white 
-            cancel-button-shadow"
+            border-(--text-color)/20 
+            cancel-button-shadow text-white"
           >
             {cancelText}
           </button>
@@ -96,7 +103,7 @@ const AreYouSureModal = ({
             type="button"
             onClick={onConfirm}
             className={`px-4 py-2 rounded-md 
-            font-bold dropdown-menu-box-shadow
+            font-bold dropdown-menu-box-shadow 
             ${confirmButtonClass}`}
           >
             {confirmText}

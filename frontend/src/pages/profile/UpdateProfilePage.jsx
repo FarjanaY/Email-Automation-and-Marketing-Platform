@@ -202,153 +202,201 @@ const UpdateProfilePage = () => {
             </div>
           </div>
           <div
-            className="flex-col py-3 rounded-md bg-white
+            className="flex-col py-5 rounded-md bg-white
        dropdown-menu-box-shadow w-full  "
           >
-            <div
+            {/* <div
               className="flex-center my-3 bg-(--body-bg) 
         text-(--link-color) font-bold text-sm  
         border-y border-(--text-color)/5 lg:my-5 "
             >
               Let's Get In Touch
-            </div>
-            <div className="xl:w-full xl:h-[80%]   ">
-              {/* ===========Contacts Section========= */}
+            </div> */}
+            <div className="w-full  flex flex-col flex-1">
               <div
-                className="p-5 pl-[5%] flex  flex-col gap-y-4 text-sm 
-            lg:text-[16px] lg:gap-y-6  xl:w-full "
+                className="2xl:items-center 
+              2xl:justify-center "
               >
-                <p
-                  className="uppercase text-md lg:text-center
-              lg:font-bold lg:text-lg xl:text-left"
+                {/* ===========About Section========= */}
+                <div
+                  className="p-5 shrink-0 whitespace-nowrap
+                pl-[5%] flex flex-col gap-y-4 text-sm 
+                lg:text-[16px] lg:gap-y-6 2xl:flex-1 "
                 >
-                  About
-                </p>
-                <div className="flex gap-x-1.5 ">
-                  <User {...iconSize} className="mt-0.5 lg:mt-1 lg:" />
-                  <p className="font-semibold">Full Name:</p>
-                  <input
-                    type="text"
-                    name="name"
-                    value={userData?.name}
-                    onChange={onHandleChange}
-                    className="border rounded px-2 border-none dropdown-menu-box-shadow outline-none focus:border-none"
-                  />
+                  <p
+                    className="uppercase text-md lg:text-center
+                    lg:font-bold "
+                  >
+                    About
+                  </p>
+                  <div className="flex gap-x-1.5 items-center">
+                    <User {...iconSize} className="mb-0.5 lg:mt-1 lg:" />
+                    <div className="flex w-full items-center">
+                      <p className="font-semibold sm:w-[25%] pr-2">
+                        Full Name:
+                      </p>
+                      <input
+                        type="text"
+                        name="name"
+                        value={userData?.name}
+                        onChange={onHandleChange}
+                        className=" border rounded-sm h-9 input-box-focus 
+                        bg-white border-gray-300 outline-none px-3
+                         w-full max-w-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-x-1.5  items-center">
+                    <Check {...iconSize} className="mb-0.5 lg:mt-1 " />
+                    <div className="flex w-full  items-center">
+                      <p className="font-semibold sm:w-[25%] pr-2">Status:</p>
+                      <input
+                        type="text"
+                        name="status"
+                        value={userData?.status || ""}
+                        onChange={onHandleChange}
+                        className="w-full max-w-sm border rounded-sm h-9 px-3 
+                        bg-white border-gray-300 outline-none
+                         input-box-focus"
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="flex gap-x-1.5">
+                    <Star {...iconSize} className="mt-0.5 lg:mt-1" />
+                    <div className="flex w-full">
+                      <p className="font-semibold w-[25%]">Role:</p>
+                      <span className="capitalize"> {user?.role}</span>
+                    </div>
+                  </div> */}
+                  <div className="flex gap-x-1.5  items-center">
+                    <Flag {...iconSize} className="mb-0.5 lg:mt-1" />
+                    <div className="flex w-full  items-center">
+                      <p className="font-semibold sm:w-[25%] pr-2">Country:</p>
+                      <input
+                        type="text"
+                        name="country"
+                        value={userData?.country || "Dhaka, Bangladesh"}
+                        onChange={onHandleChange}
+                        className="w-full max-w-sm border rounded-sm h-9 px-3 
+                        bg-white border-gray-300 outline-none
+                         input-box-focus"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-x-1.5  items-center">
+                    <BookText {...iconSize} className="mb-0.5 lg:mt-1" />
+                    <div className="flex w-full  items-center">
+                      <p className="font-semibold sm:w-[25%] pr-2">
+                        Languages:
+                      </p>
+                      <input
+                        type="text"
+                        name="language"
+                        value={userData?.language || "English"}
+                        onChange={onHandleChange}
+                        className="w-full max-w-sm border rounded-sm h-9 px-3 
+                        bg-white border-gray-300 outline-none
+                         input-box-focus"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="flex gap-x-1.5">
-                  <Check {...iconSize} className="mt-0.5 lg:mt-1 " />
-                  <p className="font-semibold">Status:</p>
-                  <input
-                    type="text"
-                    name="status"
-                    value={userData?.status || ""}
-                    onChange={onHandleChange}
-                    className="border rounded px-2 border-none dropdown-menu-box-shadow outline-none focus:border-none"
-                  />
-                </div>
-                <div className="flex gap-x-1.5">
-                  <Star {...iconSize} className="mt-0.5 lg:mt-1" />
-                  <p className="font-semibold">Role:</p>
-                  <span className="capitalize"> {user?.role}</span>
-                </div>
-                <div className="flex gap-x-1.5">
-                  <Flag {...iconSize} className="mt-0.5 lg:mt-1" />
-                  <p className="font-semibold">Country:</p>
-                  <input
-                    type="text"
-                    name="country"
-                    value={userData?.country || "Dhaka, Bangladesh"}
-                    onChange={onHandleChange}
-                    className="border rounded px-2 border-none dropdown-menu-box-shadow outline-none focus:border-none"
-                  />
-                </div>
-                <div className="flex gap-x-1.5">
-                  <BookText {...iconSize} className="mt-0.5 lg:mt-1" />
-                  <p className="font-semibold">Languages:</p>
-                  <input
-                    type="text"
-                    name="language"
-                    value={userData?.language || "English"}
-                    onChange={onHandleChange}
-                    className="border rounded px-2 border-none dropdown-menu-box-shadow outline-none focus:border-none"
-                  />
+                {/* ===========Contacts Section========== */}
+                <div
+                  className="p-5 pl-[5%] flex flex-col 
+                shrink whitespace-nowrap gap-y-4  
+                text-sm lg:text-[16px] lg:gap-y-6 
+                xl:h-full xl:flex-1"
+                >
+                  <p
+                    className="uppercase text-md lg:text-center 
+                  lg:font-bold "
+                  >
+                    Contacts
+                  </p>
+                  <div className="flex gap-x-1.5  items-center">
+                    <Contact {...iconSize} className="mb-px lg:mt-0.75" />
+                    <div className="flex w-full  items-center">
+                      <p className="font-semibold sm:w-[25%] pr-2">Contact:</p>
+                      <input
+                        type="text"
+                        name="mobile"
+                        value={userData?.mobile}
+                        onChange={onHandleChange}
+                        className="w-full max-w-sm border rounded-sm h-9 px-3 
+                        bg-white border-gray-300 outline-none
+                         input-box-focus"
+                      />
+                    </div>
+                  </div>
+                  {getFieldError("mobile") && (
+                    <p className="text-red-700 text-sm">
+                      {getFieldError("mobile")}
+                    </p>
+                  )}
+                  <div className="flex gap-x-1.5  items-center">
+                    <MessagesSquare
+                      {...iconSize}
+                      className="my-px lg:mb-0.75 "
+                    />
+                    <div className="flex w-full  items-center">
+                      <p className="font-semibold sm:w-[25%] pr-2">Skype:</p>
+                      <input
+                        type="text"
+                        name="skype"
+                        value={userData?.skype || ""}
+                        onChange={onHandleChange}
+                        className="w-full max-w-sm border rounded-sm h-9 px-3 
+                        bg-white border-gray-300 outline-none
+                         input-box-focus"
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="flex gap-x-1.5">
+                    <Mail {...iconSize} className="mt-px lg:mt-1" />
+                    <div className="flex w-full">
+                      <p className="font-semibold sm:w-[25%] pr-2">Email:</p>
+                      <span>{userData?.email || ""}</span>
+                    </div>
+                  </div> */}
                 </div>
               </div>
-              {/* ===========Contacts Section========== */}
+              {/* ======Buttons======= */}
               <div
-                className=" p-5 pl-[5%] flex  flex-col gap-y-4 text-sm 
-        lg:text-[16px]  lg:gap-y-6 lg:pl-[5%] xl:w-full "
+                className="flex-center-between w-full 
+              gap-x-3 py-5 px-6 lg:justify-center
+              text-sm lg:text-[16px] mt-auto 2xl:px-8"
               >
-                <p
-                  className="uppercase text-md lg:text-center 
-          lg:font-bold lg:text-lg xl:text-left "
+                <button
+                  type="button"
+                  onClick={goToProfilePage}
+                  className="px-4 py-2 rounded-md cursor-pointer
+                  cancel-button-shadow text-white mt-4 
+                  font-bold"
                 >
-                  Contacts
-                </p>
-                <div className="flex gap-x-1.5">
-                  <Contact {...iconSize} className="mt-px lg:mt-0.75" />
-                  <p className="font-semibold">Contact:</p>
-                  <input
-                    type="text"
-                    name="mobile"
-                    value={userData?.mobile}
-                    onChange={onHandleChange}
-                    className="border rounded px-2 border-none dropdown-menu-box-shadow outline-none focus:border-none"
-                  />
-                </div>
-                {getFieldError("mobile") && (
-                  <p className="text-red-700 text-sm">
-                    {getFieldError("mobile")}
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="px-4 py-2 rounded-md cursor-pointer
+                text-white mt-4 gn-button-shadow font-bold"
+                >
+                  {isLoading ? "Saving..." : "Update"}
+                </button>
+              </div>
+              {!isLoading &&
+                isError &&
+                error &&
+                errorLength !== 0 &&
+                commonError && (
+                  <p className="text-red-700 text-sm px-2 text-center py-2">
+                    {commonError?.msg}
                   </p>
                 )}
-                <div className="flex gap-x-1.5">
-                  <MessagesSquare {...iconSize} className="my-px lg:mt-0.75" />
-                  <p className="font-semibold">Skype:</p>
-                  <input
-                    type="text"
-                    name="skype"
-                    value={userData?.skype || ""}
-                    onChange={onHandleChange}
-                    className="border rounded px-2 border-none dropdown-menu-box-shadow outline-none focus:border-none"
-                  />
-                </div>
-                <div className="flex gap-x-1.5">
-                  <Mail {...iconSize} className="mt-px lg:mt-1" />
-                  <p className="font-semibold">Email:</p>
-                  <span>{userData?.email || ""}</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-        <div
-          className="flex-center-between w-full  
-      gap-x-3 py-5 lg:justify-center text-sm lg:text-[16px]"
-        >
-          <button
-            type="button"
-            onClick={goToProfilePage}
-            className="px-4 py-2 rounded-md cursor-pointer
-            cancel-button-shadow text-white mt-4 
-             font-bold"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="px-4 py-2 rounded-md cursor-pointer
-             text-white mt-4 
-            gn-button-shadow font-bold"
-          >
-            {isLoading ? "Saving..." : "Save Changes"}
-          </button>
-        </div>
-        {!isLoading && isError && error && errorLength !== 0 && commonError && (
-          <p className="text-red-700 text-sm px-2 text-center py-2">
-            {commonError?.msg}
-          </p>
-        )}
       </form>
     </div>
   );

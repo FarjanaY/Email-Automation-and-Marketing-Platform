@@ -472,6 +472,91 @@ const deleteOneUser = async (req, res, next) => {
   }
 };
 
+/*=======Ban a user (admin only)=====
+method: PUT , 
+Route : /api/users/ban-user/:id
+==========================*/
+const banUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const options = { password: 0 };
+
+    const oneUser = await findDataById(User, id, "", "", options);
+    if (!oneUser) {
+      return next(createError(404, "No such user is available."));
+    }
+
+    if (oneUser.isAdmin) {
+      return next(createError(403, "Admin accounts cannot be banned."));
+    }
+
+    if (oneUser.isBanned) {
+      return next(createError(409, "User is already banned."));
+    }
+
+    const bannedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: { isBanned: true } },
+      { new: true, runValidators: true, context: "query" },
+    ).select(options);
+
+    if (!bannedUser) {
+      return next(createError(404, "User couldn't be banned. Try again."));
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "User has been banned successfully.",
+      payload: bannedUser,
+    });
+  } catch (err) {
+    if (err instanceof mongoose.Error) {
+      return next(createError(400, "Database Error!."));
+    }
+    return next(err);
+  }
+};
+
+/*=======UnBan a user (admin only)=====
+method: PUT , 
+Route : /api/users/unban-user/:id
+==========================*/
+const unbanUser = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const options = { password: 0 };
+
+    const oneUser = await findDataById(User, id, "", "", options);
+    if (!oneUser) {
+      return next(createError(404, "No such user is available."));
+    }
+
+    if (!oneUser.isBanned) {
+      return next(createError(409, "User is not banned."));
+    }
+
+    const unbannedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: { isBanned: false } },
+      { new: true, runValidators: true, context: "query" },
+    ).select(options);
+
+    if (!unbannedUser) {
+      return next(createError(404, "User couldn't be unbanned. Try again."));
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "User has been unbanned successfully.",
+      payload: unbannedUser,
+    });
+  } catch (err) {
+    if (err instanceof mongoose.Error) {
+      return next(createError(400, "Database Error!."));
+    }
+    return next(err);
+  }
+};
 //routes create for update pass
 // email, new paass, old pass receive from req.body
 
@@ -483,4 +568,6 @@ module.exports = {
   updateUser,
   updatePassword,
   deleteOneUser,
+  banUser,
+  unbanUser,
 };

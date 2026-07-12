@@ -11,6 +11,8 @@ const {
   activateUserAccount,
   updatePassword,
   forgotPassword,
+  banUser,
+  unbanUser,
 } = require("../controller/usersController");
 const { profileImageFolder } = require("../helper/deleteImage");
 const {
@@ -80,6 +82,29 @@ usersRouter.delete(
   isAccOwner,
   profileImageFolder,
   deleteOneUser,
+);
+usersRouter.put(
+  "/ban-user/:id",
+  refreshTokeGenerate,
+  checkLogin,
+  checkedRole("admin"),
+  banUser,
+);
+
+usersRouter.put(
+  "/ban-user/:id",
+  refreshTokeGenerate,
+  checkLogin,
+  checkedRole("admin"),
+  banUser,
+);
+
+usersRouter.put(
+  "/unban-user/:id",
+  refreshTokeGenerate,
+  checkLogin,
+  checkedRole("admin"),
+  unbanUser,
 );
 
 module.exports = usersRouter;

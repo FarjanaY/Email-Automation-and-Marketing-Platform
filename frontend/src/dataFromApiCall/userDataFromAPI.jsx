@@ -54,10 +54,21 @@ export const deleteUserAPI = async (id) => {
 };
 
 //=========Banned A User by Admin API=======
-export const banUserAPI = async (id) => {};
+export const banUserAPI = async (id) => {
+  const res = await api.put(`/api/users/ban-user/${id}`);
 
-//=========Banned A User by Admin API =======
-export const unbanUserAPI = async (id) => {};
+  console.log("Ban users API=======");
+  console.log(res.data);
 
-//=========Change role  API =======
-export const changeRoleAPI = async (id) => {};
+  return res.data;
+};
+
+//=========UnBanned A User by Admin API =======
+export const unbanUserAPI = async (id) => {
+  const res = await api.put(`/api/users/unban-user/${id}`);
+
+  console.log("Unban users API=======");
+  console.log(res.data);
+
+  return res.data;
+};

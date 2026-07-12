@@ -6,7 +6,9 @@ import { verifyUserRegistration } from "../../features/auth/authSlice";
 import Input from "../../components/common/Input";
 import FileInput from "../../components/common/FileInput";
 
+
 //Internal Imports
+import logo from "../../assets/emailLogo-nobg.png";
 
 const RegistrationPage = () => {
   //Redux data from Auth Reducer
@@ -84,14 +86,44 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className="px-2.5">
-      <div className="text-center py-10 text-2xl font-bold">Registration</div>
+    <div className="px-2.5 flex-center flex-col py-4">
       <form
         action=""
         onSubmit={formSubmitHandler}
         encType="multipart/form-data"
-        className="flex flex-col justify-between"
+        className="flex flex-col justify-center bg-white 
+        max-w-7xl p-4 rounded-md dropdown-menu-box-shadow
+        w-fit"
       >
+        <div>
+          <div
+            className=" flex-center w-full px-2 pt-4 pb-10"
+          >
+            <img
+              src={logo}
+              alt="Logo"
+              className="mr-1 -mt-1.5 size-10 rounded-full 
+                  ring-0 ring-(--link-color) "
+            />
+            <span
+              style={{ fontSize: "var(--menu-heading)" }}
+              className=" text-[22px]! w-fit font-bold "
+            >
+              Email Platform
+            </span>
+          </div>
+          <div className="text-center text-2xl font-bold ">
+            <span></span>
+            <p></p>
+          </div>
+          <div>
+            <p className="text-xl font-bold text-(--card-heading-color)">
+              Adventure starts here 🚀
+            </p>
+            <span>Make your app management easy and fun!</span>
+          </div>
+        </div>
+
         <Input
           fieldlabel="Name"
           type="text"
