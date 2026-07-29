@@ -6,9 +6,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
-:root {
+/* :root {
   --secondary-color: #182535;
-  --link-color: #5a8dee;
+  --nav-link-color: #5a8dee;
   --menu-heading: 14px;
   --text-color: #677788;
   --body-bg: #f3f4f4;
@@ -16,7 +16,50 @@
   --card-body-bg: #f2f2f6;
   --light-text: #bec5cc;
   --delete-button-color: #d94d4e;
+  --invalid-color: #ff5b5c;
+} */
+
+/* :root {
+  --secondary-color: #1e1b3a;
+  --link-color: #6366f1;
+  --text-color: #64748b;
+  --body-bg: #f5f5fa;
+  --card-heading-color: #312e81;
+  --card-body-bg: #eef0fc;
+  --light-text: #9ca3af;
+  --delete-button-color: #ef4444;
+  --invalid-color: #f87171;
+} */
+
+:root {
+  --secondary-color: #182535;
+  /* --nav-link-color: #5a8dee; */
+  --nav-link-color: #5a5dfe;
+  --link-color: #db5825;
+  --menu-heading: 14px;
+  --text-color: #677788;
+  --body-bg: #fffeff;
+  --card-heading-color: #516377;
+  /* --card-body-bg: #f1ebe0; */
+  --card-body-bg: #faf7f9;
+  --light-text: #b3b9c0;
+  --delete-button-color: #d94d4e;
+  --invalid-color: #ff5b5c;
+  --border-light: #d9dfe6;
+  --other-blue: #5a5dfe;
 }
+
+/* :root {
+  --secondary-color: #0f2419; 
+  --link-color: #16a34a; 
+  --text-color: #52605c; 
+  --body-bg: #f4f8f5;
+  --card-heading-color: #14532d; 
+  --card-body-bg: #eaf3ec; 
+  --light-text: #94a39a; 
+  --delete-button-color: #dc2626; 
+  --invalid-color: #ef4444; 
+} */
 
 /* Font family */
 @theme {
@@ -48,7 +91,19 @@ body {
 }
 
 .flex-top {
-  @apply flex flex-col items-center justify-items-start;
+  @apply flex flex-col items-center justify-items-start bg-orange-600;
+}
+
+@utility dropdown-menu-box-shadow {
+  box-shadow: 0 0.25rem 1rem rgba(147, 158, 170, 0.45);
+}
+
+@utility orange-button {
+  @apply  bg-(--link-color)    
+          shadow-md/40!
+          shadow-orange-600!       
+          text-white  
+          hover:bg-orange-700/90;
 }
 
 .bg-menu-theme {
@@ -61,10 +116,6 @@ body {
   stroke-width: 2.2;
 }
 
-.dropdown-menu-box-shadow {
-  box-shadow: 0 0.25rem 1rem rgba(147, 158, 170, 0.45);
-}
-
 .delete-button-shadow {
   background-color: var(--delete-button-color);
   box-shadow: 0 1px 10px 1px #ff5b5c;
@@ -75,11 +126,11 @@ body {
 }
 
 .gn-button-shadow {
-  background-color: var(--link-color);
-  box-shadow: 0 1px 10px 1px var(--link-color);
+  background-color: var(--nav-link-color);
+  box-shadow: 0 1px 10px 1px var(--nav-link-color);
 }
 .gn-button-shadow:hover {
-  background-color: #245fce;
+  background-color: #4042cf;
 }
 .cancel-button-shadow {
   background-color: #6e6f70;
@@ -90,7 +141,6 @@ body {
 }
 
 .input-box-focus {
-
   transition:
     padding-left 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;

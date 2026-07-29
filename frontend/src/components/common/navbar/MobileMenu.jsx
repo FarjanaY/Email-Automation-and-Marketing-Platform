@@ -20,7 +20,9 @@ const MobileMenu = ({ navMainMenus }) => {
   //const [expandedMenu, setExpandedMenu] = useState(null);
   const [expandedMenus, setExpandedMenus] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
+
   const { sidebarCollapsed } = useSelector((state) => state.uiR);
+  const isAuthenticated = useSelector((state) => state.authR.isAuthenticated);
 
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
@@ -64,131 +66,137 @@ const MobileMenu = ({ navMainMenus }) => {
       {/* --------------Top Navbar-------------- */}
       <div
         className="fixed  left-0 right-0 top-0 w-full 
-       z-999 bg-white/20 backdrop-blur-sm h-16 "
+       z-999 bg-white/20 backdrop-blur-sm h-auto sm:h-16 "
       >
-        <div className="p-5 flex-center-between ">
-          <button
-            onClick={() => {
-              if (isDesktop) {
-                dispatch(toggleSidebar()); // Desktop
-              } else {
-                isMenuOpen(); // Mobile
-              }
-            }}
-            className="relative cursor-pointer text-(--text-color) "
-          >
-            <Menu className="size-5" strokeWidth={3} />
-            {/* {isOpen ? <X className="size-5" /> : <Menu />} */}
-          </button>
+        <div
+          className="p-5 flex items-start 
+          justify-left relative "
+        >
+          {isAuthenticated && (
+            <button
+              onClick={() => {
+                if (isDesktop) {
+                  dispatch(toggleSidebar()); // Desktop
+                } else {
+                  isMenuOpen(); // Mobile
+                }
+              }}
+              className="relative cursor-pointer text-(--text-color) "
+            >
+              <Menu className="size-5" strokeWidth={3} />
+              {/* {isOpen ? <X className="size-5" /> : <Menu />} */}
+            </button>
+          )}
           <TopNavbar />
         </div>
       </div>
-      <nav className="h-full w-full max-w-7xl mx-auto flex-top ">
-        <motion.div
-          className={`bg-menu-theme fixed 
+      {isAuthenticated && (
+        <nav className="h-full w-full max-w-7xl mx-auto flex-top ">
+          <motion.div
+            className={`bg-menu-theme fixed 
            left-0 right-0 top-0 overflow-y-auto hide-scrollbar 
            h-full pb-20 text-sm gap-y-3 z-999 
            transition-all duration-200 ease-linear 
             ${sidebarCollapsed ? "lg:w-0" : "lg:w-68"} 
            w-68`}
-          initial={{ x: "-100%" }}
-          animate={{
-            x: isDesktop ? 0 : isOpen ? "0%" : "-100%",
-          }}
-        >
-          <div className="sticky top-0 bg-(--secondary-color) z-50 py-0.5 ">
-            <div
-              className="my-6 flex-center-between 
-            cursor-pointer w-full px-2 gap-y-2"
-            >
+            initial={{ x: "-100%" }}
+            animate={{
+              x: isDesktop ? 0 : isOpen ? "0%" : "-100%",
+            }}
+          >
+            <div className="sticky top-0 bg-(--secondary-color) z-50 py-0.5 ">
               <div
-                onClick={() => {
-                  navigate("/");
-                  setIsOpen(!isOpen);
-                }}
-                className=" flex items-center justify-items-start w-full 
+                className="my-6 flex-center-between 
+            cursor-pointer w-full px-2 gap-y-2"
+              >
+                <div
+                  onClick={() => {
+                    navigate("/");
+                    setIsOpen(!isOpen);
+                  }}
+                  className=" flex items-center justify-items-start w-full 
             px-2"
-              >
-                <img
-                  src={logo}
-                  alt="Logo"
-                  className="mr-1 -mt-1.5 size-10 rounded-full 
-                  ring-0 ring-(--link-color) "
-                />
-                <NavLink
-                  // to={"/"}
-                  style={{ fontSize: "var(--menu-heading)" }}
-                  className="text-white text-[22px]! w-fit font-bold"
                 >
-                  Email Platform
-                </NavLink>
-              </div>
+                  <img
+                    src={logo}
+                    alt="Logo"
+                    className="mr-1 -mt-1.5 size-10 rounded-full 
+                  ring-0 ring-(--link-color) "
+                  />
+                  <NavLink
+                    // to={"/"}
+                    style={{ fontSize: "var(--menu-heading)" }}
+                    className="text-white text-[22px]! w-fit font-bold"
+                  >
+                    Email Platform
+                  </NavLink>
+                </div>
 
-              <button
-                onClick={() => {
-                  if (isDesktop) {
-                    dispatch(toggleSidebar()); // Desktop
-                  } else {
-                    isMenuOpen(); // Mobile
-                  }
-                }}
-                className=" z-999 relative text-(--link-color) 
+                <button
+                  onClick={() => {
+                    if (isDesktop) {
+                      dispatch(toggleSidebar()); // Desktop
+                    } else {
+                      isMenuOpen(); // Mobile
+                    }
+                  }}
+                  className=" z-999 relative text-(--nav-link-color) 
                 cursor-pointer  font-extrabold p-2 "
-              >
-                <X className="size-4.5" strokeWidth={3} />
-              </button>
+                >
+                  <X className="size-4.5" strokeWidth={3} />
+                </button>
+              </div>
             </div>
-          </div>
-          <ul className="">
-            {navMainMenus?.map(({ name, mainMenu }) => {
-              const navMenus = mainMenu?.length > 0;
-              return (
-                <li key={uuidv4()} className=" ">
-                  {name && (
-                    <span
-                      className="text-xs flex text-white/30 
+            <ul className="">
+              {navMainMenus?.map(({ name, mainMenu }) => {
+                const navMenus = mainMenu?.length > 0;
+                return (
+                  <li key={uuidv4()} className=" ">
+                    {name && (
+                      <span
+                        className="text-xs flex text-white/30 
                     uppercase px-3 mx-3  pb-6"
-                    >
-                      {name}
-                    </span>
-                  )}
-                  {navMenus && (
-                    <ul className="mb-8">
-                      {mainMenu?.map(
-                        ({ name, subMenu, path, icon: Icon, action }, i) => {
-                          const hasSubMenu = subMenu?.length > 0;
-                          // const clicked = isClicked === name;
-                          //======for single expand menu other will be auto close
-                          //const clicked = expandedMenu === name;
-                          const clicked = expandedMenus.includes(name);
-                          const isMenuActive = activeMenu === name;
+                      >
+                        {name}
+                      </span>
+                    )}
+                    {navMenus && (
+                      <ul className="mb-8">
+                        {mainMenu?.map(
+                          ({ name, subMenu, path, icon: Icon, action }, i) => {
+                            const hasSubMenu = subMenu?.length > 0;
+                            // const clicked = isClicked === name;
+                            //======for single expand menu other will be auto close
+                            //const clicked = expandedMenu === name;
+                            const clicked = expandedMenus.includes(name);
+                            const isMenuActive = activeMenu === name;
 
-                          return (
-                            <li key={uuidv4()} className="">
-                              <NavLink
-                                to={path}
-                                onClick={() => {
-                                  if (action === "logout") {
-                                    dispatch(logOut());
-                                    return;
-                                  }
-                                  if (hasSubMenu) {
-                                    // setIsClicked(clicked ? null : name);
-                                    //======for single expand menu other will be auto close
-                                    //setExpandedMenu(clicked ? null : name);
-                                    toggleMenu(name);
-                                  } else {
-                                    setActiveMenu(name);
-                                    setActiveSubMenu(null);
-                                    //======for single expand menu other will be auto close
-                                    //setExpandedMenu(null);
-                                    //only for mobile closing the menu while clicking the menu without submenu
-                                    setIsOpen(false);
-                                    setIsClicked(null);
-                                  }
-                                  navigate(path);
-                                }}
-                                className={` flex align-center justify-start rounded-sm
+                            return (
+                              <li key={uuidv4()} className="">
+                                <NavLink
+                                  to={path}
+                                  onClick={() => {
+                                    if (action === "logout") {
+                                      dispatch(logOut());
+                                      return;
+                                    }
+                                    if (hasSubMenu) {
+                                      // setIsClicked(clicked ? null : name);
+                                      //======for single expand menu other will be auto close
+                                      //setExpandedMenu(clicked ? null : name);
+                                      toggleMenu(name);
+                                    } else {
+                                      setActiveMenu(name);
+                                      setActiveSubMenu(null);
+                                      //======for single expand menu other will be auto close
+                                      //setExpandedMenu(null);
+                                      //only for mobile closing the menu while clicking the menu without submenu
+                                      setIsOpen(false);
+                                      setIsClicked(null);
+                                    }
+                                    navigate(path);
+                                  }}
+                                  className={` flex align-center justify-start rounded-sm
                                           font-medium  px-3 py-2.5 mt-0.5 mx-3  
                                          hover:text-white cursor-pointer 
                                           relative ${
@@ -201,77 +209,77 @@ const MobileMenu = ({ navMainMenus }) => {
                                                 ? "bg-white/5 rounded-b-none"
                                                 : ""
                                             }`}
-                              >
-                                <Icon
-                                  size={18}
-                                  strokeWidth={2.5}
-                                  className="mr-2.5  "
-                                />
-                                {name}
-                                {hasSubMenu && (
-                                  <ChevronRight
-                                    className={`ml-auto size-4 text-white/60 ${clicked && "rotate-90"}`}
-                                  />
-                                )}
-                              </NavLink>
-                              {hasSubMenu && (
-                                <motion.ul
-                                  initial="exit"
-                                  animate={clicked ? "enter" : "exit"}
-                                  variants={subMenuDrawer}
-                                  className={` mx-3 rounded-b-sm  ${clicked && "bg-white/5"}`}
                                 >
-                                  {subMenu?.map(
-                                    ({ name, icon: Icon, path }) => {
-                                      const isActive = activeSubMenu === name;
-                                      return (
-                                        <li
-                                          key={uuidv4()}
-                                          onClick={() => {
-                                            //setIsClicked(name);
+                                  <Icon
+                                    size={18}
+                                    strokeWidth={2.5}
+                                    className="mr-2.5  "
+                                  />
+                                  {name}
+                                  {hasSubMenu && (
+                                    <ChevronRight
+                                      className={`ml-auto size-4 text-white/60 ${clicked && "rotate-90"}`}
+                                    />
+                                  )}
+                                </NavLink>
+                                {hasSubMenu && (
+                                  <motion.ul
+                                    initial="exit"
+                                    animate={clicked ? "enter" : "exit"}
+                                    variants={subMenuDrawer}
+                                    className={` mx-3 rounded-b-sm  ${clicked && "bg-white/5"}`}
+                                  >
+                                    {subMenu?.map(
+                                      ({ name, icon: Icon, path }) => {
+                                        const isActive = activeSubMenu === name;
+                                        return (
+                                          <li
+                                            key={uuidv4()}
+                                            onClick={() => {
+                                              //setIsClicked(name);
 
-                                            setActiveSubMenu(name);
-                                            setActiveMenu(null);
-                                            //only for mobile closing the menu while clicking the menu without submenu
-                                            setIsOpen(false);
-                                          }}
-                                          className={` p-3 pl-5  flex items-center 
+                                              setActiveSubMenu(name);
+                                              setActiveMenu(null);
+                                              //only for mobile closing the menu while clicking the menu without submenu
+                                              setIsOpen(false);
+                                            }}
+                                            className={` p-3 pl-5  flex items-center 
                                                 rounded-sm gap-x-2 cursor-pointer 
                                                 ${
                                                   isActive
                                                     ? "bg-(--link-color) text-white font-semibold"
                                                     : "hover:bg-white/3 hover:text-white/90"
                                                 }`}
-                                        >
-                                          <NavLink
-                                            to={path}
-                                            className="flex items-center "
                                           >
-                                            <Icon
-                                              size={18}
-                                              className="mr-2.5"
-                                            />
-                                            {name}
-                                          </NavLink>
-                                        </li>
-                                      );
-                                    },
-                                  )}
-                                </motion.ul>
-                              )}
-                            </li>
-                          );
-                        },
-                      )}
-                    </ul>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </motion.div>
+                                            <NavLink
+                                              to={path}
+                                              className="flex items-center "
+                                            >
+                                              <Icon
+                                                size={18}
+                                                className="mr-2.5"
+                                              />
+                                              {name}
+                                            </NavLink>
+                                          </li>
+                                        );
+                                      },
+                                    )}
+                                  </motion.ul>
+                                )}
+                              </li>
+                            );
+                          },
+                        )}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.div>
 
-        {/* <ul className="hidden">
+          {/* <ul className="hidden">
             {NavMenus.map((menu) => (
               <DesktopMenu menu={menu} key={menu?.name} />
             ))}
@@ -279,7 +287,8 @@ const MobileMenu = ({ navMainMenus }) => {
           <div className="">
             <MobileMenu navMenus={NavMenus} />
           </div> */}
-      </nav>
+        </nav>
+      )}
     </header>
   );
 };

@@ -85,12 +85,10 @@ function App() {
         <LoadingPage />
       ) : (
         <div className="min-h-screen max-h-auto scroll-auto flex flex-col ">
-          {isAuthenticated && <Navbar />}
+          <Navbar />
           <main
-            className={`flex-1 pt-16 transition-all duration-300 ease-linear  ${
-              sidebarCollapsed
-                ? "lg:ml-0  transition-all duration-200 ease-linear "
-                : "lg:ml-68"
+            className={`flex-1 transition-all pt-16 duration-300 ease-linear ${
+              isAuthenticated ? (sidebarCollapsed ? "lg:ml-0" : "lg:ml-68") : ""
             }`}
           >
             <Routes>
@@ -129,9 +127,11 @@ function App() {
                 />
               </Route>
 
+              {/* Open to everyone — logged in or not, no guard */}
+              <Route exact path="/" element={<HomePage />} />
+
               {/* Proteted Routes */}
               <Route element={<ProtectedRoute />}>
-                <Route exact path="/" element={<HomePage />} />
                 <Route exact path="/profile" element={<ProfilePage />} />
                 <Route
                   exact
@@ -150,7 +150,11 @@ function App() {
               <Route exact path="*" element={<ErrorPage />} />
             </Routes>
           </main>
-          <div className={` ${sidebarCollapsed ? "lg:ml-0" : "lg:ml-68"}`}>
+          <div
+            className={
+              isAuthenticated ? (sidebarCollapsed ? "lg:ml-0" : "lg:ml-68") : ""
+            }
+          >
             {isAuthenticated && <Footer />}
           </div>
         </div>

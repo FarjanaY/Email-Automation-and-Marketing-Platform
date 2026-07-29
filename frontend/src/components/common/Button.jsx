@@ -12,7 +12,11 @@ const Button = ({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={`mr-2  h-8 px-2 font-bold rounded-sm shadow-lg shadow-gray-400 ${className} `}
+      className={`w-full h-10 px-2 
+             font-medium text-sm rounded-sm
+             dropdown-menu-box-shadow 
+             bg-(--nav-link-color) text-white
+        ${className} `}
     >
       {children}
     </button>

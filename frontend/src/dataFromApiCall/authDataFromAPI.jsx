@@ -61,7 +61,7 @@ export const resetPasswordAPI = async ({
     email,
     newPassword,
     confirmPassword,
-  }).data;
+  });
   console.log("resetPasswordAPI=======");
   console.log(res.data);
   return res.data;

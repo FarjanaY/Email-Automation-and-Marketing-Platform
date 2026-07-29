@@ -7,7 +7,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { logIn } from "../../features/auth/authSlice";
 import LoadingPage from "../../components/loader/LoadingPage";
 import Input from "../../components/common/Input";
+
 import Button from "../../components/common/Button";
+import logo from "../../assets/emailLogo-nobg.png";
 
 const LoginPage = () => {
   //Redux data from Auth Reducer
@@ -85,65 +87,166 @@ const LoginPage = () => {
     msg !== "Refresh token is expired. Please login again.";
   // console.log(res?.msg);
   return (
-    <div className="px-2.5 ">
-      <div className="text-center pt-50 pb-10 text-2xl font-bold">LogIn</div>
+    //<div className="">
+    <>
       {isLoading ? (
         <LoadingPage />
       ) : (
-        <form onSubmit={handleSubmit}>
-          <Input
-            fieldlabel="email"
-            type="email"
-            name="email"
-            value={userData?.email}
-            onChange={onChangeHandler}
-            placeholder="Enter Your Email"
-            error={getFieldError("email")}
-          />
+        <div
+          className="min-h-screen w-full p-4 
+     grid place-items-center
+       overflow-y-auto"
+        >
+          <form
+            action=""
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+            className="flex flex-col justify-center bg-white 
+          max-w-md px-6 pb-10 rounded-md dropdown-menu-box-shadow
+          w-full mx-auto"
+          >
+            <div>
+              <div className=" flex-center flex-col w-full px-2 pt-6 pb-8">
+                <img
+                  src={logo}
+                  alt="Logo"
+                  className="mr-1 -mt-1.5 size-10 rounded-full 
+                  ring-0 ring-(--nav-link-color) "
+                />
+                <div
+                  style={{ fontSize: "var(--menu-heading)" }}
+                  className="text-lg! lg:text-2xl! w-fit 
+                font-bold text-(--card-heading-color)
+                 flex flex-center  gap-x-1 "
+                >
+                  <span>Email Automation & </span>
+                  <span>Platform</span>
+                </div>
+              </div>
+              <div className="pb-3">
+                <p
+                  className="text-md py-1 lg:py-0 lg:text-xl 
+              font-bold text-(--card-heading-color)"
+                >
+                  Welcome to Email Automation & Platform 👋
+                </p>
+                <span className="text-sm">
+                  Please sign-in to your account and start the adventure
+                </span>
+              </div>
+            </div>
 
-          <Input
-            fieldlabel="Password"
-            type="password"
-            name="password"
-            value={userData?.password}
-            onChange={onChangeHandler}
-            placeholder="Enter Your Password"
-            error={getFieldError("password")}
-          />
+            <Input
+              fieldlabel="email"
+              type="email"
+              name="email"
+              value={userData?.email}
+              onChange={onChangeHandler}
+              placeholder="Enter Your Email"
+              error={getFieldError("email")}
+            />
 
-          <div className="flex place-content-between pt-10 py-4 px-16 ">
-            <Button type="submit" className=" bg-blue-200 ">
-              Login
-            </Button>
-            <button
-              type="button"
-              onClick={goToRegistration}
-              className="mr-2 px-2 h-8 font-bold bg-blue-200 rounded-sm shadow-lg shadow-gray-400"
-            >
-              Sign Up
-            </button>
-          </div>
+            <Input
+              fieldlabel="Password"
+              type="password"
+              name="password"
+              value={userData?.password}
+              onChange={onChangeHandler}
+              placeholder="************"
+              error={getFieldError("password")}
+            />
 
-          <div className="mx-auto flex justify-center">
-            <button
-              type="button"
+            {shouldShowError && (
+              <p className="text-red-700 text-sm px-2 text-center py-4">
+                {error?.common?.msg}
+              </p>
+            )}
+            <div className="flex py-5 ">
+              <Button type="submit" disabled={isLoading}>
+                Sign up
+              </Button>
+            </div>
+            <div className="">
+              <p className="text-sm text-center">
+                New on our platform?{" "}
+                <span
+                  onClick={goToRegistration}
+                  className="text-(--nav-link-color) 
+                cursor-pointer"
+                >
+                  Create an account
+                </span>
+              </p>
+            </div>
+            <span
               onClick={goToResetPassPage}
-              className="mr-2 px-3 h-8 text-center font-medium rounded-sm shadow-lg filter:drop-shadow-black shadow-gray-400"
+              className="text-sm text-center py-2 text-(--nav-link-color) cursor-pointer"
             >
               Forgot Password
-            </button>
-          </div>
-
-          {shouldShowError && (
-            <p className="text-red-700 text-sm px-2 text-center py-4">
-              {error?.common?.msg}
-            </p>
-          )}
-
-          {/* {res && <p>{res}</p>} */}
-        </form>
+            </span>
+          </form>
+        </div>
       )}
-    </div>
+    </>
+
+    //   {/* <div className="text-center pt-50 pb-10 text-2xl font-bold">LogIn</div>
+    //   {isLoading ? (
+    //     <LoadingPage />
+    //   ) : (
+    //     <form onSubmit={handleSubmit}>
+    //       <Input
+    //         fieldlabel="email"
+    //         type="email"
+    //         name="email"
+    //         value={userData?.email}
+    //         onChange={onChangeHandler}
+    //         placeholder="Enter Your Email"
+    //         error={getFieldError("email")}
+    //       />
+
+    //       <Input
+    //         fieldlabel="Password"
+    //         type="password"
+    //         name="password"
+    //         value={userData?.password}
+    //         onChange={onChangeHandler}
+    //         placeholder="Enter Your Password"
+    //         error={getFieldError("password")}
+    //       />
+
+    //       <div className="flex place-content-between pt-10 py-4 px-16 ">
+    //         <Button type="submit" className=" bg-blue-200 ">
+    //           Login
+    //         </Button>
+    //         <button
+    //           type="button"
+    //           onClick={goToRegistration}
+    //           className="mr-2 px-2 h-8 font-bold bg-blue-200 rounded-sm shadow-lg shadow-gray-400"
+    //         >
+    //           Sign Up
+    //         </button>
+    //       </div>
+
+    //       <div className="mx-auto flex justify-center">
+    //         <button
+    //           type="button"
+    //           onClick={goToResetPassPage}
+    //           className="mr-2 px-3 h-8 text-center font-medium rounded-sm shadow-lg filter:drop-shadow-black shadow-gray-400"
+    //         >
+    //           Forgot Password
+    //         </button>
+    //       </div>
+
+    //       {shouldShowError && (
+    //         <p className="text-red-700 text-sm px-2 text-center py-4">
+    //           {error?.common?.msg}
+    //         </p>
+    //       )}
+
+    //       {/* {res && <p>{res}</p>} */}
+    //     </form>
+    //   )}
+    // </div> */}
   );
 };
 
