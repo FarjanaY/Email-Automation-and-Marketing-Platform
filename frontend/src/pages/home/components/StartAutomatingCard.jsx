@@ -42,7 +42,7 @@ const AutomationOrbitIllustration = () => (
       <circle cx="150" cy="150" r="70" fill="#5a5dfe" />
     </svg>
 
-    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--link-color) p-4">
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/90 p-4">
       <Mail size={40} strokeWidth={2} className="text-white" />
     </div>
 
@@ -62,12 +62,12 @@ const StartAutomatingCard = () => {
   const navigate = useNavigate();
   return (
     <div
-      className="bg-(--body-bg) flex flex-col items-center 
-   px-6 py-16 md:px-16 md:flex-row "
+      className="bg-white flex flex-col items-center 
+   px-3 py-5 sm:px-5"
     >
       <div
-        className="
-       w-full flex flex-col 
+        className="bg-(--light-text)/5 border border-gray-200
+       w-full flex flex-col px-3 md:px-10 rounded-lg md:py-6
        items-center justify-between md:flex-row gap-x-5"
       >
         <div className="w-full lg:w-auto">

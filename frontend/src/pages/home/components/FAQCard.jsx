@@ -41,7 +41,7 @@ const FAQS = [
 ];
 
 const FAQItem = ({ item, isOpen, onToggle }) => (
-  <div className="border-b border-gray-100 py-4">
+  <div className="rounded-md  bg-white p-2  dropdown-menu-box-shadow">
     <button
       type="button"
       onClick={onToggle}
@@ -69,7 +69,7 @@ const FAQCard = () => {
   const rightColumn = FAQS.slice(3);
 
   return (
-    <div className="bg-(--body-bg) py-6 px-6 md:py-8 lg:py-16 md:px-16">
+    <div className="bg-(--light-text)/8 py-6 px-6 md:py-8 lg:py-16 md:px-16">
       <div
         className="mb-10 flex flex-col items-center gap-y-4 
       text-center md:flex-row md:items-start 
@@ -84,7 +84,7 @@ const FAQCard = () => {
             Platform — from getting started to scaling your email automation.
           </span>
         </div>
-        <div className="flex flex-col items-center gap-y-2 md:items-end">
+        <div className="flex flex-col items-center gap-y-2">
           <span className="text-sm font-semibold text-(--card-heading-color)">
             Still Have Questions?
           </span>
@@ -96,8 +96,11 @@ const FAQCard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-10 rounded-lg bg-white p-6 dropdown-menu-box-shadow md:grid-cols-2">
-        <div>
+      <div
+        className="grid grid-cols-1 gap-x-10 rounded-lg
+       md:grid-cols-2"
+      >
+        <div className="flex flex-col gap-2">
           {leftColumn.map((item) => {
             const index = FAQS.indexOf(item);
             return (
@@ -112,7 +115,7 @@ const FAQCard = () => {
             );
           })}
         </div>
-        <div>
+        <div className=" flex flex-col gap-2">
           {rightColumn.map((item) => {
             const index = FAQS.indexOf(item);
             return (
