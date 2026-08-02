@@ -14,7 +14,7 @@ import {
 //Internal imports
 import dp from "../../../assets/defaultDP.jpg";
 import NotificationCard from "./navbarComponents/NotificationCard";
-import ShortCutsCard from "./navbarComponents/shortCutsCard";
+import ShortCutsCard from "./navbarComponents/ShortCutsCard";
 import SidebarProfileCard from "./navbarComponents/SidebarProfileCard";
 import DropdownMenuGlobeCard from "./navbarComponents/DropdownMenuGlobeCard";
 import { useDispatch, useSelector } from "react-redux";
