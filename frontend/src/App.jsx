@@ -32,6 +32,10 @@ import Footer from "./components/common/footer/Footer";
 import ProfilePage from "./pages/profile/ProfilePage";
 import AllUsersPage from "./pages/profile/AllUsersPage";
 import UpdateProfilePage from "./pages/profile/UpdateProfilePage";
+import UserDashboard from "./pages/homeDashboard/userDashboard";
+import NewCampaignPage from "./pages/campaigns/NewCampaignPage";
+import TemplatesPage from "./pages/templates/TemplatesPage";
+import NewAutomationPage from "./pages/automation/NewAutomationPage";
 
 function App() {
   //authReducersState === user, isAuthenticated, isLoading, isError, error,  forgetPassword, resetPassword,
@@ -132,6 +136,18 @@ function App() {
 
               {/* Proteted Routes */}
               <Route element={<ProtectedRoute />}>
+                <Route exact path="/dashboard" element={<UserDashboard />} />
+                <Route
+                  exact
+                  path="/campaigns"
+                  element={<NewCampaignPage />}
+                />
+                <Route exact path="/templates" element={<TemplatesPage />} />
+                <Route
+                  exact
+                  path="/automation"
+                  element={<NewAutomationPage />}
+                />
                 <Route exact path="/profile" element={<ProfilePage />} />
                 <Route
                   exact

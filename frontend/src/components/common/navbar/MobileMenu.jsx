@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { ChevronRight, Icon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,11 +15,9 @@ import { logOut } from "../../../features/auth/authSlice";
 const MobileMenu = ({ navMainMenus }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(null);
-  const [activeSubMenu, setActiveSubMenu] = useState(null);
   //======for single expand menu other will be auto close
   //const [expandedMenu, setExpandedMenu] = useState(null);
   const [expandedMenus, setExpandedMenus] = useState([]);
-  const [activeMenu, setActiveMenu] = useState(null);
 
   const { sidebarCollapsed } = useSelector((state) => state.uiR);
   const isAuthenticated = useSelector((state) => state.authR.isAuthenticated);
@@ -27,6 +25,7 @@ const MobileMenu = ({ navMainMenus }) => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const isMenuOpen = () => {
@@ -121,7 +120,7 @@ const MobileMenu = ({ navMainMenus }) => {
                     src={logo}
                     alt="Logo"
                     className="mr-1 -mt-1.5 size-10 rounded-full 
-                  ring-0 ring-(--link-color) "
+                  ring-0 ring-(--other-blue) "
                   />
                   <NavLink
                     // to={"/"}
@@ -169,7 +168,7 @@ const MobileMenu = ({ navMainMenus }) => {
                             //======for single expand menu other will be auto close
                             //const clicked = expandedMenu === name;
                             const clicked = expandedMenus.includes(name);
-                            const isMenuActive = activeMenu === name;
+                            const isMenuActive = location.pathname === path;
 
                             return (
                               <li key={uuidv4()} className="">
@@ -186,8 +185,6 @@ const MobileMenu = ({ navMainMenus }) => {
                                       //setExpandedMenu(clicked ? null : name);
                                       toggleMenu(name);
                                     } else {
-                                      setActiveMenu(name);
-                                      setActiveSubMenu(null);
                                       //======for single expand menu other will be auto close
                                       //setExpandedMenu(null);
                                       //only for mobile closing the menu while clicking the menu without submenu
@@ -201,7 +198,7 @@ const MobileMenu = ({ navMainMenus }) => {
                                          hover:text-white cursor-pointer 
                                           relative ${
                                             isMenuActive
-                                              ? "bg-(--link-color) text-white font-semibold"
+                                              ? "bg-(--other-blue) text-white font-semibold"
                                               : "hover:bg-white/3 hover:text-white/90"
                                           } 
                                             ${
@@ -231,29 +228,23 @@ const MobileMenu = ({ navMainMenus }) => {
                                   >
                                     {subMenu?.map(
                                       ({ name, icon: Icon, path }) => {
-                                        const isActive = activeSubMenu === name;
+                                        const isActive =
+                                          location.pathname === path;
                                         return (
-                                          <li
-                                            key={uuidv4()}
-                                            onClick={() => {
-                                              //setIsClicked(name);
-
-                                              setActiveSubMenu(name);
-                                              setActiveMenu(null);
-                                              //only for mobile closing the menu while clicking the menu without submenu
-                                              setIsOpen(false);
-                                            }}
-                                            className={` p-3 pl-5  flex items-center 
-                                                rounded-sm gap-x-2 cursor-pointer 
-                                                ${
-                                                  isActive
-                                                    ? "bg-(--link-color) text-white font-semibold"
-                                                    : "hover:bg-white/3 hover:text-white/90"
-                                                }`}
-                                          >
+                                          <li key={uuidv4()}>
                                             <NavLink
                                               to={path}
-                                              className="flex items-center "
+                                              onClick={() => {
+                                                //only for mobile closing the menu while clicking the menu without submenu
+                                                setIsOpen(false);
+                                              }}
+                                              className={` p-3 pl-5  flex items-center
+                                                rounded-sm gap-x-2 cursor-pointer
+                                                ${
+                                                  isActive
+                                                    ? "bg-(--other-blue) text-white font-semibold"
+                                                    : "hover:bg-white/3 hover:text-white/90"
+                                                }`}
                                             >
                                               <Icon
                                                 size={18}

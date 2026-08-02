@@ -33,8 +33,7 @@
 
 :root {
   --secondary-color: #182535;
-  /* --nav-link-color: #5a8dee; */
-  --nav-link-color: #5a5dfe;
+  --nav-link-color: #5a8dee;
   --link-color: #db5825;
   --menu-heading: 14px;
   --text-color: #677788;
@@ -99,7 +98,7 @@ body {
 }
 
 @utility orange-button {
-  @apply  bg-(--link-color)    
+  @apply bg-(--link-color)    
           shadow-md/40!
           shadow-orange-600!       
           text-white  
@@ -126,7 +125,7 @@ body {
 }
 
 .gn-button-shadow {
-  background-color: var(--nav-link-color);
+  background-color: var(--other-blue);
   box-shadow: 0 1px 10px 1px var(--nav-link-color);
 }
 .gn-button-shadow:hover {
@@ -138,6 +137,13 @@ body {
 }
 .cancel-button-shadow:hover {
   background-color: #4d4d4e;
+}
+
+/* Native <select> popups are rendered by the OS, so this is the one part
+   of the option list we can actually theme cross-browser */
+select option:checked {
+  background-color: var(--link-color);
+  color: #fff;
 }
 
 .input-box-focus {
