@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 //Internal Imports
-import Input from "../../components/common/Input";
+import Input from "../../components/common/form/Input";
 import { forgetPassword } from "../../features/auth/authSlice";
-import Button from "../../components/common/Button";
+import Button from "../../components/common/form/Button";
 import logo from "../../assets/emailLogo-nobg.png";
 
 const ForgotPasswordPage = () => {

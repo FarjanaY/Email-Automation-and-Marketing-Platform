@@ -13,7 +13,7 @@ const TemplatesListPanel = ({ templates, activeKey, onSelect }) => (
       Choose a template to preview
     </span>
 
-    <div className="flex flex-col gap-y-2">
+    <div className=" grid grid-cols-2 gap-x-2 gap-y-2 md:grid-cols-3   lg:grid-cols-1 ">
       {templates.map((template) => {
         const isActive = activeKey === template.key;
         return (

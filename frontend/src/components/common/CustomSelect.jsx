@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
 
 //Internal Imports
+import CustomScrollbar from "./CustomScrollbar";
 
 const CustomSelect = ({ options, value, onChange, placeholder = "Select" }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const CustomSelect = ({ options, value, onChange, placeholder = "Select" }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative ">
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
@@ -42,36 +43,39 @@ const CustomSelect = ({ options, value, onChange, placeholder = "Select" }) => {
       </button>
 
       {isOpen && (
-        <ul
+        <div
           className="absolute left-0 right-0 top-[calc(100%+4px)] z-20
-          max-h-60 overflow-y-auto rounded-md border border-gray-200
-          bg-white p-1 dropdown-menu-box-shadow"
+          rounded-md border border-gray-200 bg-white p-1 dropdown-menu-box-shadow"
         >
-          {options.map((option) => {
-            const isSelected = option === value;
-            return (
-              <li key={option}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onChange(option);
-                    setIsOpen(false);
-                  }}
-                  className={`flex w-full items-center justify-between
-                  gap-x-2 rounded-md px-2.5 py-1.5 text-left text-sm
-                  cursor-pointer transition-colors ${
-                    isSelected
-                      ? "bg-(--link-color) font-semibold text-white"
-                      : "text-(--text-color) hover:bg-(--link-color)/10 hover:text-(--link-color)"
-                  }`}
-                >
-                  {option}
-                  {isSelected && <Check size={13} />}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+          <CustomScrollbar maxHeight={240}>
+            <ul className="flex flex-col gap-y-1">
+              {options.map((option) => {
+                const isSelected = option === value;
+                return (
+                  <li key={option}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onChange(option);
+                        setIsOpen(false);
+                      }}
+                      className={`flex w-full items-center gap-y-1 justify-between
+                      gap-x-2 rounded-md px-2.5 py-1.5  text-sm text-left
+                      cursor-pointer transition-colors ${
+                        isSelected
+                          ? "bg-(--link-color) font-semibold text-white"
+                          : "text-(--text-color) hover:bg-(--link-color)/10 hover:text-(--link-color)"
+                      }`}
+                    >
+                      {option}
+                      {/* {isSelected && <Check size={13} />} */}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </CustomScrollbar>
+        </div>
       )}
     </div>
   );

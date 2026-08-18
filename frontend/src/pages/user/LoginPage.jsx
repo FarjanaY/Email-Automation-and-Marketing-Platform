@@ -6,9 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 //Internal Imports
 import { logIn } from "../../features/auth/authSlice";
 import LoadingPage from "../../components/loader/LoadingPage";
-import Input from "../../components/common/Input";
+import Input from "../../components/common/form/Input";
 
-import Button from "../../components/common/Button";
+import Button from "../../components/common/form/Button";
 import logo from "../../assets/emailLogo-nobg.png";
 
 const LoginPage = () => {

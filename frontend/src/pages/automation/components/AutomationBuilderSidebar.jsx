@@ -36,7 +36,7 @@ const LOGIC = [
 const Section = ({ title, items }) => (
   <div className="mb-5">
     <p className="mb-2  text-xs font-semibold text-(--light-text)">{title}</p>
-    <div className="flex flex-col gap-y-1.5 ">
+    <div className=" grid grid-cols-2 gap-x-2 gap-y-2 md:grid-cols-3   lg:grid-cols-1  ">
       {items.map(({ icon: Icon, label }) => (
         <button
           key={label}
@@ -62,7 +62,7 @@ const Section = ({ title, items }) => (
 
 const AutomationBuilderSidebar = () => (
   <div
-    className="flex h-fit w-full flex-col rounded-md border
+    className="flex h-full lg:h-auto w-full flex-col rounded-md border
     border-gray-200 bg-white p-4"
   >
     <p className="font-semibold text-(--card-heading-color)">

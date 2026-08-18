@@ -18,11 +18,10 @@ const TopAutomateEmailCard = () => {
       <div className="grid md:grid-rows-[0.8fr_0.3fr] gap-y-5 ">
         <div className="h-96 md:h-auto flex-center flex-col ">
           <div
-            className="rounded-4xl border
-           border-(--border-light) flex  w-fit
-           px-3 py-1 text-black my-4
-           bg-(--light-text)/20 text-xs 
-           sm:font-semibold sm:text-sm gap-x-2"
+            className="rounded-4xl border sm:text-sm  
+           border-(--border-light) flex w-fit gap-x-2
+           px-3 py-1 text-black my-4 bg-(--light-text)/20
+           text-xs sm:font-semibold "
           >
             <span>10K+</span>
             <span>Trusted By 10000+ teams</span>

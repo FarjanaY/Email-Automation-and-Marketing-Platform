@@ -4,7 +4,6 @@ import { ChevronRight, Icon, Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 
 //Internal Imports
 import logo from "../../../assets/emailLogo-nobg.png";
@@ -147,10 +146,10 @@ const MobileMenu = ({ navMainMenus }) => {
               </div>
             </div>
             <ul className="">
-              {navMainMenus?.map(({ name, mainMenu }) => {
+              {navMainMenus?.map(({ name, mainMenu }, groupIndex) => {
                 const navMenus = mainMenu?.length > 0;
                 return (
-                  <li key={uuidv4()} className=" ">
+                  <li key={name || groupIndex} className=" ">
                     {name && (
                       <span
                         className="text-xs flex text-white/30 
@@ -171,7 +170,7 @@ const MobileMenu = ({ navMainMenus }) => {
                             const isMenuActive = location.pathname === path;
 
                             return (
-                              <li key={uuidv4()} className="">
+                              <li key={name} className="">
                                 <NavLink
                                   to={path}
                                   onClick={() => {
@@ -184,13 +183,13 @@ const MobileMenu = ({ navMainMenus }) => {
                                       //======for single expand menu other will be auto close
                                       //setExpandedMenu(clicked ? null : name);
                                       toggleMenu(name);
-                                    } else {
-                                      //======for single expand menu other will be auto close
-                                      //setExpandedMenu(null);
-                                      //only for mobile closing the menu while clicking the menu without submenu
-                                      setIsOpen(false);
-                                      setIsClicked(null);
+                                      return;
                                     }
+                                    //======for single expand menu other will be auto close
+                                    //setExpandedMenu(null);
+                                    //only for mobile closing the menu while clicking the menu without submenu
+                                    setIsOpen(false);
+                                    setIsClicked(null);
                                     navigate(path);
                                   }}
                                   className={` flex align-center justify-start rounded-sm
@@ -231,7 +230,7 @@ const MobileMenu = ({ navMainMenus }) => {
                                         const isActive =
                                           location.pathname === path;
                                         return (
-                                          <li key={uuidv4()}>
+                                          <li key={name}>
                                             <NavLink
                                               to={path}
                                               onClick={() => {

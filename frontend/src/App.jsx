@@ -36,6 +36,8 @@ import UserDashboard from "./pages/homeDashboard/userDashboard";
 import NewCampaignPage from "./pages/campaigns/NewCampaignPage";
 import TemplatesPage from "./pages/templates/TemplatesPage";
 import NewAutomationPage from "./pages/automation/NewAutomationPage";
+import FormBuilderPage from "./pages/forms/FormBuilderPage";
+import FormTemplatesPage from "./pages/formTemplates/FormTemplatesPage";
 
 function App() {
   //authReducersState === user, isAuthenticated, isLoading, isError, error,  forgetPassword, resetPassword,
@@ -137,16 +139,18 @@ function App() {
               {/* Proteted Routes */}
               <Route element={<ProtectedRoute />}>
                 <Route exact path="/dashboard" element={<UserDashboard />} />
-                <Route
-                  exact
-                  path="/campaigns"
-                  element={<NewCampaignPage />}
-                />
+                <Route exact path="/campaigns" element={<NewCampaignPage />} />
                 <Route exact path="/templates" element={<TemplatesPage />} />
                 <Route
                   exact
                   path="/automation"
                   element={<NewAutomationPage />}
+                />
+                <Route exact path="/forms" element={<FormBuilderPage />} />
+                <Route
+                  exact
+                  path="/forms/templates"
+                  element={<FormTemplatesPage />}
                 />
                 <Route exact path="/profile" element={<ProfilePage />} />
                 <Route

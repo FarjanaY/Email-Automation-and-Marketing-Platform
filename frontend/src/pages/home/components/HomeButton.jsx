@@ -1,9 +1,10 @@
 import React from "react";
 
-const HomeButton = ({ buttonText, className, onclick, icon }) => {
+const HomeButton = ({ type, buttonText, className, onclick, icon }) => {
   return (
-    <div className="">
+    <div className=" flex place-content-center">
       <button
+        type={type}
         onClick={onclick}
         className={`rounded-4xl flex-center
             dropdown-menu-box-shadow text-xs gap-x-1.5 

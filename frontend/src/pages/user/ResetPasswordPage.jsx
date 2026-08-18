@@ -5,8 +5,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 //Internal Imports
 import { resetPassword } from "../../features/auth/authSlice";
-import Input from "../../components/common/Input";
-import Button from "../../components/common/Button";
+import Input from "../../components/common/form/Input";
+import Button from "../../components/common/form/Button";
 import logo from "../../assets/emailLogo-nobg.png";
 
 const ResetPasswordPage = () => {

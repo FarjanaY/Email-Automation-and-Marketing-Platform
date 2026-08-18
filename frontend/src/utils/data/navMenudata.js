@@ -1,5 +1,11 @@
 import {
+  Component,
+  Grid3x3,
+  Sheet,
+  LayoutPanelLeft,
   Bolt,
+  Form,
+  LayoutTemplate,
   PanelTop,
   PanelsTopLeft,
   Database,
@@ -22,29 +28,97 @@ import {
   Settings,
   FileText,
   BrainCircuit,
-  LayoutTemplate,
   Phone,
   User,
   LogOut,
   LogOutIcon,
   Power,
+  House,
 } from "lucide-react";
 
 export const NavMenus = [
   {
     mainMenu: [
       {
+        name: "Home",
+        icon: House,
+        path: "/",
+        action: "Forms",
+      },
+      {
         name: "Dashboard",
         icon: LayoutDashboard,
         path: "/dashboard",
         action: "Forms",
       },
+    ],
+  },
+
+  {
+    name: "Forms & Tables",
+    mainMenu: [
       {
-        name: "Layouts",
-        icon: LayoutDashboard,
-        path: "/layout",
-        action: "Forms",
+        name: "Forms",
+        icon: Form,
+        subMenuHeading: ["Get started", "Programs", "Recent"],
+        subMenu: [
+          {
+            name: "Forms",
+            icon: Lock,
+            path: "/forms",
+            desc: "Forms",
+            action: "Forms",
+          },
+
+          {
+            name: "Templates",
+            desc: "Form Templates",
+            path: "/forms/templates",
+            icon: LayoutTemplate,
+          },
+          {
+            name: "Elements",
+            desc: "Form Elements",
+            path: "/forms/element",
+            icon: Component,
+          },
+          {
+            name: "Layouts",
+            desc: "Form Layouts",
+            path: "/forms/layouts",
+            icon: LayoutPanelLeft,
+          },
+        ],
+        gridCols: 3,
       },
+      {
+        name: "Tables",
+        icon: Sheet,
+        subMenuHeading: ["Get started", "Programs", "Recent"],
+        subMenu: [
+          {
+            name: "Tables",
+            icon: Grid3x3,
+            path: "/forms/table",
+            action: "Table",
+            desc: "Form Tables",
+          },
+          {
+            name: "DataTables",
+            icon: FileText,
+            path: "/forms/datatable",
+            desc: "Forms DataTables",
+            action: "Table",
+          },
+        ],
+        gridCols: 3,
+      },
+    ],
+  },
+
+  {
+    name: "Apps & Pages",
+    mainMenu: [
       {
         name: "Email Marketing",
         icon: Mail,
@@ -72,48 +146,16 @@ export const NavMenus = [
           },
         ],
       },
-    ],
-  },
 
-  {
-    name: "Apps & Pages",
-    mainMenu: [
       {
-        name: "Email Platform",
-        icon: Mail,
-        subMenu: [
-          {
-            name: "Campaigns",
-            desc: "Center",
-            path: "/campaigns",
-            action: "Forms",
-            icon: CircleHelp,
-          },
-          {
-            name: "Templates",
-            desc: "Center",
-            path: "/templates",
-            action: "Forms",
-            icon: LayoutTemplate,
-          },
-          {
-            name: "Automation",
-            desc: "AI",
-            path: "/automation",
-            action: "Forms",
-            icon: BrainCircuit,
-          },
-        ],
-      },
-      {
-        name: "Features",
+        name: "Featurs",
         icon: PanelsTopLeft,
 
         subMenuHeading: ["Design", "Scale"],
         subMenu: [
           {
             name: "Design",
-            path: "/dashboard",
+            path: "/design",
             action: "Forms",
             desc: "Responsive design",
             icon: PanelsTopLeft,
@@ -121,21 +163,21 @@ export const NavMenus = [
           {
             name: "Management",
             desc: "Site control",
-            path: "/dashboard",
+            path: "/management",
             action: "Forms",
             icon: Bolt,
           },
           {
             name: "Navigation",
             desc: "Link pages",
-            path: "/dashboard",
+            path: "/navigation",
             action: "Forms",
             icon: PanelTop,
           },
           {
             name: "CMS",
             desc: "Management content",
-            path: "/dashboard",
+            path: "/cms",
             action: "Forms",
             icon: Database,
           },
@@ -158,21 +200,21 @@ export const NavMenus = [
           {
             name: "Management",
             desc: "Site control",
-            path: "/dashboard",
+            path: "/pmanagement",
             action: "Forms",
             icon: Bolt,
           },
           {
             name: "Navigation",
             desc: "Link pages",
-            path: "/dashboard",
+            path: "/pnavigation",
             action: "Forms",
             icon: PanelTop,
           },
           {
             name: "CMS",
             desc: "Management content",
-            path: "/dashboard",
+            path: "/pcms",
             action: "Forms",
             icon: Database,
           },
@@ -192,51 +234,51 @@ export const NavMenus = [
           {
             name: "Markplace",
             desc: "Browse templates",
-            path: "/dashboard",
+            path: "/browse-templates",
             action: "Forms",
             icon: ShoppingBag,
           },
           {
             name: "Meetups",
             desc: "Upcoming events",
-            path: "/dashboard",
+            path: "/meetups",
             action: "Forms",
             icon: MapPin,
           },
           {
             name: "Updates",
             desc: "Changelog",
-            path: "/dashboard",
+            path: "/updates",
             icon: BellDot,
           },
           {
             name: "Academy",
             desc: "Watch lessions",
-            path: "/dashboard",
+            path: "/academy",
             icon: Play,
           },
           {
             name: "Blog",
             desc: "Posts",
-            path: "/dashboard",
+            path: "/blog",
             icon: BookOpenText,
           },
           {
             name: "Figma",
             desc: "Plugin",
-            path: "/dashboard",
+            path: "/figma",
             icon: Play,
           },
           {
             name: "Experts",
             desc: "Jobs",
-            path: "/dashboard",
+            path: "/experts",
             icon: BriefcaseBusiness,
           },
           {
             name: "Gallery",
             desc: "Images",
-            path: "/dashboard",
+            path: "/gallery",
             icon: Images,
           },
         ],
@@ -249,21 +291,21 @@ export const NavMenus = [
           {
             name: "Help",
             desc: "Center",
-            path: "/dashboard",
+            path: "/help",
             action: "Forms",
             icon: CircleHelp,
           },
           {
             name: "Community",
             desc: "Project help",
-            path: "/dashboard",
+            path: "/community",
             action: "Forms",
             icon: MessageCircle,
           },
           {
             name: "Emergency",
             desc: "Urgent issues",
-            path: "/dashboard",
+            path: "/emergencyd",
             action: "Forms",
             icon: TriangleAlert,
           },
@@ -278,28 +320,28 @@ export const NavMenus = [
           {
             name: "Enterprise",
             desc: "Overview",
-            path: "/dashboard",
+            path: "/enterprise",
             action: "Forms",
             icon: ShieldPlus,
           },
           {
             name: "Collaboration",
             desc: "Design together",
-            path: "/dashboard",
+            path: "/collaboratio",
             action: "Forms",
             icon: Users,
           },
           {
             name: "Customers",
             desc: "Stories",
-            path: "/dashboard",
+            path: "/customersd",
             action: "Forms",
             icon: Dessert,
           },
           {
             name: "Security",
             desc: "Your site secured",
-            path: "/dashboard",
+            path: "/security",
             action: "Forms",
             icon: Lock,
           },
@@ -309,23 +351,6 @@ export const NavMenus = [
     ],
   },
 
-  {
-    name: "Forms & Tables",
-    mainMenu: [
-      {
-        name: "Forms",
-        icon: Lock,
-        path: "/dashboard",
-        action: "Forms",
-      },
-      {
-        name: "Table",
-        icon: Phone,
-        path: "/dashboard",
-        action: "Table",
-      },
-    ],
-  },
   {
     name: "Accounts",
     mainMenu: [

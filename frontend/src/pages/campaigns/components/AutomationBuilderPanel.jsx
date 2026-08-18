@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 
 //Internal Imports
+import { EMAIL_TEMPLATES } from "../../../utils/data/emailTemplateData";
+import SidebarBlockSection from "../../../components/common/SidebarBlockSection";
 
 const CONTENT_BLOCKS = [
   { icon: Type, label: "Text", color: "#2563eb", bg: "#eff6ff" },
@@ -21,9 +23,7 @@ const CONTENT_BLOCKS = [
   { icon: MoveVertical, label: "Spacer", color: "#6b7280", bg: "#f3f4f6" },
 ];
 
-const TEMPLATES = ["Welcome Email", "Newsletter", "Promotional"];
-
-const AutomationBuilderPanel = () => {
+const AutomationBuilderPanel = ({ onSelectTemplate }) => {
   const navigate = useNavigate();
 
   return (
@@ -38,43 +38,22 @@ const AutomationBuilderPanel = () => {
         Drag and drop to build your workflow
       </span>
 
-      <p className="mb-2 text-xs font-semibold uppercase text-(--light-text)">
-        Content Blocks
-      </p>
-      <div className="mb-5 flex flex-col gap-y-1">
-        {CONTENT_BLOCKS.map(({ icon: Icon, label, color, bg }) => (
-          <button
-            key={label}
-            type="button"
-            className="flex items-center gap-x-2.5 rounded-md px-2 py-2
-            text-left text-sm font-medium text-(--text-color)
-            cursor-grab hover:bg-(--card-body-bg)"
-          >
-            <span
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
-              style={{ backgroundColor: bg, color }}
-            >
-              <Icon size={14} />
-            </span>
-            {label}
-          </button>
-        ))}
-      </div>
+      <SidebarBlockSection title="Content Blocks" items={CONTENT_BLOCKS} />
 
       <p className="mb-2 text-xs font-semibold uppercase text-(--light-text)">
         Templates
       </p>
-      <div className="flex flex-col gap-y-2">
-        {TEMPLATES.map((template) => (
+      <div className=" grid grid-cols-2 gap-x-2 gap-y-2 md:grid-cols-3 lg:grid-cols-1  ">
+        {EMAIL_TEMPLATES.map((template) => (
           <button
-            key={template}
+            key={template.name}
             type="button"
-            onClick={() => navigate("/templates")}
-            className="rounded-md border border-gray-200 px-3 py-2
+            onClick={() => onSelectTemplate(template)}
+            className="rounded-md px-3 py-2 
             text-left text-sm font-medium text-(--card-heading-color)
-            cursor-pointer hover:bg-(--card-body-bg)"
+            cursor-pointer hover:bg-white shadow-sm/10 drop-shadow-sm"
           >
-            {template}
+            {template?.name}
           </button>
         ))}
       </div>

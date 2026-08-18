@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 //Internal Imports
 import logo from "../../assets/emailLogo-nobg.png";
 import { verifyUserRegistration } from "../../features/auth/authSlice";
-import Input from "../../components/common/Input";
-import FileInput from "../../components/common/FileInput";
+import Input from "../../components/common/form/Input";
+import FileInput from "../../components/common/form/FileInput";
 
 const RegistrationPage = () => {
   //Redux data from Auth Reducer
